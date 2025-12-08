@@ -1,0 +1,50 @@
+@import "tailwindcss";
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@layer utilities {
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease-out;
+  }
+
+  .fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .from-left {
+    transform: translateX(-50px);
+  }
+  .from-right {
+    transform: translateX(50px);
+  }
+  .from-top {
+    transform: translateY(-50px);
+  }
+  .from-bottom {
+    transform: translateY(50px);
+  }
+}
+
+@theme {
+  --font-poppins: "Poppins", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+}
+:root {
+  margin: 0;
+  padding: 0;
+}
+
+
+.stroke-text {
+  -webkit-text-stroke: 1px #333333;
+  text-stroke: 3px rgba(0, 0, 0, 0.55);
+}
+
