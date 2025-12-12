@@ -1,0 +1,23 @@
+{
+      "brand": {
+        "title": "Rajawali Perkasa Furniture",
+        "description": "Are you interested with our collection?\nSend us a message!"
+      },
+      "quickLinks": {
+        "title": "Quick Links",
+        "home": "Home",
+        "about": "About",
+        "whyUs": "Why Us",
+        "collections": "Collections",
+        "csr": "CSR",
+        "news": "News",
+        "careers": "Careers"
+      },
+      "contact": {
+        "title": "Contact",
+        "address": "Jl. Raya Pati - Juwana KM 1,\nMintomulyo, Kec. Pati,\nKabupaten Pati",
+        "email": "email@a.a",
+        "instagram": "@instagram"
+      },
+      "copyright": "Copyright © 2025 Rajawali Perkasa — All Rights Reserved"
+}

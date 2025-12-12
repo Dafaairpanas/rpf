@@ -1,0 +1,31 @@
+{
+  "section1": {
+    "line1": "Membuat",
+    "line2": "Keindahan",
+    "highlight": "Furnitur",
+    "line3": "untuk",
+    "line4": "Melengkapi",
+    "line5": " Ruangan Anda",
+    "button": "Tentang kami"
+  },
+
+  "section2": {
+    "title": "Siapa Kami?",
+    "subtitle": "Spesialis Furnitur Indoor & Outdoor",
+    "desc": "Dengan pengalaman puluhan tahun...",
+    "indoor": "Furnitur dalam ruangan",
+    "outdoor": "Furnitur luar ruangan"
+  },
+
+  "section3": {
+    "title": "Beberapa koleksi kami",
+    "button": "Lihat semua koleksi",
+    "item": "Produk"
+  },
+
+  "section4": {
+    "title": "Siap Mengubah Ruangan Anda?",
+    "desc": "Biarkan kami membantu menciptakan lingkungan terbaik untuk Anda...",
+    "button": "Hubungi kami!"
+  }
+}

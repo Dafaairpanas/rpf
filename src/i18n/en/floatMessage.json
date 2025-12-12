@@ -1,0 +1,12 @@
+{
+  "title": "Send Us a Message",
+  "name": "Full Name",
+  "name_placeholder": "Input your name...",
+  "email": "Email",
+  "email_placeholder": "Input your email...",
+  "phone": "Phone Number",
+  "phone_placeholder": "Input your phone number...",
+  "message": "Message",
+  "message_placeholder": "Input your message...",
+  "send": "Send Message"
+}

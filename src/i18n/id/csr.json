@@ -1,0 +1,21 @@
+{
+  "hero": {
+    "title1": "Tanggung Jawab ",
+    "highlight" : "Sosial",
+    "title2": "Perusahaan",
+    "subtitle": "Setiap Produk yang kami buat memberikan cerita-bukan hanya tentang desain dan kualitas, tetapi juga tanggung jawab. Dari bahan yang ramah lingkungan hingga proyek-proyek yang digerakkan oleh masyarakat, perjalanan Tanggung Jawab Sosial Perusahaan kami adalah tentang membangun masa depan yang lebih baik bersama-sama."
+  },
+  "content": {
+    "title": "Perbuatan Baik, Energi Positif: <span>Highlight CSR</span>",
+    "subtitle": "Jelajahi bagaimana kami memberikan dampak melalui inisiatif bermakna dan proyek berbasis komunitas",
+    "readMore": "Baca Selengkapnya",
+    "pagination": {
+      "previous": "Sebelumnya",
+      "next": "Selanjutnya"
+    }
+  },
+  "card": {
+    "date": "2 Desember 2025",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et rhoncus velit…"
+  }
+}

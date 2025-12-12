@@ -1,0 +1,36 @@
+{
+  "collections": {
+    "hero": {
+      "title": "Explore Our",
+      "titleHighlight": "Collections",
+      "subtitle": "Discover a world of timeless elegance. Elevate your space with our finest selections."
+    },
+    "main": {
+      "title": "Find Your",
+      "titleHighlight": "Style",
+      "titleSuffix": "in our Collections"
+    },
+    "filters": {
+      "indoor": "Indoor",
+      "outdoor": "Outdoor",
+      "all": "All",
+      "searchPlaceholder": "Search product by name"
+    },
+    "products": {
+      "indoor": {
+        "1": "Indoor Premium Chair",
+        "2": "Indoor Modern Table",
+        "3": "Indoor Sofa Set",
+        "4": "Indoor Lamp",
+        "5": "Indoor Classic Drawer"
+      },
+      "outdoor": {
+        "1": "Outdoor Relax Seat",
+        "2": "Outdoor Coffee Table",
+        "3": "Outdoor Minimalist Chair",
+        "4": "Outdoor Big Bench",
+        "5": "Outdoor Patio Chair"
+      }
+    }
+  }
+}

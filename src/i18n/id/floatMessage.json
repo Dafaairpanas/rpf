@@ -1,0 +1,12 @@
+{
+  "title": "Kirim Pesan",
+  "name": "Nama Lengkap",
+  "name_placeholder": "Masukkan nama...",
+  "email": "Email",
+  "email_placeholder": "Masukkan email...",
+  "phone": "Nomor Telepon",
+  "phone_placeholder": "Masukkan nomor telepon...",
+  "message": "Pesan",
+  "message_placeholder": "Masukkan pesan...",
+  "send": "Kirim Pesan"
+}

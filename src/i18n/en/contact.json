@@ -1,0 +1,39 @@
+{
+  "header": {
+    "title": "Contact Us"
+  },
+  "form": {
+    "title": "Send Us a Message",
+    "labels": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "message": "Message"
+    },
+    "placeholders": {
+      "fullName": "Input your name...",
+      "email": "Input your email...",
+      "phone": "Input your phone number...",
+      "message": "Input your message..."
+    },
+    "button": "Send Message"
+  },
+  "contactInfo": {
+    "title": "Contact Information",
+    "phone": {
+      "label": "Phone",
+      "numbers": ["(0295) 4747009", "(0295) 4747007"]
+    },
+    "email": {
+      "label": "Email",
+      "addresses": ["marketing@rajpf.com", "info@rajpf.com"]
+    },
+    "address": {
+      "label": "Address",
+      "lines": [
+        "Jl. Raya Pati - Juwana KM 1, Mintomulyo, Kec. Pati,",
+        "Kabupaten Pati"
+      ]
+    }
+  }
+}

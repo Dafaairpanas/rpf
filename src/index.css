@@ -4,8 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer utilities {
   .fade-in {
     opacity: 0;
@@ -42,9 +40,34 @@
   padding: 0;
 }
 
-
 .stroke-text {
-  -webkit-text-stroke: 1px #333333;
-  text-stroke: 3px rgba(0, 0, 0, 0.55);
+  -webkit-text-stroke: 3px #000000;
 }
 
+::-webkit-scrollbar {
+  width: 12px; /* wadah lebih besar */
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c7b987;
+  border-radius: 10px;
+
+  /* trik membuat thumb lebih kecil dari track */
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b3a46f;
+}
+
+.max-w-std {
+  max-width: 85rem;
+}
+.w-std {
+  width: 85rem;
+}

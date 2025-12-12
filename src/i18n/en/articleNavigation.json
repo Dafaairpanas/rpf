@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam faucibus magna eget",
+    "author": "Adit",
+    "date": "December 10, 2025"
+  },
+  "body": {
+    "paragraph_1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam faucibus magna eget quam auctor, at lobortis tortor egestas. Morbi magna massa, dignissim a commodo vel, tincidunt sed massa. Fusce odio lorem, posuere non risus eget, dignissim maximus ligula. Suspendisse auctor erat lectus, nec tempor magna dictum in. Suspendisse cursus molestie massa, eget Suspendisse auctor erat lectus, nec tempor magna",
+    "paragraph_2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam faucibus magna eget quam auctor, at lobortis tortor egestas. Morbi magna massa, dignissim a commodo vel, tincidunt sed massa. Fusce odio lorem, posuere non risus eget, dignissim maximus ligula. Suspendisse auctor erat lectus, nec tempor magna dictum in. Suspendisse cursus molestie massa, eget Suspendisse auctor erat lectus, nec tempor magna dictum in. Suspendisse cursus molestie massa, eget tincidunt ipsum sollicitudin a. Pellentesque tempus, dui sed facilisis blandit, dolor diam iaculis mauris, ac pulvinar turpis ipsum ut nisi. Ut eu volutpat nisi.",
+    "paragraph_3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam faucibus magna eget quam auctor.",
+    "gallery_caption": "Description Image"
+  },
+  "share": {
+    "label": "Share This article",
+    "default_text": "Check this article",
+    "alert_copied": "Link copied to clipboard",
+    "copy_link": "Copy Link",
+    "twitter": "Twitter",
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn"
+  },
+  "navigation": {
+    "prev_label": "Previous Article",
+    "prev_title": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+    "next_label": "Next Article",
+    "next_title": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+  }
+}

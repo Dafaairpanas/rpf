@@ -1,0 +1,30 @@
+{
+  "hero": {
+    "title": "Careers",
+    "title_highlight": "Opportunities",
+    "subtitle": "We're always looking for talented individuals to join our team."
+  },
+  "section_main": {
+    "title_start": "Be a",
+    "title_highlight": "Part",
+    "title_end": "of Rajawali Perkasa Furniture",
+    "subtitle": "Register Yourself Now"
+  },
+  "card": {
+    "date": "December 2, 2025",
+    "button_apply": "Apply"
+  },
+  "jobs": {
+    "Tailor": "Tailor",
+    "Engraver": "Engraver",
+    "Painter": "Painter",
+    "Driver": "Driver",
+    "Software Engineer": "Software Engineer",
+    "Network Engineer": "Network Engineer"
+  },
+  "skills": {
+    "Full Day woyla coding": "Full Day woyla coding",
+    "Expert": "Expert",
+    "Full Day": "Full Day"
+  }
+}

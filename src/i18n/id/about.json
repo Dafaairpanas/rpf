@@ -1,0 +1,74 @@
+{
+  "hero": {
+    "line1": "Menciptakan furnitur indoor",
+    "line2": "& outdoor",
+    "highlight": "Terbaik",
+    "line3": "dengan beragam finishing.",
+    "subtitle": "Dirancang untuk meningkatkan ruang Anda dengan kualitas, gaya, dan daya tahan yang lama."
+  },
+
+  "stats": {
+    "employees": "±1.000",
+    "employeesLabel": "Karyawan",
+    "plants": "±40.877 m²",
+    "plantsLabel": "Pabrik",
+    "containers": "±1.000",
+    "containersLabel": "Kontainer Dikirim"
+  },
+
+  "vision": {
+    "title": "Visi",
+    "desc": "Menjadi Perusahaan Furnitur Internasional dengan Kualitas Produk yang Sangat Baik."
+  },
+
+  "mission": {
+    "title": "Misi",
+    "1": "Memastikan Kepuasan Pelanggan dengan Kualitas Produk yang Sangat Baik.",
+    "2": "Meningkatkan Keterampilan Sumber Daya Manusia secara Berkelanjutan.",
+    "3": "Meningkatkan Kapasitas Manajemen Perusahaan.",
+    "4": "Berinovasi dalam Desain Produk yang Dibutuhkan oleh Pasar.",
+    "5": "Berpartisipasi dalam Kegiatan Pelestarian Lingkungan."
+  },
+
+  "values": {
+    "customer": {
+      "title": "Pelanggan",
+      "desc": "Memastikan kepuasan pelanggan dengan kualitas produk yang sangat baik."
+    },
+    "people": {
+      "title": "Manusia",
+      "desc": "Memastikan layanan terbaik dengan sumber daya manusia yang terlatih dengan baik."
+    },
+    "improvement": {
+      "title": "Perbaikan Berkelanjutan",
+      "desc": "Selalu meningkatkan individu dan organisasi untuk mendapatkan hasil terbaik."
+    }
+  },
+
+  "timeline": {
+    "0": {
+      "year": "2003",
+      "title": "Pendirian",
+      "desc": "Didirikan sebagai C.V. Rajawali Perkasa Furniture"
+    },
+    "1": {
+      "year": "2013",
+      "title": "Kemunduran",
+      "desc": "Kerugian Besar — Pabrik Terbakar"
+    },
+    "2": {
+      "year": "2021",
+      "title": "Ekspansi",
+      "desc": "Membangun gudang kedua & ketiga"
+    },
+    "3": {
+      "year": "2022",
+      "title": "Transformasi",
+      "desc": "Migrasi menjadi PT. Rajawali Perkasa Furniture"
+    }
+  },
+
+  "management": {
+    "title": "Struktur Manajemen"
+  }
+}

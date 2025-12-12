@@ -1,0 +1,31 @@
+{
+  "section1": {
+    "line1": "Crafting",
+    "line2": "Timeless",
+    "highlight": "Furniture",
+    "line3": "to",
+    "line4": "Elevate Your Space",
+    "line5": "",
+    "button": "About us"
+  },
+
+  "section2": {
+    "title": "Who We Are?",
+    "subtitle": "Specialists in Indoor & Outdoor Furniture",
+    "desc": "With decades of expertise...",
+    "indoor": "Indoor Furniture",
+    "outdoor": "Outdoor Furniture"
+  },
+
+  "section3": {
+    "title": "Some of our collections",
+    "button": "View all collections",
+    "item": "Product"
+  },
+
+  "section4": {
+    "title": "Ready to Transform Your Space?",
+    "desc": "Let us help you create the perfect environment...",
+    "button": "Get in touch!"
+  }
+}

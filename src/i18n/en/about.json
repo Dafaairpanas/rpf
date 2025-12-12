@@ -1,0 +1,74 @@
+{
+  "hero": {
+    "line1": "Crafting standout indoor",
+    "line2": "& outdoor",
+    "highlight": "Furniture",
+    "line3": "with diverse finishes.",
+    "subtitle": "Designed to elevate your space with quality, style, and lasting appeal."
+  },
+
+  "stats": {
+    "employees": "±1.000",
+    "employeesLabel": "Employees",
+    "plants": "±40.877 m²",
+    "plantsLabel": "Plants",
+    "containers": "±1.000",
+    "containersLabel": "Container Shipped"
+  },
+
+  "vision": {
+    "title": "Vision",
+    "desc": "To become an International Furniture Company with Excellent Product Quality."
+  },
+
+  "mission": {
+    "title": "Mission",
+    "1": "Ensure Customer Satisfaction with Excellent Product Quality.",
+    "2": "Continuously Improving Human Resources Skills.",
+    "3": "Increase the Company's Management Capacity.",
+    "4": "Innovate Product Designs needed by the Market.",
+    "5": "Participate in Environmental Conservation Activities."
+  },
+
+  "values": {
+    "customer": {
+      "title": "Customer",
+      "desc": "Ensuring customer satisfaction with excellent product quality."
+    },
+    "people": {
+      "title": "People",
+      "desc": "Ensure the best service with well-trained human resources."
+    },
+    "improvement": {
+      "title": "Continuous Improvement",
+      "desc": "Always improving individuals and organization to get the best results."
+    }
+  },
+
+  "timeline": {
+    "0": {
+      "year": "2003",
+      "title": "Establishment",
+      "desc": "Established as C.V. Rajawali Perkasa Furniture"
+    },
+    "1": {
+      "year": "2013",
+      "title": "Setback",
+      "desc": "Big loss — Burned Factory"
+    },
+    "2": {
+      "year": "2021",
+      "title": "Expansion",
+      "desc": "Built second & third warehouse"
+    },
+    "3": {
+      "year": "2022",
+      "title": "Transformation",
+      "desc": "Migrated to PT. Rajawali Perkasa Furniture"
+    }
+  },
+
+  "management": {
+    "title": "Management Structure"
+  }
+}

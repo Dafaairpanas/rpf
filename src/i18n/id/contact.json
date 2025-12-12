@@ -1,0 +1,39 @@
+{
+  "header": {
+    "title": "Hubungi Kami"
+  },
+  "form": {
+    "title": "Kirim Pesan kepada Kami",
+    "labels": {
+      "fullName": "Nama Lengkap",
+      "email": "Email",
+      "phone": "Nomor Telepon",
+      "message": "Pesan"
+    },
+    "placeholders": {
+      "fullName": "Masukkan nama Anda...",
+      "email": "Masukkan email Anda...",
+      "phone": "Masukkan nomor telepon Anda...",
+      "message": "Masukkan pesan Anda..."
+    },
+    "button": "Kirim Pesan"
+  },
+  "contactInfo": {
+    "title": "Informasi Kontak",
+    "phone": {
+      "label": "Telepon",
+      "numbers": ["(0295) 4747009", "(0295) 4747007"]
+    },
+    "email": {
+      "label": "Email",
+      "addresses": ["marketing@rajpf.com", "info@rajpf.com"]
+    },
+    "address": {
+      "label": "Alamat",
+      "lines": [
+        "Jl. Raya Pati - Juwana KM 1, Mintomulyo, Kec. Pati,",
+        "Kabupaten Pati"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "hero": {
+    "title1": "Corporate",
+    "highlight": "Social",
+    "title2": "Responsibility",
+    "subtitle": "Every product we craft tells a story—not just of design and quality, but of responsibility. From eco-conscious materials to community-driven projects, our Corporate Social Responsibility journey is about building a better future together."
+  },
+  "content": {
+    "title": "Good Deeds, Good Vibes: <span>CSR Highlights</span>",
+    "subtitle": "Explore how we're giving back through meaningful initiatives and community-driven projects",
+    "readMore": "Read More",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "card": {
+    "date": "December 2, 2025",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et rhoncus velit…"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "hero": {
+    "title": "Peluang",
+    "title_highlight": "Karir",
+    "subtitle": "Kami selalu mencari individu berbakat untuk bergabung dengan tim kami."
+  },
+  "section_main": {
+    "title_start": "Jadilah",
+    "title_highlight": "Bagian",
+    "title_end": "dari Rajawali Perkasa Furniture",
+    "subtitle": "Daftarkan Diri Anda Sekarang"
+  },
+  "card": {
+    "date": "2 Desember 2025",
+    "button_apply": "Lamar"
+  },
+  "jobs": {
+    "Tailor": "Penjahit",
+    "Engraver": "Pengukir",
+    "Painter": "Pelukis",
+    "Driver": "Sopir",
+    "Software Engineer": "Insinyur Perangkat Lunak",
+    "Network Engineer": "Insinyur Jaringan"
+  },
+  "skills": {
+    "Full Day woyla coding": "Coding Seharian Penuh",
+    "Expert": "Ahli",
+    "Full Day": "Purna Waktu"
+  }
+}

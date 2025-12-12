@@ -1,0 +1,26 @@
+{
+  "whyus": {
+    "hero": {
+      "line1": "Excellent",
+      "line2": "Products,",
+      "line3": "Endless",
+      "line4": "Convenience",
+      "subtitle": "We deliver furniture crafted with quality and elegance, trusted by brands for consistent beauty and performance."
+    },
+    "brands": {
+      "title": "Trusted by",
+      "titleHighlight": "Leading Brands",
+      "subtitle": "We are proud to be a trusted partner of renowned companies across industries."
+    },
+    "globalReach": {
+      "subtitle": "Exporting excellence worldwide",
+      "title": "Global Reach",
+      "description": "Our export performance reflects our dedication to quality, serving over 30 countries worldwide with products that meet global standards."
+    },
+    "certifications": {
+      "title": "We Have Achieved",
+      "titleHighlight": "Certifications",
+      "subtitle": "Our certifications represent international quality standards."
+    }
+  }
+}

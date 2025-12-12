@@ -1,10 +1,11 @@
 {
   "home": "Home",
-  "about": "About",
+  "about": "About Us",
   "whyUs": "Why Us",
   "collections": "Collections",
   "articles": "Articles",
   "careers": "Careers",
-  "csr": "CSR",
+  "contact": "Contact",
+  "csr": "Corporate Social Responsibility",
   "news": "News"
 }

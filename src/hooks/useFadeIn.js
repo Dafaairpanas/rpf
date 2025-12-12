@@ -10,7 +10,7 @@ export default function useFadeIn(direction = "up") {
       ([entry]) => {
         if (entry.isIntersecting) setShow(true);
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     if (ref.current) observer.observe(ref.current);
