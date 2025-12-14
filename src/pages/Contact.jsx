@@ -95,7 +95,7 @@ const ContactUs = () => {
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 font-inter">
             {t("form.title")}
           </h2>
-          <form >
+          <form>
             <InputField
               label={t("form.labels.fullName")}
               type="text"
@@ -145,14 +145,16 @@ const ContactUs = () => {
             variants={containerVariants}
           >
             {/* Phone Information */}
-            <ContactInfoItem 
+            <ContactInfoItem
               icon={<FaPhoneAlt className="mr-2 w-8 h-8" />}
-              label={t("contactInfo.phone.label" )  }
+              label={t("contactInfo.phone.label")}
             >
               <div>
                 {t("contactInfo.phone.numbers", { returnObjects: true }).map(
                   (number, index) => (
-                    <p className="font-poppins" key={index}>{number}</p>
+                    <p className="font-poppins" key={index}>
+                      {number}
+                    </p>
                   ),
                 )}
               </div>
@@ -160,13 +162,15 @@ const ContactUs = () => {
 
             {/* Email Information */}
             <ContactInfoItem
-              icon={<FaEnvelope className="mr-2 w-8 h-8"/>}
+              icon={<FaEnvelope className="mr-2 w-8 h-8" />}
               label={t("contactInfo.email.label")}
             >
               <div>
                 {t("contactInfo.email.addresses", { returnObjects: true }).map(
                   (email, index) => (
-                    <p className="font-poppins" key={index}>{email}</p>
+                    <p className="font-poppins" key={index}>
+                      {email}
+                    </p>
                   ),
                 )}
               </div>
@@ -174,13 +178,15 @@ const ContactUs = () => {
 
             {/* Address Information */}
             <ContactInfoItem
-              icon={<FaMapMarkerAlt size={40}/>}
+              icon={<FaMapMarkerAlt size={40} />}
               label={t("contactInfo.address.label")}
             >
               <div>
                 {t("contactInfo.address.lines", { returnObjects: true }).map(
                   (line, index) => (
-                    <p className="font-poppins" key={index}>{line}</p>
+                    <p className="font-poppins" key={index}>
+                      {line}
+                    </p>
                   ),
                 )}
               </div>

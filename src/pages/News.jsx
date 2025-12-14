@@ -39,9 +39,6 @@ const cardItemVariant = {
 export default function News() {
   const { t } = useTranslation("news");
 
-  // ==========================
-  //   PAGINATION CONFIG
-  // ==========================
   const CARDS_PER_PAGE = 6;
   const totalCards = Array(24).fill(0);
   const totalPages = Math.ceil(totalCards.length / CARDS_PER_PAGE);
@@ -77,8 +74,7 @@ export default function News() {
         for (let i = totalPages - maxVisible + 1; i <= totalPages; i++)
           items.push(i);
       } else {
-        for (let i = currentPage - 1; i <= currentPage + 2; i++)
-          items.push(i);
+        for (let i = currentPage - 1; i <= currentPage + 2; i++) items.push(i);
       }
     }
 
@@ -86,19 +82,24 @@ export default function News() {
   };
 
   return (
-    <div className="w-full">
-      <div className="w-full h-full py-8 px-6">
+    <div className="w-full overflow-x-hidden">
+      <div className="w-full h-full py-10 px-4 sm:px-6 lg:px-12">
         {/* -- HEADER -- */}
-        <motion.div {...sectionFadeInVariant} className="text-center mb-16 mt-24">
+        <motion.div
+          {...sectionFadeInVariant}
+          className="text-center mb-12 sm:mb-16 mt-16 sm:mt-24"
+        >
           <h1
-            className="text-5xl font-bold text-gray-800 font-montserrat"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 font-montserrat"
             dangerouslySetInnerHTML={{
               __html: t("hero.title", {
                 interpolation: { escapeValue: false },
               }),
             }}
           />
-          <p className="text-gray-600 mt-3 text-lg">{t("hero.subtitle")}</p>
+          <p className="text-gray-600 mt-3 text-base sm:text-lg">
+            {t("hero.subtitle")}
+          </p>
         </motion.div>
 
         {/* -- TOP NEWS -- */}
@@ -108,12 +109,12 @@ export default function News() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="max-w-7xl mx-auto mb-20"
+            className="max-w-7xl mx-auto mb-12 sm:mb-16 lg:mb-20 px-0"
           >
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="relative w-full h-[260px] sm:h-[340px] md:h-[440px] rounded-3xl overflow-hidden shadow-xl group cursor-pointer"
+              className="relative w-full h-[220px] sm:h-[280px] md:h-[380px] lg:h-[440px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg lg:shadow-xl group cursor-pointer"
             >
               <motion.img
                 src={IMAGES.csrJpeg}
@@ -137,27 +138,26 @@ export default function News() {
 
               <div
                 className="
-                  absolute bottom-6 left-6 
+                  absolute bottom-4 sm:bottom-6 left-4 sm:left-6
                   text-white 
                   flex flex-col justify-end
-                  w-1/2 
-                  max-w-[50%] 
+                  w-[60%] sm:w-1/2
                   transition-all duration-500
                   group-hover:translate-y-[-6px]
                 "
               >
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold leading-snug">
+                <h2 className="text-lg sm:text-2xl md:text-3xl font-bold leading-snug">
                   {t("bigNews.title")}
                 </h2>
 
-                <p className="mt-4 text-sm opacity-90 group-hover:opacity-100">
+                <p className="mt-2 sm:mt-4 text-xs sm:text-sm opacity-90 group-hover:opacity-100">
                   {t("bigNews.date")}
                 </p>
               </div>
 
               <div
                 className="
-                  absolute inset-0 rounded-3xl pointer-events-none 
+                  absolute inset-0 rounded-2xl sm:rounded-3xl pointer-events-none 
                   group-hover:shadow-[0_0_50px_rgba(255,255,255,0.15)]
                   transition-all duration-500
                 "
@@ -166,79 +166,148 @@ export default function News() {
           </motion.div>
         </Link>
 
-        {/* -- CARDS -- */}
-        <div className="max-w-[100] mx-auto flex flex-wrap justify-center gap-10">
-          {cardsToDisplay.map((_, index) => (
-            <Link to={`/csr`} key={startIndex + index}>
-              <motion.div
-                variants={cardItemVariant}
-                viewport={{ once: true }}
-                whileInView="whileInView"
-                initial="initial"
-                custom={index}
-                className="
-                  group 
-                  bg-white rounded-xl shadow-lg overflow-hidden
-                  transition-all duration-500 ease-out cursor-pointer 
-                  hover:shadow-xl 
-                  relative 
-                  h-[350px]
-                  w-[400px]
-                  group-hover:h-[480px]
-                  group-hover:bg-white
-                  transform scale-100
-                  group-hover:scale-[1.05]
-                "
+        {/* -- MOBILE CARDS SECTION -- */}
+        <div className="lg:hidden max-w-7xl mx-auto mb-12 sm:mb-16">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+            {cardsToDisplay.map((_, index) => (
+              <Link
+                to={`/csr`}
+                key={startIndex + index}
+                className="w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.75rem)]"
               >
-                <div className="w-full h-[350px] group-hover:h-[230px] transition-all duration-500 ease-out">
-                  <motion.img
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.4 }}
-                    src={IMAGES.csrJpeg}
-                    className="w-full h-full object-cover"
-                    alt={`Collection ${startIndex + index + 1}`}
-                  />
-                </div>
-
-                <div
+                <motion.div
+                  variants={cardItemVariant}
+                  viewport={{ once: true }}
+                  whileInView="whileInView"
+                  initial="initial"
+                  custom={index}
                   className="
-                    absolute bottom-0 inset-x-0 p-5
-                    transition-all duration-500 ease-out 
-                    bg-black/20 backdrop-blur-sm 
-                    text-white 
-                    group-hover:static 
-                    group-hover:bg-white 
-                    group-hover:text-black 
-                    group-hover:backdrop-blur-none
+                    group 
+                    bg-white rounded-xl shadow-md overflow-hidden
+                    transition-all duration-500 ease-out cursor-pointer 
+                    hover:shadow-lg
+                    relative 
+                    h-[180px] sm:h-[200px]
+                    w-full
                   "
                 >
-                  <p className="font-semibold leading-snug">
-                    {t("card.description")}
-                  </p>
-
-                  <div className="flex items-center justify-between mt-4 text-sm text-gray-200 group-hover:text-black">
-                    <span>{t("card.date")}</span>
-
-                    <motion.span
-                      whileHover={{ x: 4 }}
-                      transition={{ duration: 0.2 }}
-                      className="font-medium flex items-center gap-1 text-[#CB9147] hover:text-[#8B5B24] transition"
-                    >
-                      {t("content.readMore")}
-                      <ChevronRight size={16} />
-                    </motion.span>
+                  <div className="w-full h-[180px] sm:h-[200px]">
+                    <motion.img
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ duration: 0.4 }}
+                      src={IMAGES.csrJpeg}
+                      className="w-full h-full object-cover"
+                      alt={`Collection ${startIndex + index + 1}`}
+                    />
                   </div>
-                </div>
-              </motion.div>
-            </Link>
-          ))}
+
+                  <div
+                    className="
+                      absolute bottom-0 inset-x-0 p-3 sm:p-4
+                      transition-all duration-500 ease-out 
+                      bg-black/30 backdrop-blur-sm 
+                      text-white
+                    "
+                  >
+                    <p className="font-semibold text-xs sm:text-sm leading-snug line-clamp-2">
+                      {t("card.description")}
+                    </p>
+
+                    <div className="flex items-center justify-between mt-2 sm:mt-3 text-xs text-gray-200">
+                      <span>{t("card.date")}</span>
+
+                      <motion.span
+                        whileHover={{ x: 2 }}
+                        transition={{ duration: 0.2 }}
+                        className="font-medium flex items-center gap-1 text-[#CB9147] transition"
+                      >
+                        {t("content.readMore")}
+                        <ChevronRight size={12} />
+                      </motion.span>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* -- DESKTOP CARDS SECTION -- */}
+        <div className="hidden lg:block max-w-7xl mx-auto mb-12 sm:mb-16">
+          <div className="flex flex-wrap justify-start gap-10">
+            {cardsToDisplay.map((_, index) => (
+              <Link
+                to={`/csr`}
+                key={startIndex + index}
+                className="w-[calc(33.333%-2.5rem)]"
+              >
+                <motion.div
+                  variants={cardItemVariant}
+                  viewport={{ once: true }}
+                  whileInView="whileInView"
+                  initial="initial"
+                  custom={index}
+                  className="
+                    group 
+                    bg-white rounded-xl shadow-lg overflow-hidden
+                    transition-all duration-500 ease-out cursor-pointer 
+                    hover:shadow-xl
+                    relative 
+                    h-[350px]
+                    w-full
+                    hover:scale-[1.05]
+                  "
+                >
+                  <div className="w-full h-[350px] group-hover:h-[230px] transition-all duration-500 ease-out">
+                    <motion.img
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.4 }}
+                      src={IMAGES.csrJpeg}
+                      className="w-full h-full object-cover"
+                      alt={`Collection ${startIndex + index + 1}`}
+                    />
+                  </div>
+
+                  <div
+                    className="
+                      absolute bottom-0 inset-x-0 p-5
+                      transition-all duration-500 ease-out 
+                      bg-black/20 backdrop-blur-sm 
+                      text-white 
+                      group-hover:static 
+                      group-hover:bg-white 
+                      group-hover:text-black 
+                      group-hover:backdrop-blur-none
+                    "
+                  >
+                    <p className="font-semibold leading-snug">
+                      {t("card.description")}
+                    </p>
+
+                    <div className="flex items-center justify-between mt-4 text-sm text-gray-200 group-hover:text-black">
+                      <span>{t("card.date")}</span>
+
+                      <motion.span
+                        whileHover={{ x: 4 }}
+                        transition={{ duration: 0.2 }}
+                        className="font-medium flex items-center gap-1 text-[#CB9147] hover:text-[#8B5B24] transition"
+                      >
+                        {t("content.readMore")}
+                        <ChevronRight size={16} />
+                      </motion.span>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
         </div>
 
         {/* -- PAGINATION -- */}
         <motion.div
           {...sectionFadeInVariant}
           transition={{ duration: 0.6 }}
-          className="mt-16 flex justify-center gap-2"
+          className="mt-12 sm:mt-16 flex justify-center gap-2"
         >
           {/* Prev */}
           <motion.button
@@ -262,7 +331,7 @@ export default function News() {
               key={num}
               onClick={() => handlePageClick(num)}
               className={`
-                w-8 h-8 rounded-md flex items-center justify-center font-medium
+                w-8 h-8 rounded-md flex items-center justify-center font-medium text-sm
                 transition
                 ${
                   num === currentPage

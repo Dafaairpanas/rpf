@@ -48,10 +48,17 @@ export default function LanguageDropdown({ FLAGS, i18n, changeLang }) {
             currentCode === "id" ? "ring-2 ring-[#6B3F21]" : ""
           }`}
         >
-          <img src={currentCode === "id" ? FLAGS.idFlag : FLAGS.enFlag} alt={currentCode} className="w-full h-full object-cover" />
+          <img
+            src={currentCode === "id" ? FLAGS.idFlag : FLAGS.enFlag}
+            alt={currentCode}
+            className="w-full h-full object-cover"
+          />
         </div>
 
-        <ChevronDown size={16} className={`transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown
+          size={16}
+          className={`transition-transform ${open ? "rotate-180" : ""}`}
+        />
       </button>
 
       {/* Dropdown menu */}
@@ -75,13 +82,21 @@ export default function LanguageDropdown({ FLAGS, i18n, changeLang }) {
                   active ? "bg-gray-100" : ""
                 }`}
               >
-                <div className={`w-7 h-7 rounded-full overflow-hidden border ${active ? "ring-2 ring-[#6B3F21]" : ""}`}>
-                  <img src={lang.flag} alt={lang.code} className="w-full h-full object-cover" />
+                <div
+                  className={`w-7 h-7 rounded-full overflow-hidden border ${active ? "ring-2 ring-[#6B3F21]" : ""}`}
+                >
+                  <img
+                    src={lang.flag}
+                    alt={lang.code}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
                 <div className="flex-1">
                   <div className="text-sm font-medium">{lang.label}</div>
-                  <div className="text-xs text-gray-500">{lang.code.toUpperCase()}</div>
+                  <div className="text-xs text-gray-500">
+                    {lang.code.toUpperCase()}
+                  </div>
                 </div>
 
                 {active && (

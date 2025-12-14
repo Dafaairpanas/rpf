@@ -39,42 +39,42 @@ const cardItemVariant = {
 
 function Collections() {
   const { t } = useTranslation("csr");
-  
+
   // ========== KONFIGURASI ==========
   const CARDS_PER_PAGE = 6; // Ubah jumlah card per halaman di sini
   const totalCards = Array(24).fill(0); // Total 24 card (4 halaman x 6 card)
   const totalPages = Math.ceil(totalCards.length / CARDS_PER_PAGE);
-  
+
   // ========== STATE PAGINATION ==========
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   // Hitung card yang ditampilkan di halaman saat ini
   const startIndex = (currentPage - 1) * CARDS_PER_PAGE;
   const endIndex = startIndex + CARDS_PER_PAGE;
   const cardsToDisplay = totalCards.slice(startIndex, endIndex);
-  
+
   // ========== HANDLER PAGINATION ==========
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
-  
+
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
-  
+
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  
+
   // Generate pagination items (tampilkan max 4 halaman)
   const getPaginationItems = () => {
     const items = [];
     const maxVisible = 4;
-    
+
     if (totalPages <= maxVisible) {
       for (let i = 1; i <= totalPages; i++) {
         items.push(i);
@@ -94,7 +94,7 @@ function Collections() {
         }
       }
     }
-    
+
     return items;
   };
 
@@ -114,8 +114,7 @@ function Collections() {
           {...heroTextVariant}
           className="relative z-10 text-center px-6 max-w-172"
         >
-          <h1
-            className="text-white font-montserrat font-extrabold text-4xl sm:text-5xl md:text-7xl leading-tight drop-shadow-md">
+          <h1 className="text-white font-montserrat font-extrabold text-4xl sm:text-5xl md:text-7xl leading-tight drop-shadow-md">
             {t("hero.title1")}{" "}
             <span className="text-[#C58E47]">{t("hero.highlight")}</span>{" "}
             <span>{t("hero.title2")}</span>
@@ -268,8 +267,6 @@ function Collections() {
             <ChevronRight size={16} />
           </motion.button>
         </motion.div>
-
-    
       </div>
     </div>
   );

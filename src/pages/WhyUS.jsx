@@ -1,9 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { IMAGES } from "@/assets/assets";
+import { IMAGES, BRANDS, CERTIFICATIONS } from "@/assets/assets";
 import { useTranslation } from "react-i18next";
-
-// --- Varian Animasi ---
 
 const fadeInVariant = {
   initial: { opacity: 0, y: 30 },
@@ -38,67 +36,50 @@ function WhyUS() {
   const { t } = useTranslation("whyus");
 
   const brands = [
-    { src: IMAGES.logo, alt: "Four Hands" },
-    { src: IMAGES.logo, alt: "Tikamoon" },
-    { src: IMAGES.logo, alt: "Kave Home" },
-    { src: IMAGES.logo, alt: "Bridgman" },
-    { src: IMAGES.logo, alt: "Harbour" },
-    { src: IMAGES.logo, alt: "www" },
+    { src: BRANDS.brands1, alt: "Four Hands" },
+    { src: BRANDS.brands2, alt: "Tikamoon" },
+    { src: BRANDS.brands3, alt: "Kave Home" },
+    { src: BRANDS.brands4, alt: "Bridgman" },
+    { src: BRANDS.brands5, alt: "Harbour" },
+    { src: BRANDS.brands6, alt: "www" },
   ];
 
-  const certifications = [1, 2, 3, 4, 5, 6, 7, 8];
+  const certifications = [
+    { src: CERTIFICATIONS.certi1, alt: "ISO 9001" },
+    { src: CERTIFICATIONS.certi2, alt: "FSC Certified" },
+    { src: CERTIFICATIONS.certi3, alt: "Green Building" },
+    { src: CERTIFICATIONS.certi4, alt: "Quality Assurance" },
+  ];
 
   return (
     <div className="w-full overflow-x-hidden">
       {/* SECTION: HERO */}
       <section
-        className="relative w-full h-[95vh] sm:h-[100vh] bg-cover bg-center flex items-center"
+        className="relative w-full min-h-[95vh] sm:min-h-[100vh] bg-cover bg-center flex items-center justify-center"
         style={{ backgroundImage: `url(${IMAGES.bg1})` }}
       >
         <div className="absolute inset-0 bg-black/40"></div>
 
         <motion.div
           {...heroTextVariant}
-          className="
-            relative z-10 w-full 
-            px-6 sm:px-10 
-            text-left 
-            flex flex-col 
-            items-start       
-            justify-start    
-            gap-6   
-            h-full 
-            mx-auto 
-            pt-10     
-            mt-48
-            max-w-std
-          "
+          className="relative z-10 text-center px-6 w-[95dvh] h-full mx-auto flex flex-col items-center justify-center"
         >
-          <h1
-            className="
-              font-montserrat font-extrabold text-white
-              text-5xl sm:text-5xl md:text-6xl   
-              leading-tight
-              max-w-[260px] sm:max-w-md     
-              
-            "
-          >
-            {t("whyus.hero.line1")} <br />
-            {t("whyus.hero.line2")} <br />
+          <h1 className="text-white font-montserrat font-extrabold text-5xl sm:text-6xl leading-tight drop-shadow-md">
+            {t("whyus.hero.line1")} {" "}
+            {t("whyus.hero.line2")} {" "}
             <span className="text-[#e8ddc7]">
-              {t("whyus.hero.line3")} <br /> {t("whyus.hero.line4")}
+              {t("whyus.hero.line3")} {" "} {t("whyus.hero.line4")}
             </span>
           </h1>
 
-          <p className="text-white max-w-xl text-base sm:text-lg leading-relaxed">
+          <p className="text-gray-200 text-base sm:text-lg md:text-xl mt-6 font-poppins drop-shadow max-w-xl">
             {t("whyus.hero.subtitle")}
           </p>
         </motion.div>
       </section>
 
-
       {/* SECTION: BRANDS */}
-      <section className="w-full py-16 md:py-20 px-4 sm:px-6 lg:px-12 bg-white">
+      <section className="w-full py-10 px-4 sm:px-6 lg:px-12 bg-white">
         <motion.div
           {...fadeInVariant}
           viewport={{ once: true, amount: 0.2 }}
@@ -120,44 +101,25 @@ function WhyUS() {
           <motion.div
             {...fadeInVariant}
             viewport={{ once: true, amount: 0.1 }}
-            className="bg-[#f8faf6] rounded-xl p-6 sm:p-10 max-w-6xl mx-auto"
+            className="rounded-xl p-6 sm:p-10 max-w-6xl mx-auto"
           >
             <motion.div
               variants={staggerContainer}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.1 }}
-              className="
-                flex flex-wrap 
-                justify-center 
-                gap-6 sm:gap-8 lg:gap-10
-              "
+              className="flex flex-wrap justify-center gap-6 sm:gap-8 lg:gap-10"
             >
               {brands.map((item, idx) => (
                 <motion.div
                   key={idx}
                   variants={itemFadeInVariant}
-                  className="
-                    bg-white rounded-lg shadow-md
-                    flex items-center justify-center
-                    
-                    w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px]
-                    h-[120px] sm:h-[140px] md:h-[160px]
-
-                    p-4
-                    transition-all duration-300
-                    hover:shadow-xl hover:scale-[1.05]
-                  "
+                  className="bg-white rounded-lg shadow-md flex items-center justify-center w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px] h-[120px] sm:h-[140px] md:h-[160px] p-4 transition-all duration-300 hover:shadow-xl hover:scale-[1.05]"
                 >
                   <img
                     src={item.src}
                     alt={item.alt}
-                    className="
-                      w-full
-                      max-h-24
-                      object-contain opacity-70
-                      transition-opacity duration-300 hover:opacity-100
-                    "
+                    className="w-full max-h-24 object-contain opacity-80 transition-opacity duration-300 hover:opacity-100"
                   />
                 </motion.div>
               ))}
@@ -167,7 +129,7 @@ function WhyUS() {
       </section>
 
       {/* SECTION: GLOBAL REACH */}
-      <section className="w-full bg-[#2a2220] py-20 md:py-24 px-4 sm:px-6 lg:px-12">
+      <section className="w-full bg-[#2a2220] py-20 md:py-20 px-4 sm:px-6 lg:px-12">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -206,7 +168,7 @@ function WhyUS() {
       </section>
 
       {/* SECTION: CERTIFICATIONS */}
-      <section className="w-full py-16 md:py-20 bg-white px-4 sm:px-6">
+      <section className="w-full py-10 bg-white px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
           <motion.div {...fadeInVariant}>
             <h2 className="text-3xl md:text-5xl font-bold mb-4">
@@ -226,31 +188,18 @@ function WhyUS() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.1 }}
-            className="
-            bg-[#f6faf6] rounded-2xl
-            p-8 sm:p-10
-            flex flex-wrap
-            justify-center
-            gap-8 sm:gap-10
-          "
+            className="rounded-2xl p-8 sm:p-10 flex flex-wrap justify-center gap-8 sm:gap-10"
           >
-            {certifications.map((src, idx) => (
+            {certifications.map((cert, idx) => (
               <motion.div
                 key={idx}
                 variants={itemFadeInVariant}
-                className="
-                transition-all duration-300 hover:scale-[1.1]
-
-                flex-shrink-0
-                w-[150px] sm:w-[170px] md:w-[200px]
-                flex items-center justify-center
-                h-32 sm:h-36 md:h-40
-              "
+                className="transition-all duration-300 hover:scale-[1.1] flex-shrink-0 w-[150px] sm:w-[170px] md:w-[200px] flex items-center justify-center h-32 sm:h-36 md:h-40 rounded-xl shadow-sm hover:shadow-md"
               >
                 <img
-                  src={IMAGES.logo}
-                  alt={`Certificate ${idx + 1}`}
-                  className="max-h-24 object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
+                  src={cert.src}
+                  alt={cert.alt}
+                  className="p-5 max-h-40 object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
                 />
               </motion.div>
             ))}
@@ -261,4 +210,4 @@ function WhyUS() {
   );
 }
 
-export default WhyUS; 
+export default WhyUS;

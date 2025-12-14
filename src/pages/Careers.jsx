@@ -61,7 +61,6 @@ function Careers() {
     "Driver",
     "Software Engineer",
     "Network Engineer",
-
   ];
 
   const skillTags = [
@@ -126,7 +125,6 @@ function Careers() {
       </section>
 
       {/* SECTION: MAIN CONTENT (JOB LIST) */}
-      <section className="w-full bg-white min-h-screen py-16 md:py-20 px-4 sm:px-6">
         {/* HEADING */}
         <motion.div className="text-center mb-16" {...sectionHeadingVariant}>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
@@ -230,9 +228,8 @@ function Careers() {
             <ChevronRight size={16} />
           </motion.button>
         </motion.div>
-      </section>
-    </div>
-  );
+      </div>
+  );  
 }
 
 export default Careers;

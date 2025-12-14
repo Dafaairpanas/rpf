@@ -56,7 +56,6 @@ export default function MobileNav({
 
           {/* ARTICLES SECTION - Langsung Tampil Tanpa Dropdown */}
           <div>
-
             <div className="flex flex-col gap-4 mt-0 text-[8px">
               {ARTICLE_LINKS.map((item) => (
                 <a

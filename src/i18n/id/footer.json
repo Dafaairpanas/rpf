@@ -1,25 +1,23 @@
-
-
 {
-      "brand": {
-        "title": "Rajawali Perkasa Furniture",
-        "description": "Tertarik dengan koleksi kami?\nKirimkan kami pesan!"
-      },
-      "quickLinks": {
-        "title": "Tautan Cepat",
-        "home": "Beranda",
-        "about": "Tentang",
-        "whyUs": "Mengapa Kami",
-        "collections": "Koleksi",
-        "csr": "CSR",
-        "news": "News",
-        "careers": "Karir"
-      },
-      "contact": {
-        "title": "Kontak",
-        "address": "Jl. Raya Pati - Juwana KM 1,\nMintomulyo, Kec. Pati,\nKabupaten Pati",
-        "email": "email@a.a",
-        "instagram": "@instagram"
-      },
-      "copyright": "Hak Cipta © 2025 Rajawali Perkasa — Semua Hak Dilindungi"
+  "brand": {
+    "title": "Rajawali Perkasa Furniture",
+    "description": "Tertarik dengan koleksi kami?\nKirimkan kami pesan!"
+  },
+  "quickLinks": {
+    "title": "Tautan Cepat",
+    "home": "Beranda",
+    "about": "Tentang",
+    "whyUs": "Mengapa Kami",
+    "collections": "Koleksi",
+    "csr": "CSR",
+    "news": "News",
+    "careers": "Karir"
+  },
+  "contact": {
+    "title": "Kontak",
+    "address": "Jl. Raya Pati - Juwana KM 1,\nMintomulyo, Kec. Pati,\nKabupaten Pati",
+    "email": "email@a.a",
+    "instagram": "@instagram"
+  },
+  "copyright": "Hak Cipta © 2025 Rajawali Perkasa — Semua Hak Dilindungi"
 }

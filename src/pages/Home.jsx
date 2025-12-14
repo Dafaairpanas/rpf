@@ -2,16 +2,13 @@ import { motion } from "framer-motion";
 import { IMAGES } from "@/assets/assets.js";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 
 const mainVariant = {
   hidden: { opacity: 0, x: -100 },
   visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } },
 };
 
-const sectionVariant = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
 
 const cardContainer = {
   hidden: { opacity: 1 },
@@ -30,10 +27,17 @@ const cardItem = {
     transition: { duration: 0.5 },
   },
 };
-
 function Home() {
+
   const { t } = useTranslation("home");
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
+
+  const items = [1, 2, 3, 4];
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   const goToCollection = (type) => {
     navigate(`/collections?type=${type}`);
@@ -52,57 +56,22 @@ function Home() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={mainVariant}
-          className="
-            relative z-10 w-full 
-            px-6 sm:px-10 
-            text-left 
-            flex flex-col 
-            items-start       // ⬅️ nempel kiri
-            justify-start    // ⬅️ naik ke atas
-            gap-6   
-            h-full 
-            mx-auto 
-            pt-10     
-            mt-48
-            max-w-std
-
-      // ⬅️ opsional biar tidak kepentok banget
-          "
+          className="relative z-10 w-full px-6 sm:px-10 text-left flex flex-col items-start justify-center gap-6 h-full mx-auto pt-10 max-w-std"
         >
-          <h1
-            className="
-              font-montserrat font-bold text-white
-              text-5xl sm:text-5xl md:text-6xl     // ⬅️ mobile lebih kecil
-              leading-snug                          // ⬅️ jarak baris lebih lega
-              max-w-[260px] sm:max-w-md      
-              mb-[5rem] sm:mb-0   // ⬅️ mobile wadah lebih kecil supaya wrap bagus
-            "
-          >
-
-            {t("section1.line1")} <br />
-            {t("section1.line2")} <br />
+          <h1 className="font-montserrat font-bold text-white text-5xl sm:text-5xl md:text-6xl leading-snug max-w-[260px] sm:max-w-[70%] mb-[5rem] sm:mb-0">
+            {t("section1.line1")} {t("section1.line2")}{" "}
             <span className="text-[#EEE4C8]">
               {t("section1.highlight")}&nbsp;
-            </span>
-            {t("section1.line3")} <br />
-            {t("section1.line4")} <br />
-            {t("section1.line5")}
+            </span>{" "}
+            {t("section1.line3")} {t("section1.line4")} {t("section1.line5")}
           </h1>
-
 
           <motion.a
             href="about"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="
-              w-fit px-20 sm:px-32 mt-12 mb-16 px-8 py-3 text-gray-900 font-inter font-semibold 
-              rounded-xl shadow-lg text-center
-              bg-gradient-to-r from-[#DFD7BF] to-[#A6A6A6]
-              transition-all duration-500 ease-out
-              hover:bg-[#CB9147] hover:from-transparent hover:to-transparent 
-              hover:text-white hover:translate-y-[-5px]
-            "
+            className="w-fit px-16 py-3 mt-12 mb-16 text-gray-900 text-2xl font-inter font-semibold rounded-xl shadow-lg text-center bg-[#CB9147] transition-all duration-500 ease-out hover:bg-[#28221F]  hover:from-transparent hover:text-white hover:translate-y-[-2px] hover:scale-105"
           >
             {t("section1.button")}
           </motion.a>
@@ -114,7 +83,7 @@ function Home() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={cardContainer}
-        className="py-20 px-5 sm:px-10 md:px-24 bg-[#FDFBF7]"
+        className="py-10 px-5 sm:px-10 md:px-24 bg-[#FDFBF7]"
       >
         <motion.div
           variants={cardItem}
@@ -151,15 +120,7 @@ function Home() {
               alt="Indoor furniture"
               className="w-full h-[250px] sm:h-[300px] md:h-[350px] object-cover rounded-xl hover:scale-105 transition-transform duration-500"
             />
-            <span
-              className="
-              absolute top-4 left-4
-              bg-gradient-to-r from-[#343130] to-[#654823] text-white px-6 py-3 rounded-md
-              text-xs sm:text-sm font-poppins
-              transition-all duration-500
-              group-hover:-top-6 group-hover:left-8
-            "
-            >
+            <span className="absolute top-4 left-4 bg-gradient-to-r from-[#343130] to-[#654823] text-white px-6 py-3 rounded-md text-xs sm:text-sm font-poppins transition-all duration-500 group-hover:-top-6 group-hover:left-8">
               {t("section2.indoor")}
             </span>
           </motion.div>
@@ -178,16 +139,10 @@ function Home() {
           >
             <img
               src={IMAGES.outdoor}
+              alt="Outdoor furniture"
               className="w-full h-[250px] sm:h-[300px] md:h-[350px] object-cover rounded-xl hover:scale-105 transition-transform duration-500"
             />
-            <span
-              className="
-              absolute top-4 left-4
-              bg-gradient-to-r from-[#343130] to-[#654823] text-white px-6 py-3 rounded-md
-              text-xs sm:text-sm font-poppins
-              transition-all duration-500
-              group-hover:-top-6 group-hover:left-8"
-            >
+            <span className="absolute top-4 left-4 bg-gradient-to-r from-[#343130] to-[#654823] text-white px-6 py-3 rounded-md text-xs sm:text-sm font-poppins transition-all duration-500 group-hover:-top-6 group-hover:left-8">
               {t("section2.outdoor")}
             </span>
           </motion.div>
@@ -199,11 +154,11 @@ function Home() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
         variants={cardContainer}
-        className="w-full px-5 sm:px-10 md:px-16 py-20 bg-[#1c1511] text-white"
+        className="w-full px-5 sm:px-10 md:px-16 py-10 bg-[#1c1511] text-white overflow-hidden"
       >
         <motion.div
           variants={cardItem}
-          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-14"
         >
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-inter font-bold">
             {t("section3.title")}
@@ -217,25 +172,47 @@ function Home() {
           </a>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mt-14">
-          {[1, 2, 3, 4].map((id, index) => (
+        <div className="relative w-full overflow-hidden">
+          {isVisible && (
             <motion.div
-              key={id}
-              variants={cardItem}
-              className="group bg-[#2b2727] rounded-xl flex flex-col justify-center py-6 h-fit hover:scale-110 transition-transform duration-500 cursor-pointer"
+              initial={{ x: 0 }}
+              animate={{
+                x: -2400,
+                transition: {
+                  duration: 30,
+                  repeat: Infinity,
+                  ease: "linear",
+                  repeatType: "loop",
+                },
+              }}
+              className="flex gap-6 sm:gap-8 w-max"
             >
-              <img
-                src={IMAGES.chairSvg}
-                onClick={() => navigate("/collections")}
-                alt={`Collection item ${id}`}
-                className="object-fit h-40 sm:h-64 hover:rotate-3 transition-transform duration-300"
-              />
+              {[...items, ...items, ...items].map((id, index) => (
+                <motion.div
+                  key={`card-${index}`}
+                  className="group bg-[#2b2727] rounded-xl flex flex-col justify-center py-6 h-fit flex-shrink-0 w-[160px] sm:w-[220px] md:w-[260px] cursor-pointer"
+                  
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <div className="overflow-hidden rounded-lg flex items-center justify-center h-32 sm:h-48 md:h-56">
+                    <motion.img
+                      src={IMAGES.chairSvg}
+                      onClick={() => navigate("/collections")}
+                      alt={`Collection item ${id}`}
+                      className="object-contain h-full w-full group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
 
-              <p className="text-sm sm:text-base text-gray-300 group-hover:text-[#CB9147] transition-colors duration-300 text-center mt-4 font-poppins font-medium">
-                {t("section3.item")} {id}
-              </p>
+                  <p className="text-xs sm:text-sm md:text-base text-gray-300 group-hover:text-[#CB9147] transition-colors duration-300 text-center mt-4 font-poppins font-medium">
+                    {t("section3.item")} {id}
+                  </p>
+                </motion.div>
+              ))}
             </motion.div>
-          ))}
+          )}
+
+          <div className="absolute left-0 top-0 w-20 sm:w-32 h-full bg-gradient-to-r from-[#1c1511] to-transparent pointer-events-none z-10"></div>
+          <div className="absolute right-0 top-0 w-20 sm:w-32 h-full bg-gradient-to-l from-[#1c1511] to-transparent pointer-events-none z-10"></div>
         </div>
       </motion.section>
 
@@ -247,7 +224,7 @@ function Home() {
           hidden: { opacity: 0, y: -50 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
         }}
-        className="w-full py-20 sm:py-24 px-5 sm:px-10 md:px-16 bg-gradient-to-b from-[#F5F2E9] to-[#F8F6F1] text-center"
+        className="w-full py-10 pb-20 px-5 sm:px-10 md:px-16 bg-[#F5F5F5] text-center"
       >
         <h2 className="text-2xl sm:text-4xl md:text-5xl font-montserrat font-extrabold text-[#1A1A1A]">
           {t("section4.title")}
@@ -262,7 +239,7 @@ function Home() {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           viewport={{ once: true, amount: 0.5 }}
-          className="w-full max-w-2xl mx-auto h-54 sm:h-56 md:h-64 rounded-xl mt-12 sm:mt-16 mb-12"
+          className="w-full max-w-4xl mx-auto h-54 sm:h-82 rounded-xl mt-12 sm:mt-16 mb-24 "
         >
           <iframe
             className="w-full h-full rounded-xl"
@@ -279,7 +256,7 @@ function Home() {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.6 }}
           viewport={{ once: true, amount: 0.5 }}
-          className="px-10 sm:px-12 py-3 sm:py-4 bg-[#915E23] text-white font-semibold text-lg sm:text-xl rounded-xl shadow-md transform transition hover:-translate-y-6 hover:bg-[#CB9147] font-poppins hover:scale-105 inline-block duration-500"
+          className="w-fit px-16 py-6  text-gray-900 text-2xl font-montserrat font-bold rounded-xl shadow-lg text-center bg-[#CB9147]  transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105 "
         >
           {t("section4.button")}
         </motion.a>

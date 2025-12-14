@@ -31,7 +31,7 @@ function ButtonUp() {
           className="
                         w-14 h-14 bg-[#C07A2C] shadow-xl rounded-2xl 
                         flex justify-center items-center transition duration-300
-                        hover:translate-y-[-2px] hover:bg-[#54504E] 
+                        hover:translate-y-[-2px] hover:bg-[#28221F] 
                         hover:shadow-[0_0_20px_5px_rgba(192,122,44,0.7)]
                     "
         >
@@ -45,7 +45,7 @@ function ButtonUp() {
             className="
                             w-14 h-14 bg-[#C07A2C] shadow-xl rounded-2xl 
                             flex justify-center items-center transition duration-300
-                            hover:bg-[#54504E] hover:translate-y-[-2px]
+                            hover:bg-[#28221F] hover:translate-y-[-2px]
                             
                             /* FIX: Shadow bercahaya dimasukkan secara statis */
                             hover:shadow-[0_0_20px_5px_rgba(192,122,44,0.7)]

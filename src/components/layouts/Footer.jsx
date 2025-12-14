@@ -9,9 +9,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
         {/* Brand */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">
-            {t("brand.title")}
-          </h2>
+          <h2 className="text-xl font-semibold mb-4">{t("brand.title")}</h2>
           <p className="text-sm leading-relaxed whitespace-pre-line">
             {t("brand.description")}
           </p>
@@ -19,7 +17,9 @@ function Footer() {
 
         {/* Quick Links */}
         <nav>
-          <h3 className="text-xl font-semibold mb-4">{t("quickLinks.title")}</h3>
+          <h3 className="text-xl font-semibold mb-4">
+            {t("quickLinks.title")}
+          </h3>
           <ul className="space-y-2 text-sm flex flex-col">
             <li>
               <a href="/" className="hover:text-white">
@@ -42,7 +42,10 @@ function Footer() {
               </a>
             </li>
             <li>
-              <a href="/corporate-social-responsibility" className="hover:text-white">
+              <a
+                href="/corporate-social-responsibility"
+                className="hover:text-white"
+              >
                 {t("quickLinks.csr")}
               </a>
             </li>
@@ -71,7 +74,6 @@ function Footer() {
 
             <li className="flex items-center gap-3">
               <img src={ICONS.icEmail} alt="Email" className="w-6" />
-              <p>info@rajpf.com</p>
             </li>
 
             <li className="flex items-center gap-3">
@@ -84,7 +86,6 @@ function Footer() {
                 rajawaliperkasafurniture
               </a>
             </li>
-
           </ul>
         </div>
       </div>

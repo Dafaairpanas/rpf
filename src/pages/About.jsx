@@ -1,4 +1,4 @@
-//eslint-disable-next-line no-unused-vars 
+//eslint-disable-next-line no-unused-vars
 import { motion as M } from "framer-motion";
 import { useEffect, useState } from "react";
 import { IMAGES, ICONS } from "@/assets/assets.js";
@@ -184,7 +184,7 @@ function About() {
       }
       if (start === end) return;
 
-      const duration = 1200;
+      const duration = 1500;
       const incrementTime = 10;
       const step = Math.ceil(end / (duration / incrementTime));
 
@@ -233,11 +233,11 @@ function About() {
       </section>
 
       {/* STATS, VISION & MISSION SECTION */}
-      <section className="text-white py-20 md:py-28 relative bg-gradient-to-b from-[#8A5C1D] via-[#2A221D] to-[#1A1613]">
+      <section className="h-fit text-white py-10 relative bg-gradient-to-b from-[#8A5C1D] via-[#2A221D] to-[#1A1613]">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-6 z-10">
           {/* STATS */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 text-center mb-16 font-poppins">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 text-center mb-16 font-poppins mb-[7rem]">
             {[
               [t("stats.employees"), t("stats.employeesLabel")],
               [t("stats.plants"), t("stats.plantsLabel")],
@@ -266,12 +266,12 @@ function About() {
               whileInView="whileInView"
               initial="initial"
               whileHover="whileHover"
-              className="bg-[#27221F]/70 backdrop-blur-sm border border-gray-600 rounded-xl p-10 shadow-lg cursor-pointer"
+              className="bg-[#27221F]/70 backdrop-blur-sm border border-gray-600 flex flex-col justify-center  rounded-xl p-10 shadow-lg cursor-pointer"
             >
               <h3 className="text-2xl md:text-4xl font-bold text-center mb-6">
                 {t("vision.title")}
               </h3>
-              <p className="text-gray-200 text-center leading-relaxed text-xl">
+              <p className="text-gray-200 text-center leading-relaxed text-xl h-full text-center mt-[6vh]">
                 {t("vision.desc")}
               </p>
             </M.div>
@@ -292,7 +292,7 @@ function About() {
                 <li className="mb-4">2. {t("mission.2")}</li>
                 <li className="mb-4">3. {t("mission.3")}</li>
                 <li className="mb-4">4. {t("mission.4")}</li>
-                <li >5. {t("mission.5")}</li>
+                <li>5. {t("mission.5")}</li>
               </ul>
             </M.div>
           </div>
@@ -300,7 +300,7 @@ function About() {
       </section>
 
       {/* CORE VALUES SECTION */}
-      <section className="w-full py-20 bg-white">
+      <section className="w-full py-10  bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-16">
             Core Values
@@ -342,7 +342,7 @@ function About() {
       </section>
 
       {/* OUR STORY / TIMELINE SECTION */}
-      <section className="w-full bg-[#1a1512] py-24 text-white h-full">
+      <section className="w-full bg-[#1a1512] py-10 text-white h-[95dvh]">
         <div className="max-w-6xl mx-auto px-6">
           <M.h2
             {...sectionHeadingVariant}
@@ -379,7 +379,7 @@ function About() {
                         whileInView="whileInView"
                         initial="initial"
                         whileHover="whileHover"
-                        className={`mb-40 w-full max-w-[230px] ${defaultCardClass}`}
+                        className={`mb-40 w-full max-w-[300px] h-[120px] ${defaultCardClass}`}
                       >
                         <h3 className="font-bold text-lg text-center">
                           {item.title}
@@ -411,7 +411,7 @@ function About() {
                         whileInView="whileInView"
                         initial="initial"
                         whileHover="whileHover"
-                        className={`mt-40 w-full max-w-[230px] ${defaultCardClass}`}
+                        className={`mt-36 w-full max-w-[300px] h-[120px] ${defaultCardClass}`}
                       >
                         <h3 className="font-bold text-lg text-center">
                           {item.title}
@@ -433,7 +433,7 @@ function About() {
             <div className="relative z-10 space-y-20">
               {items.map((item, i) => (
                 <div key={i} className="relative">
-                  <M.div  
+                  <M.div
                     custom={i}
                     variants={yearCircleVariant}
                     whileInView="whileInView"
@@ -500,7 +500,7 @@ function About() {
       </section>
 
       {/* MANAGEMENT STRUCTURE SECTION */}
-      <section className="w-full bg-[#f7f4ef] py-24">
+      <section className="w-full bg-[#f7f4ef] py-10">
         <div className="max-w-6xl mx-auto px-6">
           <M.h2
             {...sectionHeadingVariant}
