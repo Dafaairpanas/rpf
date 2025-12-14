@@ -271,7 +271,7 @@ function About() {
               <h3 className="text-2xl md:text-4xl font-bold text-center mb-6">
                 {t("vision.title")}
               </h3>
-              <p className="text-gray-200 text-center leading-relaxed text-xl h-full text-center mt-[6vh]">
+              <p className="text-gray-200 text-center leading-relaxed text-xl h-full text-center  sm:mt-[6vh]">
                 {t("vision.desc")}
               </p>
             </M.div>
@@ -342,7 +342,7 @@ function About() {
       </section>
 
       {/* OUR STORY / TIMELINE SECTION */}
-      <section className="w-full bg-[#1a1512] py-10 text-white h-[95dvh]">
+      <section className="w-full bg-[#1a1512] py-10 text-white sm:h-[95dvh] ">
         <div className="max-w-6xl mx-auto px-6">
           <M.h2
             {...sectionHeadingVariant}
