@@ -9,7 +9,6 @@ const mainVariant = {
   visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } },
 };
 
-
 const cardContainer = {
   hidden: { opacity: 1 },
   visible: {
@@ -28,7 +27,6 @@ const cardItem = {
   },
 };
 function Home() {
-
   const { t } = useTranslation("home");
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
@@ -71,7 +69,7 @@ function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="w-fit px-16 py-3 mt-12 mb-16 text-gray-900 text-2xl font-inter font-semibold rounded-xl shadow-lg text-center bg-[#CB9147] transition-all duration-500 ease-out hover:bg-[#28221F]  hover:from-transparent hover:text-white hover:translate-y-[-2px] hover:scale-105"
+            className="w-fit px-16 py-3 mt-12 mb-16 text-[#28221F] text-2xl font-inter font-semibold rounded-xl shadow-lg text-center bg-[#CB9147] transition-all duration-500 ease-out hover:bg-[#28221F]  hover:from-transparent hover:text-white hover:translate-y-[-2px] hover:scale-105"
           >
             {t("section1.button")}
           </motion.a>
@@ -93,7 +91,7 @@ function Home() {
             {t("section2.title")}
           </h3>
 
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-montserrat font-extrabold mt-3">
+          <h2 className="text-[#28221F] text-2xl sm:text-4xl md:text-5xl font-montserrat font-extrabold mt-3">
             {t("section2.subtitle")}
           </h2>
 
@@ -191,7 +189,6 @@ function Home() {
                 <motion.div
                   key={`card-${index}`}
                   className="group bg-[#2b2727] rounded-xl flex flex-col justify-center py-6 h-fit flex-shrink-0 w-[160px] sm:w-[220px] md:w-[260px] cursor-pointer"
-                  
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <div className="overflow-hidden rounded-lg flex items-center justify-center h-32 sm:h-48 md:h-56">
@@ -226,7 +223,7 @@ function Home() {
         }}
         className="w-full py-10 pb-20 px-5 sm:px-10 md:px-16 bg-[#F5F5F5] text-center"
       >
-        <h2 className="text-2xl sm:text-4xl md:text-5xl font-montserrat font-extrabold text-[#1A1A1A]">
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-montserrat font-extrabold text-[#28221F]">
           {t("section4.title")}
         </h2>
 
@@ -256,7 +253,7 @@ function Home() {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.6 }}
           viewport={{ once: true, amount: 0.5 }}
-          className="w-fit px-16 py-6  text-gray-900 text-2xl font-montserrat font-bold rounded-xl shadow-lg text-center bg-[#CB9147]  transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105 "
+          className="w-fit px-16 py-6  text-[#28221F] text-2xl font-montserrat font-bold rounded-xl shadow-lg text-center bg-[#CB9147]  transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105 "
         >
           {t("section4.button")}
         </motion.a>

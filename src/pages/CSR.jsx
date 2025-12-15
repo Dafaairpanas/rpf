@@ -114,9 +114,9 @@ function Collections() {
           {...heroTextVariant}
           className="relative z-10 text-center px-6 max-w-172"
         >
-          <h1 className="text-white font-montserrat font-extrabold text-4xl sm:text-5xl md:text-7xl leading-tight drop-shadow-md">
+          <h1 className="text-white font-montserrat font-extrabold text-5xl sm:text-7xl leading-tight drop-shadow-md">
             {t("hero.title1")}{" "}
-            <span className="text-[#C58E47]">{t("hero.highlight")}</span>{" "}
+            <span className="text-[#DFD7BF]">{t("hero.highlight")}</span>{" "}
             <span>{t("hero.title2")}</span>
           </h1>
 
@@ -133,7 +133,7 @@ function Collections() {
         {/* HEADING */}
         <motion.div {...sectionFadeInVariant} className="text-center mb-16">
           <h1
-            className="text-4xl font-bold text-gray-800"
+            className="text-4xl font-bold text-[#28221F]"
             dangerouslySetInnerHTML={{
               __html: t("content.title", {
                 interpolation: { escapeValue: false },

@@ -55,7 +55,7 @@ const PopupForm = () => {
 
         <button
           type="submit"
-          className="w-full bg-[#C6934B] text-white font-bold py-3 rounded-lg mt-3 shadow-md hover:bg-[#b08242] transition"
+          className="w-full bg-[#C6934B] text-white font-bold py-3 rounded-lg mt-3 shadow-md hover:bg-[#28221F] transition"
         >
           {t("form.button")}
         </button>

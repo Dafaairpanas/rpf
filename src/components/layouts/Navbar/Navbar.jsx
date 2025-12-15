@@ -32,14 +32,17 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-std mx-auto flex items-center justify-between px-6 md:px-10">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 ">
             <img
               src={IMAGES.logo}
               className={`${scrolled ? "w-10 h-10" : "w-12 h-12"} object-contain`}
             />
-            <h1 className="font-semibold text-gray-800 hidden sm:block text-lg">
+            <a
+              href="/"
+              className="font-semibold text-gray-800 hidden sm:block text-lg"
+            >
               Rajawali Perkasa <span className="text-[#6B3F21]">Furniture</span>
-            </h1>
+            </a>
           </div>
 
           <DesktopNav

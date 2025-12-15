@@ -302,7 +302,7 @@ function About() {
       {/* CORE VALUES SECTION */}
       <section className="w-full py-10  bg-white">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-16">
+          <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-[#28221F] mb-16 ">
             Core Values
           </h2>
 
@@ -342,7 +342,7 @@ function About() {
       </section>
 
       {/* OUR STORY / TIMELINE SECTION */}
-      <section className="w-full bg-[#1a1512] py-10 text-white sm:h-[95dvh] ">
+      <section className="w-full bg-[#1a1512] py-10 text-white sm:h-[87dvh] ">
         <div className="max-w-6xl mx-auto px-6">
           <M.h2
             {...sectionHeadingVariant}
@@ -356,7 +356,7 @@ function About() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
             viewport={{ once: true, amount: 0.2 }}
-            className="text-center max-w-3xl mx-auto text-gray-300 leading-relaxed mb-20"
+            className="text-center max-w-3xl mx-auto text-gray-300 leading-relaxed mb-30"
           >
             PT.Rajawali Perkasa Furniture was established by Yafet Sutrisno in
             2003, at Juwana-Pati, Central Java - Indonesia. We are proud to
@@ -478,7 +478,7 @@ function About() {
                       whileHover="whileHover"
                       viewport={{ once: true }}
                       className={`
-                        w-[45%] bg-[#1f1a17] border border-[#3a302b]
+                        w-[45%] bg-[#1f1a17] border border-[#B57137]
                         rounded-xl p-6 shadow-lg items-center justify-content flex flex-col
                         ${i % 2 === 0 ? "mr-auto" : "ml-auto"}
                       `}
@@ -504,7 +504,7 @@ function About() {
         <div className="max-w-6xl mx-auto px-6">
           <M.h2
             {...sectionHeadingVariant}
-            className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-[#3b2207] mb-16"
+            className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-[#28221F] mb-16"
           >
             {t("management.title")}
           </M.h2>

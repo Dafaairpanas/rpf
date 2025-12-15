@@ -126,9 +126,9 @@ function Careers() {
 
       {/* SECTION: MAIN CONTENT (JOB LIST) */}
       <section className="relative w-full py-20 px-6 sm:px-10 md:px-20">
-                {/* HEADING */}
+        {/* HEADING */}
         <motion.div className="text-center mb-16" {...sectionHeadingVariant}>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 ">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#28221F] ">
             {t("section_main.title_start")}{" "}
             <span className="text-[#D9A556]">
               {t("section_main.title_highlight")}
@@ -230,9 +230,8 @@ function Careers() {
           </motion.button>
         </motion.div>
       </section>
-
-      </div>
-  );  
+    </div>
+  );
 }
 
 export default Careers;

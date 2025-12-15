@@ -65,10 +65,9 @@ function WhyUS() {
           className="relative z-10 text-center px-6 w-[95dvh] h-full mx-auto flex flex-col items-center justify-center"
         >
           <h1 className="text-white font-montserrat font-extrabold text-5xl sm:text-6xl leading-tight drop-shadow-md">
-            {t("whyus.hero.line1")} {" "}
-            {t("whyus.hero.line2")} {" "}
+            {t("whyus.hero.line1")} {t("whyus.hero.line2")}{" "}
             <span className="text-[#e8ddc7]">
-              {t("whyus.hero.line3")} {" "} {t("whyus.hero.line4")}
+              {t("whyus.hero.line3")} {t("whyus.hero.line4")}
             </span>
           </h1>
 
@@ -85,7 +84,7 @@ function WhyUS() {
           viewport={{ once: true, amount: 0.2 }}
           className="text-center"
         >
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900">
+          <h2 className="text-3xl md:text-5xl font-bold text-[#28221F]">
             {t("whyus.brands.title")}{" "}
             <span className="text-[#cd803a]">
               {t("whyus.brands.titleHighlight")}
@@ -171,7 +170,7 @@ function WhyUS() {
       <section className="w-full py-10 bg-white px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
           <motion.div {...fadeInVariant}>
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-[#28221F]">
               {t("whyus.certifications.title")}{" "}
               <span className="text-[#cd803a]">
                 {t("whyus.certifications.titleHighlight")}

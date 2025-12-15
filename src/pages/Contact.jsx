@@ -31,13 +31,13 @@ const itemVariants = {
 
 // --- KOMPONEN INPUT FIELD ---
 const InputField = ({ label, type, placeholder, isTextarea }) => (
-  <div className="mb-5">
+  <div className="mb-7">
     <label className="block text-white text-sm font-medium mb-2 pl-1 font-poppins">
       {label}
     </label>
     {isTextarea ? (
       <textarea
-        className="w-full p-3.5 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#BF9054] transition duration-200 h-32 resize-none text-sm"
+        className="w-full p-3.5 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#BF9054] transition duration-200 h-34 resize-none text-sm"
         placeholder={placeholder}
       ></textarea>
     ) : (
@@ -95,7 +95,7 @@ const ContactUs = () => {
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 font-inter">
             {t("form.title")}
           </h2>
-          <form>
+          <form className="sm:mt-[6vh]">
             <InputField
               label={t("form.labels.fullName")}
               type="text"
@@ -122,7 +122,7 @@ const ContactUs = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.99 }}
               transition={{ duration: 0.2 }}
-              className="w-full bg-[#C6934B] text-white font-bold text-lg py-3.5 rounded-md mt-4 transition duration-300 shadow-lg transform hover:bg-[#b08242] focus:ring-4 focus:ring-[#C6934B]/50 focus:outline-none"
+              className="w-full bg-[#C6934B] text-white font-semibold text-lg py-3.5 rounded-md mt-4 transition duration-300 shadow-lg transform hover:bg-[#DFD7BF] hover:text-[#28221F] font-poppins"
             >
               {t("form.button")}
             </motion.button>
@@ -165,14 +165,19 @@ const ContactUs = () => {
               icon={<FaEnvelope className="mr-2 w-8 h-8" />}
               label={t("contactInfo.email.label")}
             >
-              <div>
-                {t("contactInfo.email.addresses", { returnObjects: true }).map(
-                  (email, index) => (
-                    <p className="font-poppins" key={index}>
-                      {email}
-                    </p>
-                  ),
-                )}
+              <div className="flex flex-col font-poppins">
+                <a
+                  className="hover:text-[#C6934B]"
+                  href="mailto:info@rajpf.com"
+                >
+                  info@rajpf.com
+                </a>
+                <a
+                  className="hover:text-[#C6934B]"
+                  href="mailto:marketing@rajpf.com"
+                >
+                  marketing@rajpf.com
+                </a>
               </div>
             </ContactInfoItem>
 

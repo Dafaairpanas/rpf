@@ -115,7 +115,7 @@ export const PRODUCTS = {
   cordeleDiningChair,
   cordeleDiningTable1,
   cordeleDiningTable,
-  
+
   // Edgewood
   edgewoodCoffeeTable1,
   edgewoodCoffeeTable,
@@ -125,7 +125,7 @@ export const PRODUCTS = {
   edgewoodLounggingSet,
   edgewoodSofa2Seater1,
   edgewoodSofa2Seater,
-  
+
   // Oregon
   oregonCoffeeTable1,
   oregonLoungeChair1,
@@ -136,7 +136,7 @@ export const PRODUCTS = {
   oregonSideTable,
   oregonSofa2Seater1,
   oregonSofa2Seater,
-  
+
   // Rochester
   rochesterDiningBench1,
   rochesterDiningBench,

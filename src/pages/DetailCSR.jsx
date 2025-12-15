@@ -61,7 +61,7 @@ export default function DetailCSR() {
           transition={{ duration: 0.6 }}
         >
           <motion.h1
-            className="text-2xl md:text-4xl font-extrabold leading-tight mb-6 max-w-6xl font-montserrat"
+            className="text-2xl md:text-4xl font-extrabold leading-tight mb-6 max-w-6xl font-montserrat text-[#28221F]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}

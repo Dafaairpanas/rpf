@@ -90,7 +90,7 @@ export default function News() {
           className="text-center mb-12 sm:mb-16 mt-16 sm:mt-24"
         >
           <h1
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 font-montserrat"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#28221F] font-montserrat"
             dangerouslySetInnerHTML={{
               __html: t("hero.title", {
                 interpolation: { escapeValue: false },
@@ -146,7 +146,7 @@ export default function News() {
                   group-hover:translate-y-[-6px]
                 "
               >
-                <h2 className="text-lg sm:text-2xl md:text-3xl font-bold leading-snug">
+                <h2 className="text-[12px] sm:text-2xl md:text-3xl font-bold leading-snug">
                   {t("bigNews.title")}
                 </h2>
 
@@ -167,14 +167,10 @@ export default function News() {
         </Link>
 
         {/* -- MOBILE CARDS SECTION -- */}
-        <div className="lg:hidden max-w-7xl mx-auto mb-12 sm:mb-16">
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+        <div className="lg:hidden max-w-7xl mx-auto mb-10 sm:mb-12">
+          <div className="grid grid-cols-2 gap-2 sm:gap-4">
             {cardsToDisplay.map((_, index) => (
-              <Link
-                to={`/csr`}
-                key={startIndex + index}
-                className="w-[calc(50%-0.5rem)] sm:w-[calc(50%-0.75rem)]"
-              >
+              <Link to={`/csr`} key={startIndex + index} className="w-full">
                 <motion.div
                   variants={cardItemVariant}
                   viewport={{ once: true }}
@@ -183,46 +179,52 @@ export default function News() {
                   custom={index}
                   className="
                     group 
-                    bg-white rounded-xl shadow-md overflow-hidden
+                    bg-white rounded-lg sm:rounded-xl shadow-sm sm:shadow-md overflow-hidden
                     transition-all duration-500 ease-out cursor-pointer 
                     hover:shadow-lg
                     relative 
-                    h-[180px] sm:h-[200px]
+                    h-[140px] sm:h-[180px]
                     w-full
                   "
                 >
-                  <div className="w-full h-[180px] sm:h-[200px]">
-                    <motion.img
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.4 }}
-                      src={IMAGES.csrJpeg}
-                      className="w-full h-full object-cover"
-                      alt={`Collection ${startIndex + index + 1}`}
-                    />
-                  </div>
+                  <motion.img
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.4 }}
+                    src={IMAGES.csrJpeg}
+                    className="w-full h-full object-cover"
+                    alt={`Collection ${startIndex + index + 1}`}
+                  />
 
                   <div
                     className="
-                      absolute bottom-0 inset-x-0 p-3 sm:p-4
+                      absolute inset-0 
+                      bg-gradient-to-t from-black/60 via-transparent to-transparent
                       transition-all duration-500 ease-out 
-                      bg-black/30 backdrop-blur-sm 
+                    "
+                  />
+
+                  <div
+                    className="
+                      absolute bottom-0 inset-x-0 p-2 sm:p-3
+                      transition-all duration-500 ease-out 
                       text-white
+                      flex flex-col justify-end h-full
                     "
                   >
-                    <p className="font-semibold text-xs sm:text-sm leading-snug line-clamp-2">
+                    <p className="font-semibold text-[10px] sm:text-xs leading-tight line-clamp-1">
                       {t("card.description")}
                     </p>
 
-                    <div className="flex items-center justify-between mt-2 sm:mt-3 text-xs text-gray-200">
-                      <span>{t("card.date")}</span>
+                    <div className="flex items-center justify-between mt-1 sm:mt-2 text-[8px] sm:text-[10px] text-gray-200">
+                      <span className="line-clamp-1">{t("card.date")}</span>
 
                       <motion.span
-                        whileHover={{ x: 2 }}
+                        whileHover={{ x: 1 }}
                         transition={{ duration: 0.2 }}
-                        className="font-medium flex items-center gap-1 text-[#CB9147] transition"
+                        className="font-medium flex items-center gap-0.5 text-[#CB9147] transition flex-shrink-0 ml-1"
                       >
-                        {t("content.readMore")}
-                        <ChevronRight size={12} />
+                        {t("card.readMore")}
+                        <ChevronRight size={10} />
                       </motion.span>
                     </div>
                   </div>
@@ -232,15 +234,11 @@ export default function News() {
           </div>
         </div>
 
-        {/* -- DESKTOP CARDS SECTION -- */}
+        {/* -- TABLET/DESKTOP CARDS SECTION -- */}
         <div className="hidden lg:block max-w-7xl mx-auto mb-12 sm:mb-16">
-          <div className="flex flex-wrap justify-start gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {cardsToDisplay.map((_, index) => (
-              <Link
-                to={`/csr`}
-                key={startIndex + index}
-                className="w-[calc(33.333%-2.5rem)]"
-              >
+              <Link to={`/csr`} key={startIndex + index} className="w-full">
                 <motion.div
                   variants={cardItemVariant}
                   viewport={{ once: true }}
@@ -251,11 +249,10 @@ export default function News() {
                     group 
                     bg-white rounded-xl shadow-lg overflow-hidden
                     transition-all duration-500 ease-out cursor-pointer 
-                    hover:shadow-xl
+                    hover:shadow-xl hover:scale-[1.05]
                     relative 
                     h-[350px]
                     w-full
-                    hover:scale-[1.05]
                   "
                 >
                   <div className="w-full h-[350px] group-hover:h-[230px] transition-all duration-500 ease-out">
@@ -280,19 +277,19 @@ export default function News() {
                       group-hover:backdrop-blur-none
                     "
                   >
-                    <p className="font-semibold leading-snug">
+                    <p className="font-semibold text-sm leading-snug line-clamp-3">
                       {t("card.description")}
                     </p>
 
-                    <div className="flex items-center justify-between mt-4 text-sm text-gray-200 group-hover:text-black">
-                      <span>{t("card.date")}</span>
+                    <div className="flex items-center justify-between mt-4 text-xs text-gray-200 group-hover:text-gray-600">
+                      <span className="text-xs">{t("card.date")}</span>
 
                       <motion.span
                         whileHover={{ x: 4 }}
                         transition={{ duration: 0.2 }}
-                        className="font-medium flex items-center gap-1 text-[#CB9147] hover:text-[#8B5B24] transition"
+                        className="font-medium flex items-center gap-1 text-[#CB9147] hover:text-[#8B5B24] transition flex-shrink-0"
                       >
-                        {t("content.readMore")}
+                        {t("card.readMore")}
                         <ChevronRight size={16} />
                       </motion.span>
                     </div>
