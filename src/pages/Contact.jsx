@@ -1,7 +1,11 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { Loader2, CheckCircle, AlertCircle, X, ShoppingBag } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { submitContactForm } from "@/api/contact.api";
+import api from "@/api/axios";
 
 // --- ANIMATION VARIANTS ---
 // Varian Container untuk mengatur stagger effect pada komponen anak-anak
@@ -29,27 +33,6 @@ const itemVariants = {
   },
 };
 
-// --- KOMPONEN INPUT FIELD ---
-const InputField = ({ label, type, placeholder, isTextarea }) => (
-  <div className="mb-7">
-    <label className="block text-white text-sm font-medium mb-2 pl-1 font-poppins">
-      {label}
-    </label>
-    {isTextarea ? (
-      <textarea
-        className="w-full p-3.5 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#BF9054] transition duration-200 h-34 resize-none text-sm"
-        placeholder={placeholder}
-      ></textarea>
-    ) : (
-      <input
-        type={type}
-        className="w-full p-3.5 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#BF9054] transition duration-200 text-sm"
-        placeholder={placeholder}
-      />
-    )}
-  </div>
-);
-
 // --- KOMPONEN ITEM INFORMASI KONTAK ---
 const ContactInfoItem = ({ icon, label, children }) => (
   <motion.div className="flex items-start mb-6" variants={itemVariants}>
@@ -65,11 +48,170 @@ const ContactInfoItem = ({ icon, label, children }) => (
   </motion.div>
 );
 
+// --- KOMPONEN INPUT FIELD ---
+const InputField = ({ label, field, type = "text", placeholder, isTextarea, formData, handleChange, errors, t }) => (
+  <div className="mb-5">
+    <label className="block text-white text-sm font-medium mb-2 pl-1 font-poppins">
+      {label} {field !== 'phone' && <span className="text-red-400">*</span>}
+    </label>
+    {isTextarea ? (
+      <textarea
+        value={formData[field]}
+        onChange={(e) => handleChange(field, e.target.value)}
+        className={`w-full p-3.5 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#BF9054] transition duration-200 h-50 resize-none text-sm ${errors[field] ? 'ring-2 ring-red-400' : ''}`}
+        placeholder={placeholder}
+      />
+    ) : (
+      <input
+        type={type}
+        value={formData[field]}
+        onChange={(e) => handleChange(field, e.target.value)}
+        className={`w-full p-3.5 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#BF9054] transition duration-200 text-sm ${errors[field] ? 'ring-2 ring-red-400' : ''}`}
+        placeholder={placeholder}
+      />
+    )}
+    {errors[field] && (
+      <p className="text-red-400 text-xs mt-1 pl-1">{errors[field]}</p>
+    )}
+  </div>
+);
+
 const ContactUs = () => {
   const { t } = useTranslation("contact");
+  const [searchParams] = useSearchParams();
+  const productId = searchParams.get('product_id');
+  
+  // Product info for "Order Now" flow
+  const [productInfo, setProductInfo] = useState(null);
+  const [loadingProduct, setLoadingProduct] = useState(false);
+  
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  
+  // Fetch product info if product_id exists
+  useEffect(() => {
+    if (productId) {
+      setLoadingProduct(true);
+      api.get(`/products/${productId}`)
+        .then(res => {
+          if (res.data.success) {
+            const product = res.data.data;
+            setProductInfo(product);
+            // Pre-fill message with product name
+            setFormData(prev => ({
+              ...prev,
+              message: `Saya tertarik dengan produk "${product.name}".\n\n`
+            }));
+          }
+        })
+        .catch(err => console.error('Error fetching product:', err))
+        .finally(() => setLoadingProduct(false));
+    }
+  }, [productId]);
+
+  // Validation
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.name.trim()) {
+      newErrors.name = 'Nama wajib diisi';
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email wajib diisi';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Format email tidak valid';
+    }
+    
+    if (!formData.message.trim()) {
+      newErrors.message = 'Pesan wajib diisi';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // setSubmitError('');
+    
+    if (!validateForm()) return;
+    
+    setLoading(true);
+    try {
+      // Include product_id if from "Order Now" flow
+      const submitData = {
+        ...formData,
+        ...(productId && { product_id: parseInt(productId) })
+      };
+      const response = await submitContactForm(submitData);
+      if (response.data.success) {
+        setShowSuccess(true);
+        setFormData({ name: '', email: '', phone: '', message: '' });
+        // Auto close success modal after 3 seconds
+        setTimeout(() => setShowSuccess(false), 3000);
+      } else {
+        setSubmitError(response.data.message || 'Gagal mengirim pesan');
+      }
+    } catch (err) {
+      console.error('Contact form error:', err);
+      setSubmitError(err.response?.data?.message || 'Terjadi kesalahan. Silakan coba lagi.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle input change
+  const handleChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] py-8 px-4 sm:px-6 lg:px-8 font-sans mt-24">
+    <div className="min-h-screen bg-[#F8F8F8] py-6 sm:py-8 px-3 sm:px-4 md:px-6 lg:px-8 font-sans mt-16 sm:mt-20 md:mt-24">
+      {/* Success Modal */}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full text-center"
+            >
+              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-gray-800 mb-2">Pesan Terkirim!</h3>
+              <p className="text-gray-600 mb-6">Terima kasih telah menghubungi kami. Tim kami akan segera merespons.</p>
+              <button
+                onClick={() => setShowSuccess(false)}
+                className="px-6 py-2 bg-[#3C2F26] text-white rounded-lg hover:bg-[#52453B] transition"
+              >
+                Tutup
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Header dengan Animasi */}
       <motion.h1
         initial={{ y: -20, opacity: 0 }}
@@ -95,36 +237,78 @@ const ContactUs = () => {
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 font-inter">
             {t("form.title")}
           </h2>
-          <form className="sm:mt-[6vh]">
+          
+          {submitError && (
+            <div className="mb-4 p-3 bg-red-500/20 border border-red-400 rounded-lg flex items-center gap-2">
+              <AlertCircle className="text-red-400 flex-shrink-0" size={18} />
+              <p className="text-red-300 text-sm">{submitError}</p>
+            </div>
+          )}
+          
+          {loadingProduct && (
+            <div className="mb-6 p-4 bg-white/5 rounded-xl flex items-center gap-2">
+              <Loader2 className="animate-spin text-white/50" size={18} />
+              <span className="text-white/50 text-sm">Loading product info...</span>
+            </div>
+          )}
+          
+          <form onSubmit={handleSubmit} className="sm:mt-4">
             <InputField
               label={t("form.labels.fullName")}
-              type="text"
+              field="name"
               placeholder={t("form.placeholders.fullName")}
+              formData={formData}
+              handleChange={handleChange}
+              errors={errors}
+              t={t}
             />
             <InputField
               label={t("form.labels.email")}
+              field="email"
               type="email"
               placeholder={t("form.placeholders.email")}
+              formData={formData}
+              handleChange={handleChange}
+              errors={errors}
+              t={t}
             />
             <InputField
               label={t("form.labels.phone")}
+              field="phone"
               type="tel"
               placeholder={t("form.placeholders.phone")}
+              formData={formData}
+              handleChange={handleChange}
+              errors={errors}
+              t={t}
             />
             <InputField
               label={t("form.labels.message")}
+              field="message"
               isTextarea={true}
               placeholder={t("form.placeholders.message")}
+              formData={formData}
+              handleChange={handleChange}
+              errors={errors}
+              t={t}
             />
 
             <motion.button
               type="submit"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.99 }}
+              disabled={loading}
+              whileHover={{ scale: loading ? 1 : 1.02 }}
+              whileTap={{ scale: loading ? 1 : 0.99 }}
               transition={{ duration: 0.2 }}
-              className="w-full bg-[#C6934B] text-white font-semibold text-lg py-3.5 rounded-md mt-4 transition duration-300 shadow-lg transform hover:bg-[#DFD7BF] hover:text-[#28221F] font-poppins"
+              className="w-full bg-[#C6934B] text-white font-semibold text-lg py-3.5 rounded-md mt-4 transition duration-300 shadow-lg transform hover:bg-[#DFD7BF] hover:text-[#28221F] font-poppins disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {t("form.button")}
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin" size={20} />
+                  Mengirim...
+                </>
+              ) : (
+                t("form.button")
+              )}
             </motion.button>
           </form>
         </motion.div>

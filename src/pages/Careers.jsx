@@ -141,7 +141,7 @@ function Careers() {
         </motion.div>
 
         {/* JOB GRID */}
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        {/* <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
           {currentPageJobs.map((jobKey, index) => (
             <motion.div
               key={`${activePage}-${index}`}
@@ -182,6 +182,9 @@ function Careers() {
               </motion.button>
             </motion.div>
           ))}
+        </div> */}
+        <div className="items-center justify-center flex text-4xl"> 
+          <h2>Comming Soon</h2>
         </div>
 
         {/* PAGINATION */}

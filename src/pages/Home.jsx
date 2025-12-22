@@ -2,8 +2,11 @@ import { motion } from "framer-motion";
 import { IMAGES } from "@/assets/assets.js";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
+import api from "@/api/axios";
+import { getProductDisplayImage } from "@/utils/imageHelpers";
 
+// ============ ANIMATION VARIANTS (Module Level - Never Recreated) ============
 const mainVariant = {
   hidden: { opacity: 0, x: -100 },
   visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } },
@@ -26,20 +29,69 @@ const cardItem = {
     transition: { duration: 0.5 },
   },
 };
+
+// Inline variants moved to module level
+const indoorVariant = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, delay: 0.2 } },
+};
+
+const outdoorVariant = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, delay: 0.4 } },
+};
+
+const section4Variant = {
+  hidden: { opacity: 0, y: -50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
+};
+
+// ============ CONSTANTS ============
+const FALLBACK_ITEMS = [1, 2, 3, 4];
+
 function Home() {
   const { t } = useTranslation("home");
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
 
-  const items = [1, 2, 3, 4];
-
+  // Fetch featured products
   useEffect(() => {
-    setIsVisible(true);
+    const fetchFeaturedProducts = async () => {
+      try {
+        // Fetch products without featured filter (backend might not support it yet)
+        const res = await api.get('/products', { params: { limit: 8 } });
+        if (res.data.success) {
+          const data = res.data.data;
+          const products = Array.isArray(data) ? data : data.data || [];
+          setFeaturedProducts(products.slice(0, 8));
+        }
+      } catch (err) {
+        console.error("Error fetching featured products:", err);
+        setFeaturedProducts([]);
+      } finally {
+        setLoadingProducts(false);
+      }
+    };
+    fetchFeaturedProducts();
   }, []);
 
-  const goToCollection = (type) => {
+  // Stable navigation handler
+  const goToCollection = useCallback((type) => {
     navigate(`/collections?type=${type}`);
-  };
+  }, [navigate]);
+
+  // Memoized carousel items - prevents recreation every render
+  const carouselItems = useMemo(() => {
+    if (featuredProducts.length > 0) return featuredProducts;
+    return FALLBACK_ITEMS.map(id => ({ id, name: `Item ${id}`, isFallback: true }));
+  }, [featuredProducts]);
+
+  // Memoized tripled array for infinite scroll effect
+  const tripledItems = useMemo(() => 
+    [...carouselItems, ...carouselItems, ...carouselItems],
+    [carouselItems]
+  );
 
   return (
     <div className="w-full overflow-x-hidden">
@@ -103,14 +155,7 @@ function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 max-w-7xl mx-auto">
           <motion.div
             onClick={() => goToCollection("indoor")}
-            variants={{
-              hidden: { opacity: 0, x: -50 },
-              visible: {
-                opacity: 1,
-                x: 0,
-                transition: { duration: 0.6, delay: 0.2 },
-              },
-            }}
+            variants={indoorVariant}
             className="relative rounded-xl overflow-visible shadow-lg bg-white group cursor-pointer"
           >
             <img
@@ -125,14 +170,7 @@ function Home() {
 
           <motion.div
             onClick={() => goToCollection("outdoor")}
-            variants={{
-              hidden: { opacity: 0, x: 50 },
-              visible: {
-                opacity: 1,
-                x: 0,
-                transition: { duration: 0.6, delay: 0.4 },
-              },
-            }}
+            variants={outdoorVariant}
             className="relative rounded-xl overflow-visible shadow-lg bg-white group cursor-pointer"
           >
             <img
@@ -156,7 +194,7 @@ function Home() {
       >
         <motion.div
           variants={cardItem}
-          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-14"
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-14 "
         >
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-inter font-bold">
             {t("section3.title")}
@@ -171,42 +209,48 @@ function Home() {
         </motion.div>
 
         <div className="relative w-full overflow-hidden">
-          {isVisible && (
-            <motion.div
-              initial={{ x: 0 }}
-              animate={{
-                x: -2400,
-                transition: {
-                  duration: 30,
-                  repeat: Infinity,
-                  ease: "linear",
-                  repeatType: "loop",
-                },
-              }}
-              className="flex gap-6 sm:gap-8 w-max"
-            >
-              {[...items, ...items, ...items].map((id, index) => (
-                <motion.div
-                  key={`card-${index}`}
-                  className="group bg-[#2b2727] rounded-xl flex flex-col justify-center py-6 h-fit flex-shrink-0 w-[160px] sm:w-[220px] md:w-[260px] cursor-pointer"
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  <div className="overflow-hidden rounded-lg flex items-center justify-center h-32 sm:h-48 md:h-56">
-                    <motion.img
-                      src={IMAGES.chairSvg}
-                      onClick={() => navigate("/collections")}
-                      alt={`Collection item ${id}`}
-                      className="object-contain h-full w-full group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
+          <motion.div
+            initial={{ x: 0 }}
+            animate={{
+              x: -2400,
+              transition: {
+                duration: 30,
+                repeat: Infinity,
+                ease: "linear",
+                repeatType: "loop",
+              },
+            }}
+            className="flex gap-6 sm:gap-8 w-max"
+          >
+            {tripledItems.map((item, index) => (
+              <motion.div
+                key={`card-${item.id}-${index}`}
+                onClick={() => {
+                  if (item.isFallback) {
+                    navigate("/collections");
+                  } else {
+                    navigate(`/collections?product_id=${item.id}`);
+                  }
+                }}
+                className="group bg-white rounded-xl flex flex-col justify-center py-6 h-fit flex-shrink-0 w-[160px] sm:w-[220px] md:w-[260px] cursor-pointer"
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                <div className="overflow-hidden rounded-lg flex items-center justify-center h-32 sm:h-48 md:h-56">
+                  <motion.img
+                    src={item.isFallback ? IMAGES.chairSvg : getProductDisplayImage(item, IMAGES.chairSvg)}
+                    alt={item.name || `Product ${item.id}`}
+                    loading="lazy"
+                    className="object-contain h-full w-full group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => { e.target.src = IMAGES.chairSvg }}
+                  />
+                </div>
 
-                  <p className="text-xs sm:text-sm md:text-base text-gray-300 group-hover:text-[#CB9147] transition-colors duration-300 text-center mt-4 font-poppins font-medium">
-                    {t("section3.item")} {id}
-                  </p>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
+                <p className="text-xs sm:text-sm md:text-base text-black group-hover:text-[#CB9147] transition-colors duration-300 text-center mt-4 font-poppins font-medium px-2 truncate">
+                  {item.name}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
 
           <div className="absolute left-0 top-0 w-20 sm:w-32 h-full bg-gradient-to-r from-[#1c1511] to-transparent pointer-events-none z-10"></div>
           <div className="absolute right-0 top-0 w-20 sm:w-32 h-full bg-gradient-to-l from-[#1c1511] to-transparent pointer-events-none z-10"></div>
@@ -217,10 +261,7 @@ function Home() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        variants={{
-          hidden: { opacity: 0, y: -50 },
-          visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
-        }}
+        variants={section4Variant}
         className="w-full py-10 pb-20 px-5 sm:px-10 md:px-16 bg-[#F5F5F5] text-center"
       >
         <h2 className="text-2xl sm:text-4xl md:text-5xl font-montserrat font-extrabold text-[#28221F]">
