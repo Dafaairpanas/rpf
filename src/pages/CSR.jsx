@@ -188,10 +188,10 @@ function CSR() {
 
         {/* CARDS - FLEX LAYOUT */}
         {!loading && (
-          <div className="max-w-[100] mx-auto flex flex-wrap justify-center gap-10">
+          <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-6 md:gap-10">
             {csrs.length > 0 ? (
               csrs.map((csr, index) => (
-                <Link to={`/csr/${csr.id}`} key={csr.id}>
+                <Link to={`/csr/${csr.id}`} key={csr.id} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-27px)] max-w-[400px]">
                   <motion.div
                     variants={cardItemVariant}
                     viewport={{ once: true }}
@@ -205,7 +205,7 @@ function CSR() {
                       hover:shadow-xl 
                       relative 
                       h-[350px]
-                      w-[400px]
+                      w-full
                       group-hover:h-[480px]
                       group-hover:bg-white
                       transform scale-100
