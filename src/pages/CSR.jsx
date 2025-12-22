@@ -145,9 +145,9 @@ function CSR() {
           className="absolute inset-0 bg-black/40"
         />
 
-       <motion.div
+        <motion.div
           {...heroTextVariant}
-          className="relative z-10 text-center px-6 max-w-172"
+          className="relative z-10 text-center px-6 max-w-4xl"
         >
           <h1 className="text-white font-montserrat font-extrabold text-5xl sm:text-7xl leading-tight drop-shadow-md">
             {t("hero.title1")}{" "}

@@ -89,6 +89,14 @@ export default function DetailNews() {
     },
   };
 
+  // helper: extract initials
+  const getInitials = (name) => {
+    if (!name) return 'A';
+    const parts = name.split(' ');
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+  };
+
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-[#111827] font-sans ">
       {/* Loading State */}
@@ -137,10 +145,12 @@ export default function DetailNews() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
               >
-                <div className="w-8 h-8 bg-[#ebecef] rounded-md" />
+                <div className="w-10 h-10 bg-[#3C2F26] text-white rounded-xl flex items-center justify-center font-bold shadow-sm">
+                  {getInitials(news.creator?.name || 'Administrator')}
+                </div>
                 <div>
-                  <div className="font-medium">{news.creator?.name || 'Admin'}</div>
-                  <div className="text-sm">{formatDate(news.created_at)}</div>
+                  <div className="font-medium text-[#28221F]">{news.creator?.name || 'Administrator'}</div>
+                  <div className="text-sm opacity-70">{formatDate(news.created_at)}</div>
                 </div>
               </motion.div>
             </motion.div>
