@@ -117,7 +117,7 @@ function Home() {
           </h1>
 
           <motion.a
-            href="about"
+            href="/about"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
@@ -201,7 +201,7 @@ function Home() {
           </h2>
 
           <a
-            href="collections"
+            href="/collections"
             className="text-base sm:text-lg text-[#e6d6b8] hover:bg-[#e6d6b8] hover:text-black py-2 px-4 rounded-full transition-all duration-300 w-max hover:translate-y-[5px] font-poppins font-medium"
           >
             {t("section3.button")}
@@ -289,7 +289,7 @@ function Home() {
         </motion.div>
 
         <motion.a
-          href="contact"
+          href="/contact"
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.6 }}
