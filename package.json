@@ -4,13 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "dev": "vite",
-    "lint": "eslint .",
+    "build": "vite build",
     "preview": "vite preview",
+    "lint": "eslint .",
     "i18n:generate": "node tools/generate-i18n.cjs",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write ."
