@@ -44,7 +44,7 @@ const AdminTable = React.memo(function AdminTable({
 
   // Action Buttons Component
   const ActionButtons = ({ item, variant = 'row' }) => (
-    <div className={`flex items-center ${variant === 'card' ? 'gap-2' : 'gap-1'}`}>
+    <div className={`flex items-center justify-end ${variant === 'card' ? 'gap-2' : 'gap-1'}`}>
       {onView && (
         <button
           onClick={() => onView(item)}
@@ -123,7 +123,7 @@ const AdminTable = React.memo(function AdminTable({
         </td>
       ))}
       {hasActions && (
-        <td className="px-4 py-4 text-center">
+        <td className="px-4 py-4 text-right">
           <ActionButtons item={item} variant="row" />
         </td>
       )}
@@ -201,7 +201,7 @@ const AdminTable = React.memo(function AdminTable({
                       </th>
                     ))}
                     {hasActions && (
-                      <th className="px-4 py-4 text-center">Actions</th>
+                      <th className="px-4 py-4 text-right">Actions</th>
                     )}
                   </tr>
                 </thead>

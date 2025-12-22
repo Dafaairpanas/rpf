@@ -44,22 +44,39 @@ const heroTextVariant = {
 // Custom Swiper Styles
 const swiperStyles = `
   .brands-swiper, .certs-swiper {
-    padding-bottom: 50px !important;
-    padding-left: 50px !important;
-    padding-right: 50px !important;
+    padding-bottom: 40px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
     position: relative;
+  }
+  @media (min-width: 640px) {
+    .brands-swiper, .certs-swiper {
+      padding-left: 40px !important;
+      padding-right: 40px !important;
+    }
   }
   .swiper-button-next, .swiper-button-prev {
     color: #cd803a !important;
     background: rgba(255, 255, 255, 0.9);
-    width: 40px !important;
-    height: 40px !important;
+    width: 32px !important;
+    height: 32px !important;
     border-radius: 50%;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
+  @media (min-width: 640px) {
+    .swiper-button-next, .swiper-button-prev {
+      width: 40px !important;
+      height: 40px !important;
+    }
+  }
   .swiper-button-next::after, .swiper-button-prev::after {
-    font-size: 18px !important;
+    font-size: 14px !important;
     font-weight: bold;
+  }
+  @media (min-width: 640px) {
+    .swiper-button-next::after, .swiper-button-prev::after {
+      font-size: 18px !important;
+    }
   }
   .swiper-button-prev {
     left: 0 !important;
@@ -194,7 +211,7 @@ function WhyUS() {
             ) : (
               <>
                 {/* Mobile: Simple Grid (show all) */}
-                <div className="grid grid-cols-1 gap-3 sm:hidden">
+                <div className="grid grid-cols-2 gap-3 sm:hidden px-2">
                   {brands.map((item) => (
                     <motion.div
                       key={item.id}
@@ -202,12 +219,12 @@ function WhyUS() {
                       initial="initial"
                       whileInView="whileInView"
                       viewport={{ once: true }}
-                      className="bg-white rounded-lg shadow-md flex items-center justify-center h-[100px] p-3 transition-all duration-300 hover:shadow-xl"
+                      className="bg-white rounded-lg shadow-md flex items-center justify-center h-20 p-2 transition-all duration-300 hover:shadow-xl"
                     >
                       <img
                         src={getImageUrl(item.image_url)}
                         alt={item.name}
-                        className="w-full max-h-16 object-contain opacity-80 hover:opacity-100 transition-opacity"
+                        className="w-full max-h-12 object-contain opacity-80 hover:opacity-100 transition-opacity"
                         onError={(e) => { e.target.src = "https://via.placeholder.com/100?text=Error"; }}
                       />
                     </motion.div>
@@ -318,7 +335,7 @@ function WhyUS() {
           ) : (
             <>
               {/* Mobile: Simple Grid (show all) */}
-              <div className="grid grid-cols-1 gap-3 sm:hidden">
+              <div className="grid grid-cols-2 gap-3 sm:hidden px-2">
                 {certifications.map((cert) => (
                   <motion.div
                     key={cert.id}
@@ -326,12 +343,12 @@ function WhyUS() {
                     initial="initial"
                     whileInView="whileInView"
                     viewport={{ once: true }}
-                    className="flex items-center justify-center h-24 rounded-xl shadow-sm bg-gray-50/50 p-3"
+                    className="flex items-center justify-center h-20 rounded-xl shadow-sm bg-gray-50/50 p-2"
                   >
                     <img
                       src={getImageUrl(cert.image_url)}
                       alt={cert.name}
-                      className="max-h-16 object-contain opacity-80 hover:opacity-100 transition-opacity"
+                      className="max-h-12 object-contain opacity-80 hover:opacity-100 transition-opacity"
                       onError={(e) => { e.target.src = "https://via.placeholder.com/100?text=Error"; }}
                     />
                   </motion.div>

@@ -304,8 +304,21 @@ export default function Collections() {
                   />
                 ))
               ) : (
-                <div className="col-span-full text-center py-10">
-                  <p className="text-gray-500 text-lg">{t("collections.main.noProducts")}</p>
+                <div className="col-span-full flex flex-col items-center justify-center py-16 sm:py-20 px-6">
+                  <div className="relative mb-6">
+                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#F4F2EE] to-[#E8E4DC] flex items-center justify-center shadow-inner">
+                      <svg className="w-10 h-10 text-[#C58E47] opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                      </svg>
+                    </div>
+                    <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#C58E47]/20 animate-[spin_20s_linear_infinite]" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-semibold text-[#3C2F26] text-center mb-2">
+                    Tidak Ada Produk
+                  </h3>
+                  <p className="text-sm sm:text-base text-gray-500 text-center max-w-md">
+                    Produk yang Anda cari tidak ditemukan. Coba ubah filter atau kata kunci pencarian.
+                  </p>
                 </div>
               )}
             </div>

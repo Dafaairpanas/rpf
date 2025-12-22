@@ -66,8 +66,21 @@ function News() {
                 <NewsCard key={item.id} item={item} index={index} t={t} />
               ))
             ) : (
-              <div className="col-span-full text-center py-16 sm:py-20 text-gray-500">
-                <p>Belum ada data news tersedia</p>
+              <div className="col-span-full flex flex-col items-center justify-center py-16 sm:py-20 px-6">
+                <div className="relative mb-6">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#F4F2EE] to-[#E8E4DC] flex items-center justify-center shadow-inner">
+                    <svg className="w-10 h-10 text-[#C58E47] opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" />
+                    </svg>
+                  </div>
+                  <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#C58E47]/20 animate-[spin_20s_linear_infinite]" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-semibold text-[#3C2F26] text-center mb-2">
+                  Belum Ada Berita
+                </h3>
+                <p className="text-sm sm:text-base text-gray-500 text-center max-w-md">
+                  Berita dan artikel terbaru akan segera tersedia
+                </p>
               </div>
             )}
           </div>

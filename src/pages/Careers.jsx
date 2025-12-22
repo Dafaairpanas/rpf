@@ -183,55 +183,23 @@ function Careers() {
             </motion.div>
           ))}
         </div> */}
-        <div className="items-center justify-center flex text-4xl"> 
-          <h2>Comming Soon</h2>
+        {/* EMPTY STATE - Coming Soon */}
+        <div className="flex flex-col items-center justify-center py-10 sm:py-10 px-6">
+          <div className="relative mb-6">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#F4F2EE] to-[#E8E4DC] flex items-center justify-center shadow-inner">
+              <svg className="w-10 h-10 text-[#C58E47] opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
+              </svg>
+            </div>
+            <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#C58E47]/20 animate-[spin_20s_linear_infinite]" />
+          </div>
+          <h3 className="text-lg sm:text-xl font-semibold text-[#3C2F26] text-center mb-2">
+            Lowongan Akan Segera Hadir
+          </h3>
+          <p className="text-sm sm:text-base text-gray-500 text-center max-w-md">
+            Kami sedang mempersiapkan kesempatan karir yang menarik. Pantau terus halaman ini untuk update terbaru!
+          </p>
         </div>
-
-        {/* PAGINATION */}
-        <motion.div
-          className="mt-16 flex justify-center gap-2"
-          {...paginationVariant}
-        >
-          <motion.button
-            className="w-8 h-8 rounded-md bg-[#E7E4DF] flex items-center justify-center text-gray-700 hover:bg-[#D9A556] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => handlePageChange(activePage - 1)}
-            disabled={activePage === 1}
-            aria-label="Previous Page"
-          >
-            <ChevronLeft size={16} />
-          </motion.button>
-
-          {paginationItems.map((num) => (
-            <motion.button
-              key={num}
-              className={`${
-                num === activePage
-                  ? "bg-[#D9A556] text-white"
-                  : "bg-white border border-gray-300 text-gray-600 hover:bg-[#D9A556] hover:text-white"
-              } w-8 h-8 rounded-md flex items-center justify-center font-medium transition`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => handlePageChange(num)}
-              aria-label={`Go to page ${num}`}
-              aria-current={num === activePage ? "page" : undefined}
-            >
-              {num}
-            </motion.button>
-          ))}
-
-          <motion.button
-            className="w-8 h-8 rounded-md bg-[#E7E4DF] flex items-center justify-center text-gray-700 hover:bg-[#D9A556] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => handlePageChange(activePage + 1)}
-            disabled={activePage === totalPages}
-            aria-label="Next Page"
-          >
-            <ChevronRight size={16} />
-          </motion.button>
-        </motion.div>
       </section>
     </div>
   );
