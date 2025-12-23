@@ -83,6 +83,14 @@ function Footer() {
                       {t("quickLinks.careers")}
                     </a>
                   </li>
+                  <li>
+                    <a
+                      href="/contact"
+                      className="hover:text-[#C6934B] transition-colors duration-200"
+                    >
+                      {t("quickLinks.contact")}
+                    </a>
+                  </li>
                 </ul>
               </nav>
             </div>

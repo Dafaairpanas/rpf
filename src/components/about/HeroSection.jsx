@@ -16,7 +16,7 @@ export default function HeroSection({ t }) {
       <div className="relative z-10 text-center px-4 sm:px-6 w-full max-w-4xl mx-auto">
         <M.h1
           {...heroTextVariant}
-          className="text-white font-montserrat font-extrabold text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md"
+          className="text-white font-montserrat font-extrabold text-5xl sm:text-7xl leading-tight drop-shadow-md"
         >
           {t("hero.line1")} <br className="hidden sm:block" />
           {t("hero.line2")}{" "}
@@ -26,7 +26,7 @@ export default function HeroSection({ t }) {
 
         <M.p
           {...heroParagraphVariant}
-          className="text-gray-200 text-sm sm:text-base md:text-xl mt-4 sm:mt-6 font-poppins drop-shadow max-w-2xl mx-auto"
+          className="text-gray-200 text-lg md:text-xl mt-6 font-poppins drop-shadow max-w-2xl mx-auto"
         >
           {t("hero.subtitle")}
         </M.p>

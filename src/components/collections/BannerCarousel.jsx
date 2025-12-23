@@ -20,7 +20,7 @@ const BannerCarousel = memo(function BannerCarousel({
   }, [onSelect]);
 
   return (
-    <div className="relative h-[240px] sm:h-[320px] md:h-[400px] rounded-2xl overflow-hidden bg-gray-200">
+    <div className="relative h-[140px] sm:h-[280px] md:h-[350px] lg:h-[400px] rounded-2xl overflow-hidden bg-[#2a2420]">
       {loading ? (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
           <Loader className="animate-spin text-[#CB9147]" size={32} />
@@ -35,7 +35,7 @@ const BannerCarousel = memo(function BannerCarousel({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.8 }}
-                className="absolute inset-0"
+                className="absolute inset-0 flex items-center justify-center"
               >
                 <motion.img
                   src={banner.image || banner.image_url}
@@ -43,7 +43,7 @@ const BannerCarousel = memo(function BannerCarousel({
                   initial={{ scale: 1.05 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.8 }}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain sm:object-cover"
                   onError={(e) => { 
                     e.target.src = IMAGES.csrJpeg; 
                   }}

@@ -217,7 +217,7 @@ const ContactUs = () => {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="text-4xl md:text-5xl font-bold text-center text-[#332C26] mb-12 tracking-tight font-montserrat"
+        className="text-4xl md:text-5xl font-bold text-center text-[#332C26] mb-12 tracking-tight font-montserrat mt-5"
       >
         {t("header.title")}
       </motion.h1>

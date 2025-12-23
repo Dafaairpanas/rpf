@@ -162,14 +162,14 @@ function WhyUS() {
           {...heroTextVariant}
           className="relative z-10 text-center px-4 sm:px-6 w-full max-w-4xl mx-auto flex flex-col items-center justify-center"
         >
-          <h1 className="text-white font-montserrat font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight drop-shadow-md">
+          <h1 className="text-white font-montserrat font-extrabold text-5xl sm:text-7xl leading-tight drop-shadow-md">
             {t("whyus.hero.line1")} {t("whyus.hero.line2")}{" "}
             <span className="text-[#e8ddc7]">
               {t("whyus.hero.line3")} {t("whyus.hero.line4")}
             </span>
           </h1>
 
-          <p className="text-gray-200 text-sm sm:text-base md:text-lg lg:text-xl mt-4 sm:mt-6 font-poppins drop-shadow max-w-xl">
+          <p className="text-gray-200 text-lg md:text-xl mt-6 font-poppins drop-shadow max-w-xl">
             {t("whyus.hero.subtitle")}
           </p>
         </motion.div>
@@ -210,8 +210,8 @@ function WhyUS() {
               </div>
             ) : (
               <>
-                {/* Mobile: Simple Grid (show all) */}
-                <div className="grid grid-cols-2 gap-3 sm:hidden px-2">
+                {/* Mobile: Single Column Grid (show all) */}
+                <div className="grid grid-cols-1 gap-4 sm:hidden px-4">
                   {brands.map((item) => (
                     <motion.div
                       key={item.id}
@@ -219,12 +219,12 @@ function WhyUS() {
                       initial="initial"
                       whileInView="whileInView"
                       viewport={{ once: true }}
-                      className="bg-white rounded-lg shadow-md flex items-center justify-center h-20 p-2 transition-all duration-300 hover:shadow-xl"
+                      className="bg-white rounded-xl shadow-md flex items-center justify-center h-24 p-4 transition-all duration-300 hover:shadow-xl"
                     >
                       <img
                         src={getImageUrl(item.image_url)}
                         alt={item.name}
-                        className="w-full max-h-12 object-contain opacity-80 hover:opacity-100 transition-opacity"
+                        className="w-full max-h-16 object-contain opacity-80 hover:opacity-100 transition-opacity"
                         onError={(e) => { e.target.src = "https://via.placeholder.com/100?text=Error"; }}
                       />
                     </motion.div>

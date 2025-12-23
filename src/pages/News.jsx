@@ -34,7 +34,7 @@ function News() {
 
   return (
     <div className="w-full overflow-x-hidden">
-      <div className="w-full h-full py-8 sm:py-10 px-4 sm:px-6 lg:px-12">
+      <div className="w-full h-full py-8 sm:py-10 px-4 sm:px-6 lg:px-12 mt-10 sm:mt-0">
         {/* HEADER */}
         <motion.div {...sectionFadeInVariant} className="text-center mb-8 sm:mb-12 lg:mb-16 mt-12 sm:mt-16 lg:mt-24">
           <h1
