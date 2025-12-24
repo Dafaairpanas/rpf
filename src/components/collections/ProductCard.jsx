@@ -34,14 +34,14 @@ const ProductCard = memo(function ProductCard({ product, onClick }) {
           src={displayImages[0]}
           alt={product.name}
           loading="lazy"
-          className="absolute inset-0 w-full h-full object-contain p-4 group-hover:opacity-0 transition-opacity duration-300"
+          className="absolute inset-0 w-full h-full object-contain p-4 group-hover:opacity-0 transition-all duration-300"
           onError={(e) => (e.target.src = "/placeholder.png")}
         />
         <img
           src={displayImages[1]}
           alt={`${product.name} - alt`}
           loading="lazy"
-          className="absolute inset-0 w-full h-full object-contain p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-all duration-300"
           onError={(e) => (e.target.src = "/placeholder.png")}
         />
       </div>

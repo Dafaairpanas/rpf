@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { AlertCircle, Loader2, Shield } from 'lucide-react';
 import useAdminCRUD from '../hooks/useAdminCRUD';
 import useDebounce from '@/hooks/useDebounce';
 import AdminTable from '../components/AdminTable';
+import SortFilter from '../components/SortFilter';
 import AdminModal from '../components/AdminModal';
 
 const Roles = () => {
@@ -16,15 +17,29 @@ const Roles = () => {
   } = useAdminCRUD('/roles', { skipFetch: false });
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState('newest');
   const debouncedSearch = useDebounce(searchTerm, 300);
 
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({ name: '' });
 
-  const filteredRoles = roles.filter(role =>
-    role.name?.toLowerCase().includes(debouncedSearch.toLowerCase())
-  );
+  const filteredRoles = useMemo(() => {
+    let filtered = roles.filter(role =>
+      role.name?.toLowerCase().includes(debouncedSearch.toLowerCase())
+    );
+
+    return filtered.sort((a, b) => {
+      if (sortOrder === 'newest') {
+        return new Date(b.created_at) - new Date(a.created_at);
+      } else if (sortOrder === 'oldest') {
+        return new Date(a.created_at) - new Date(b.created_at);
+      } else if (sortOrder === 'name') {
+        return (a.name || '').localeCompare(b.name || '');
+      }
+      return 0;
+    });
+  }, [roles, debouncedSearch, sortOrder]);
 
   const handleOpenModal = (role = null) => {
     if (role) {
@@ -93,6 +108,7 @@ const Roles = () => {
         onAdd={() => handleOpenModal()}
         onEdit={handleOpenModal}
         onDelete={deleteItem}
+        titleFilter={<SortFilter value={sortOrder} onChange={setSortOrder} />}
       />
 
       <AdminModal

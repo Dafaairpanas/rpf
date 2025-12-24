@@ -123,17 +123,17 @@ const ContactUs = () => {
     const newErrors = {};
     
     if (!formData.name.trim()) {
-      newErrors.name = 'Nama wajib diisi';
+      newErrors.name = t('validation.nameRequired');
     }
     
     if (!formData.email.trim()) {
-      newErrors.email = 'Email wajib diisi';
+      newErrors.email = t('validation.emailRequired');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Format email tidak valid';
+      newErrors.email = t('validation.emailInvalid');
     }
     
     if (!formData.message.trim()) {
-      newErrors.message = 'Pesan wajib diisi';
+      newErrors.message = t('validation.messageRequired');
     }
     
     setErrors(newErrors);
@@ -161,11 +161,11 @@ const ContactUs = () => {
         // Auto close success modal after 3 seconds
         setTimeout(() => setShowSuccess(false), 3000);
       } else {
-        setSubmitError(response.data.message || 'Gagal mengirim pesan');
+        setSubmitError(response.data.message || t('messages.sendFailed'));
       }
     } catch (err) {
       console.error('Contact form error:', err);
-      setSubmitError(err.response?.data?.message || 'Terjadi kesalahan. Silakan coba lagi.');
+      setSubmitError(err.response?.data?.message || t('messages.error'));
     } finally {
       setLoading(false);
     }
@@ -182,7 +182,7 @@ const ContactUs = () => {
 
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] py-6 sm:py-8 px-3 sm:px-4 md:px-6 lg:px-8 font-sans mt-16 sm:mt-20 md:mt-24">
+    <div className="min-h-screen bg-[#F8F8F8] py-6 sm:py-8 px-3 sm:px-4 md:px-6 lg:px-8 font-poppins mt-16 sm:mt-20 md:mt-24">
       {/* Success Modal */}
       <AnimatePresence>
         {showSuccess && (
@@ -248,7 +248,7 @@ const ContactUs = () => {
           {loadingProduct && (
             <div className="mb-6 p-4 bg-white/5 rounded-xl flex items-center gap-2">
               <Loader2 className="animate-spin text-white/50" size={18} />
-              <span className="text-white/50 text-sm">Loading product info...</span>
+              <span className="text-white/50 text-sm">{t('messages.loadingProduct')}</span>
             </div>
           )}
           

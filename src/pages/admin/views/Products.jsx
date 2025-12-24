@@ -4,6 +4,7 @@ import { AlertCircle, Filter } from 'lucide-react';
 import useAdminCRUD from '../hooks/useAdminCRUD';
 import useDebounce from '@/hooks/useDebounce';
 import AdminTable from '../components/AdminTable';
+import SortFilter from '../components/SortFilter';
 import { getImageUrl } from '@/config';
 
 // Static column definitions
@@ -64,17 +65,30 @@ const Products = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
+  const [sortOrder, setSortOrder] = useState('newest');
   const debouncedSearch = useDebounce(searchTerm, 300);
 
-  // MEMOIZED FILTERING
+  // MEMOIZED FILTERING & SORTING
   const filteredProducts = useMemo(() => {
-    return products.filter(item => {
+    let filtered = products.filter(item => {
       const matchSearch = item.name?.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
                          item.master_category?.name?.toLowerCase().includes(debouncedSearch.toLowerCase());
       const matchCategory = categoryFilter === '' || item.master_category_id?.toString() === categoryFilter;
       return matchSearch && matchCategory;
     });
-  }, [products, debouncedSearch, categoryFilter]);
+
+    // Apply sorting
+    return filtered.sort((a, b) => {
+      if (sortOrder === 'newest') {
+        return new Date(b.created_at) - new Date(a.created_at);
+      } else if (sortOrder === 'oldest') {
+        return new Date(a.created_at) - new Date(b.created_at);
+      } else if (sortOrder === 'name') {
+        return (a.name || '').localeCompare(b.name || '');
+      }
+      return 0;
+    });
+  }, [products, debouncedSearch, categoryFilter, sortOrder]);
 
   // HANDLERS - Navigate to full-screen form
   const handleAdd = () => navigate('/admin/products/create');
@@ -91,22 +105,6 @@ const Products = () => {
         </div>
       )}
 
-      {/* FILTER HEADER */}
-      <div className="mb-6 flex flex-wrap gap-4 items-center">
-        <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-gray-200 shadow-sm">
-          <Filter size={16} className="text-gray-400" />
-          <select 
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="bg-transparent border-none focus:ring-0 text-sm font-bold text-[#3C2F26] appearance-none cursor-pointer pr-6"
-          >
-            <option value="">All Categories</option>
-            <option value="1">Indoor</option>
-            <option value="2">Outdoor</option>
-          </select>
-        </div>
-      </div>
-
       <AdminTable
         title="Products"
         data={filteredProducts}
@@ -117,6 +115,23 @@ const Products = () => {
         onAdd={handleAdd}
         onEdit={handleEdit}
         onDelete={deleteItem}
+        titleFilter={
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-2 bg-white px-2 sm:px-3 py-2 rounded-xl border border-gray-200 shadow-sm">
+              <Filter size={14} className="text-gray-400 shrink-0" />
+              <select 
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                className="bg-transparent border-none focus:ring-0 text-xs sm:text-sm font-bold text-[#3C2F26] appearance-none cursor-pointer pr-4"
+              >
+                <option value="">All Categories</option>
+                <option value="1">Indoor</option>
+                <option value="2">Outdoor</option>
+              </select>
+            </div>
+            <SortFilter value={sortOrder} onChange={setSortOrder} />
+          </div>
+        }
       />
     </div>
   );

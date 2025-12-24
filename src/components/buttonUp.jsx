@@ -33,6 +33,7 @@ function ButtonUp() {
                         flex justify-center items-center transition duration-300
                         hover:translate-y-[-2px] hover:bg-[#28221F] 
                         hover:shadow-[0_0_20px_5px_rgba(192,122,44,0.7)]
+                        cursor-pointer
                     "
         >
           <img src={ICONS.icMessage} alt="Message" className="w-7 h-7" />
@@ -46,7 +47,7 @@ function ButtonUp() {
                             w-14 h-14 bg-[#C07A2C] shadow-xl rounded-2xl 
                             flex justify-center items-center transition duration-300
                             hover:bg-[#28221F] hover:translate-y-[-2px]
-                            
+                            cursor-pointer
                             /* FIX: Shadow bercahaya dimasukkan secara statis */
                             hover:shadow-[0_0_20px_5px_rgba(192,122,44,0.7)]
                         "
@@ -58,16 +59,16 @@ function ButtonUp() {
 
       {/* Popup Form (Kode tidak berubah) */}
       {openForm && (
-        <div className="fixed inset-0 bg-black/50 flex justify-end items-center z-[999] p-4">
-          <div className="bg-white rounded-2xl w-full max-w-lg p-6 relative shadow-2xl">
+        <div className="fixed inset-0 bg-black/50 flex justify-end items-end z-[10] p-4">
+          <div className="bg-white rounded-2xl w-full max-w-[26rem] p-6 relative shadow-2xl mb-[5rem]">
             {/* Close */}
             <button
               onClick={() => setOpenForm(false)}
-              className="absolute top-3 right-3 text-gray-600 hover:text-black text-2xl"
+              className="absolute top-3 right-3 text-gray-600 hover:text-black text-2xl cursor-pointer"
             >
               ×
             </button>
-            <PopupForm />
+            <PopupForm  />
           </div>
         </div>
       )}

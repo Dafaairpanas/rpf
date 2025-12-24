@@ -35,5 +35,16 @@
         "Kabupaten Pati"
       ]
     }
+  },
+  "validation": {
+    "nameRequired": "Nama wajib diisi",
+    "emailRequired": "Email wajib diisi",
+    "emailInvalid": "Format email tidak valid",
+    "messageRequired": "Pesan wajib diisi"
+  },
+  "messages": {
+    "sendFailed": "Gagal mengirim pesan",
+    "error": "Terjadi kesalahan. Silakan coba lagi.",
+    "loadingProduct": "Memuat info produk..."
   }
 }

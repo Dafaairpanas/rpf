@@ -20,7 +20,8 @@ const AdminTable = React.memo(function AdminTable({
   searchTerm, 
   onSearchChange,
   loading,
-  filters = null
+  filters = null,
+  titleFilter = null
 }) {
   const hasActions = onEdit || onDelete || onView;
 
@@ -48,7 +49,7 @@ const AdminTable = React.memo(function AdminTable({
       {onView && (
         <button
           onClick={() => onView(item)}
-          className="min-w-[44px] min-h-[44px] flex items-center justify-center text-blue-500 hover:bg-blue-50 rounded-lg transition active:scale-95"
+          className="min-w-[44px] min-h-[44px] flex items-center justify-center text-blue-500 hover:bg-blue-50 rounded-lg transition active:scale-95 cursor-pointer"
           title="View Details"
         >
           <Eye size={18} />
@@ -57,7 +58,7 @@ const AdminTable = React.memo(function AdminTable({
       {onEdit && (
         <button
           onClick={() => onEdit(item)}
-          className="min-w-[44px] min-h-[44px] flex items-center justify-center text-[#3C2F26] hover:bg-[#3C2F26]/10 rounded-lg transition active:scale-95"
+          className="min-w-[44px] min-h-[44px] flex items-center justify-center text-[#3C2F26] hover:bg-[#3C2F26]/10 rounded-lg transition active:scale-95 cursor-pointer"
           title="Edit"
         >
           <Edit size={18} />
@@ -66,7 +67,7 @@ const AdminTable = React.memo(function AdminTable({
       {onDelete && (
         <button
           onClick={() => onDelete(item.id)}
-          className="min-w-[44px] min-h-[44px] flex items-center justify-center text-red-500 hover:bg-red-50 rounded-lg transition active:scale-95"
+          className="min-w-[44px] min-h-[44px] flex items-center justify-center text-red-500 hover:bg-red-50 rounded-lg transition active:scale-95 cursor-pointer"
           title="Delete"
         >
           <Trash2 size={18} />
@@ -133,46 +134,55 @@ const AdminTable = React.memo(function AdminTable({
   return (
     <div className="space-y-4">
       {/* Header Section */}
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:gap-3">
+        {/* Title Row - Title + Add Button */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            {icon && <div className="p-2 bg-white rounded-xl shadow-sm">{icon}</div>}
-            <div>
-              <h1 className="text-xl font-bold text-[#3C2F26]">{title}</h1>
-              {subtitle && <p className="text-xs text-gray-400">{subtitle}</p>}
+            {icon && <div className="p-2 bg-white rounded-xl shadow-sm shrink-0">{icon}</div>}
+            <div className="min-w-0">
+              <h1 className="text-lg sm:text-xl font-bold text-[#3C2F26] truncate">{title}</h1>
+              {subtitle && <p className="text-[10px] sm:text-xs text-gray-400 truncate">{subtitle}</p>}
             </div>
           </div>
           {onAdd && (
             <button
               onClick={onAdd}
-              className="min-h-[44px] flex items-center bg-[#3C2F26] text-white px-4 py-2.5 rounded-xl shadow hover:bg-[#2a1f18] transition active:scale-95 text-sm font-medium"
+              className="min-h-[40px] sm:min-h-[44px] flex items-center justify-center bg-[#3C2F26] text-white px-3 sm:px-4 py-2 rounded-xl shadow hover:bg-[#2a1f18] transition active:scale-95 text-xs sm:text-sm font-medium cursor-pointer shrink-0"
             >
-              <Plus size={18} className="mr-1.5" /> 
-              <span className="hidden sm:inline">{addButtonText || `Add ${title.slice(0, -1)}`}</span>
-              <span className="sm:hidden">Add</span>
+              <Plus size={16} className="sm:mr-1.5" /> 
+              <span className="inline">{addButtonText || `Add ${title.endsWith('s') ? title.slice(0, -1) : title}`}</span>
             </button>
           )}
         </div>
+        
+        {/* Title Filter - Horizontal Scroll on Mobile */}
+        {titleFilter && (
+          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 no-scrollbar">
+            <div className="flex items-center gap-2 min-w-max py-0.5">
+              {titleFilter}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Main Content Card */}
       <div className="bg-white rounded-xl shadow border border-gray-100 overflow-hidden">
         {/* Search & Filter Bar */}
-        <div className="p-3 border-b border-gray-100 bg-gray-50/50">
+        <div className="p-2 sm:p-3 border-b border-gray-100 bg-gray-50/50">
           <div className="flex flex-col gap-2">
             {onSearchChange !== undefined && (
               <div className="relative w-full">
-                <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input 
                   type="text" 
                   placeholder={`Search ${title.toLowerCase()}...`}
                   value={searchTerm}
                   onChange={(e) => onSearchChange(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3C2F26]/20 text-sm min-h-[44px]"
+                  className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3C2F26]/20 text-xs sm:text-sm min-h-[40px] sm:min-h-[44px]"
                 />
               </div>
             )}
-            {filters && <div className="w-full">{filters}</div>}
+            {filters && <div className="w-full flex items-center gap-2 flex-wrap">{filters}</div>}
           </div>
         </div>
 

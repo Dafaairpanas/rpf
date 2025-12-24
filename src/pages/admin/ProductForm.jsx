@@ -162,20 +162,21 @@ export default function ProductForm() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F4F2EE] pt-[64px]">
+    <div className=" bg-[#F4F2EE]">
       {/* Header - Clean with back button only */}
-      <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4 flex items-center gap-4 shadow-sm">
-        <button
+      <div className="px-3 sm:px-6 py-4 flex items-center gap-3">
+        <button 
           onClick={() => navigate('/admin/products')}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500"
+          className="p-2 bg-white rounded-xl shadow-sm hover:bg-gray-50 transition active:scale-95 cursor-pointer"
+          title="Back to products"
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft size={20} className="text-[#3C2F26]" />
         </button>
         <div>
           <h1 className="text-lg sm:text-xl font-bold text-[#3C2F26]">
             {isEditing ? 'Edit Product' : 'Add New Product'}
           </h1>
-          <p className="text-xs text-gray-400">Fill in the product details below</p>
+          <p className="text-[10px] sm:text-xs text-gray-400 font-medium">Manage your product catalog</p>
         </div>
       </div>
 
@@ -188,28 +189,29 @@ export default function ProductForm() {
       )}
 
       {/* Form */}
-      <form onSubmit={handleSave} className="p-4 sm:p-6 max-w-4xl mx-auto space-y-6">
-        {/* Basic Info */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6">
-          <h2 className="text-base font-bold text-[#3C2F26] mb-5 flex items-center gap-2">
-            <span className="w-6 h-6 bg-[#3C2F26] text-white rounded-full flex items-center justify-center text-xs">1</span>
-            Product Information
-          </h2>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1.5">Product Name *</label>
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3C2F26]/20 focus:border-[#3C2F26] transition-all"
-                placeholder="e.g. Teak Lounge Chair"
-              />
-            </div>
+      <form onSubmit={handleSave} className="px-4 sm:px-6 py-3 max-w-7xl mx-auto">
+        {/* Main Content - 2 Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* LEFT COLUMN - Basic Info */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 min-h-[500px] flex flex-col">
+            <h2 className="text-base font-bold text-[#3C2F26] mb-5 flex items-center gap-2">
+              <span className="w-6 h-6 bg-[#3C2F26] text-white rounded-full flex items-center justify-center text-xs">1</span>
+              Product Information
+            </h2>
+            
+            <div className="space-y-4 flex-1">
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1.5">Product Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3C2F26]/20 focus:border-[#3C2F26] transition-all"
+                  placeholder="e.g. Teak Lounge Chair"
+                />
+              </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Category *</label>
                 <select
@@ -233,162 +235,160 @@ export default function ProductForm() {
                   placeholder="e.g. Teak Wood"
                 />
               </div>
+
+              {/* Dimensions */}
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1.5">Dimensions</label>
+                
+                {!showNewDimension ? (
+                  <div className="flex gap-2">
+                    <select
+                      value={formData.dimension_id}
+                      onChange={(e) => setFormData({ ...formData, dimension_id: e.target.value })}
+                      className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3C2F26]/20 focus:border-[#3C2F26] transition-all appearance-none cursor-pointer"
+                    >
+                      <option value="">No Dimension</option>
+                      {dimensions.map(dim => (
+                        <option key={dim.id} value={dim.id}>
+                          {dim.width} x {dim.height} x {dim.depth} cm
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      onClick={() => setShowNewDimension(true)}
+                      className="px-4 py-2 bg-[#3C2F26] text-white rounded-xl text-sm font-medium hover:bg-[#2a1f18] transition-colors whitespace-nowrap"
+                    >
+                      + New
+                    </button>
+                  </div>
+                ) : (
+                  <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-3">
+                    <p className="text-sm font-medium text-gray-700">Create New Dimension (cm)</p>
+                    <div className="grid grid-cols-3 gap-3">
+                      <input
+                        type="number"
+                        value={newDimension.width}
+                        onChange={(e) => setNewDimension({ ...newDimension, width: e.target.value })}
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-center text-sm"
+                        placeholder="Width"
+                      />
+                      <input
+                        type="number"
+                        value={newDimension.height}
+                        onChange={(e) => setNewDimension({ ...newDimension, height: e.target.value })}
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-center text-sm"
+                        placeholder="Height"
+                      />
+                      <input
+                        type="number"
+                        value={newDimension.depth}
+                        onChange={(e) => setNewDimension({ ...newDimension, depth: e.target.value })}
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-center text-sm"
+                        placeholder="Depth"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowNewDimension(false);
+                          setNewDimension({ width: '', height: '', depth: '' });
+                        }}
+                        className="flex-1 px-4 py-2 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        disabled={creatingDimension || !newDimension.width}
+                        onClick={async () => {
+                          setCreatingDimension(true);
+                          try {
+                            const res = await api.post('/dimensions', newDimension);
+                            if (res.data.success) {
+                              const created = res.data.data;
+                              setDimensions(prev => [...prev, created]);
+                              setFormData({ ...formData, dimension_id: created.id.toString() });
+                              setShowNewDimension(false);
+                              setNewDimension({ width: '', height: '', depth: '' });
+                            }
+                          } catch (err) {
+                            console.error('Create dimension error:', err);
+                            setError('Failed to create dimension');
+                          } finally {
+                            setCreatingDimension(false);
+                          }
+                        }}
+                        className="flex-1 px-4 py-2 bg-[#3C2F26] text-white rounded-lg text-sm font-medium hover:bg-[#2a1f18] transition-colors disabled:opacity-50"
+                      >
+                        {creatingDimension ? 'Creating...' : 'Create & Select'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Dimensions */}
-            <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1.5">Dimensions</label>
-              
-              {!showNewDimension ? (
-                <div className="flex gap-2">
-                  <select
-                    value={formData.dimension_id}
-                    onChange={(e) => setFormData({ ...formData, dimension_id: e.target.value })}
-                    className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3C2F26]/20 focus:border-[#3C2F26] transition-all appearance-none cursor-pointer"
-                  >
-                    <option value="">No Dimension</option>
-                    {dimensions.map(dim => (
-                      <option key={dim.id} value={dim.id}>
-                        {dim.width} x {dim.height} x {dim.depth} cm
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    type="button"
-                    onClick={() => setShowNewDimension(true)}
-                    className="px-4 py-2 bg-[#3C2F26] text-white rounded-xl text-sm font-medium hover:bg-[#2a1f18] transition-colors whitespace-nowrap"
-                  >
-                    + New
-                  </button>
-                </div>
-              ) : (
-                <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-3">
-                  <p className="text-sm font-medium text-gray-700">Create New Dimension (cm)</p>
-                  <div className="grid grid-cols-3 gap-3">
-                    <input
-                      type="number"
-                      value={newDimension.width}
-                      onChange={(e) => setNewDimension({ ...newDimension, width: e.target.value })}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-center text-sm"
-                      placeholder="Width"
-                    />
-                    <input
-                      type="number"
-                      value={newDimension.height}
-                      onChange={(e) => setNewDimension({ ...newDimension, height: e.target.value })}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-center text-sm"
-                      placeholder="Height"
-                    />
-                    <input
-                      type="number"
-                      value={newDimension.depth}
-                      onChange={(e) => setNewDimension({ ...newDimension, depth: e.target.value })}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-center text-sm"
-                      placeholder="Depth"
-                    />
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowNewDimension(false);
-                        setNewDimension({ width: '', height: '', depth: '' });
-                      }}
-                      className="flex-1 px-4 py-2 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      disabled={creatingDimension || !newDimension.width}
-                      onClick={async () => {
-                        setCreatingDimension(true);
-                        try {
-                          const res = await api.post('/dimensions', newDimension);
-                          if (res.data.success) {
-                            const created = res.data.data;
-                            setDimensions(prev => [...prev, created]);
-                            setFormData({ ...formData, dimension_id: created.id.toString() });
-                            setShowNewDimension(false);
-                            setNewDimension({ width: '', height: '', depth: '' });
-                          }
-                        } catch (err) {
-                          console.error('Create dimension error:', err);
-                          setError('Failed to create dimension');
-                        } finally {
-                          setCreatingDimension(false);
-                        }
-                      }}
-                      className="flex-1 px-4 py-2 bg-[#3C2F26] text-white rounded-lg text-sm font-medium hover:bg-[#2a1f18] transition-colors disabled:opacity-50"
-                    >
-                      {creatingDimension ? 'Creating...' : 'Create & Select'}
-                    </button>
-                  </div>
-                </div>
-              )}
+            {/* Action Buttons */}
+            <div className="pt-4 mt-4 border-t border-gray-200 flex items-center justify-between flex-shrink-0">
+              <button
+                type="button"
+                onClick={() => navigate('/admin/products')}
+                className="px-6 py-2.5 text-gray-600 hover:text-gray-800 font-medium transition-colors border border-gray-200 rounded-xl hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={saving}
+                className="flex items-center gap-2 bg-[#3C2F26] text-white px-8 py-2.5 rounded-xl font-bold hover:bg-[#2a1f18] transition-colors disabled:opacity-50 shadow-lg"
+              >
+                {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
+                {saving ? 'Saving...' : isEditing ? 'Update Product' : 'Create Product'}
+              </button>
             </div>
           </div>
-        </div>
 
-        {/* Images Section */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 space-y-6">
-          <h2 className="text-base font-bold text-[#3C2F26] flex items-center gap-2">
-            <span className="w-6 h-6 bg-[#3C2F26] text-white rounded-full flex items-center justify-center text-xs">2</span>
-            Product Images
-          </h2>
+          {/* RIGHT COLUMN - Images Section */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6 space-y-5 min-h-[500px]">
+            <h2 className="text-base font-bold text-[#3C2F26] flex items-center gap-2">
+              <span className="w-6 h-6 bg-[#3C2F26] text-white rounded-full flex items-center justify-center text-xs">2</span>
+              Product Images
+            </h2>
 
-          {/* Product Images - FIRST */}
-          <ImageUploader
-            label="Product Images"
-            description="Main gallery images for the product"
-            existingImages={existingImages.product}
-            newImages={selectedImages.product}
-            onUpload={(e) => handleImageChange(e, 'product')}
-            onRemoveNew={(idx) => removeNewImage('product', idx)}
-            onRemoveExisting={(id) => removeExistingImage('product', id)}
-          />
+            {/* Product Images - FIRST */}
+            <ImageUploader
+              label="Product Images"
+              description="Main gallery images for the product"
+              existingImages={existingImages.product}
+              newImages={selectedImages.product}
+              onUpload={(e) => handleImageChange(e, 'product')}
+              onRemoveNew={(idx) => removeNewImage('product', idx)}
+              onRemoveExisting={(id) => removeExistingImage('product', id)}
+            />
 
-          {/* Cover Images */}
-          <ImageUploader
-            label="Cover Images"
-            description="Thumbnail images for catalog display"
-            existingImages={existingImages.cover}
-            newImages={selectedImages.cover}
-            onUpload={(e) => handleImageChange(e, 'cover')}
-            onRemoveNew={(idx) => removeNewImage('cover', idx)}
-            onRemoveExisting={(id) => removeExistingImage('cover', id)}
-          />
+            {/* Cover Images */}
+            <ImageUploader
+              label="Cover Images"
+              description="Thumbnail images for catalog display"
+              existingImages={existingImages.cover}
+              newImages={selectedImages.cover}
+              onUpload={(e) => handleImageChange(e, 'cover')}
+              onRemoveNew={(idx) => removeNewImage('cover', idx)}
+              onRemoveExisting={(id) => removeExistingImage('cover', id)}
+            />
 
-          {/* Teak Images */}
-          <ImageUploader
-            label="Teak Finish Images"
-            description="Wood texture and finish options"
-            existingImages={existingImages.teak}
-            newImages={selectedImages.teak}
-            onUpload={(e) => handleImageChange(e, 'teak')}
-            onRemoveNew={(idx) => removeNewImage('teak', idx)}
-            onRemoveExisting={(id) => removeExistingImage('teak', id)}
-          />
-        </div>
-
-        {/* Save Section - At bottom of form */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6">
-          <div className="flex items-center justify-between">
-            <button
-              type="button"
-              onClick={() => navigate('/admin/products')}
-              className="px-6 py-2.5 text-gray-600 hover:text-gray-800 font-medium transition-colors border border-gray-200 rounded-xl hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={saving}
-              className="flex items-center gap-2 bg-[#3C2F26] text-white px-8 py-2.5 rounded-xl font-bold hover:bg-[#2a1f18] transition-colors disabled:opacity-50 shadow-lg"
-            >
-              {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
-              {saving ? 'Saving...' : isEditing ? 'Update Product' : 'Create Product'}
-            </button>
+            {/* Teak Images */}
+            <ImageUploader
+              label="Teak Finish Images"
+              description="Wood texture and finish options"
+              existingImages={existingImages.teak}
+              newImages={selectedImages.teak}
+              onUpload={(e) => handleImageChange(e, 'teak')}
+              onRemoveNew={(idx) => removeNewImage('teak', idx)}
+              onRemoveExisting={(id) => removeExistingImage('teak', id)}
+            />
           </div>
         </div>
       </form>
@@ -412,23 +412,23 @@ function ImageUploader({ label, description, existingImages, newImages, onUpload
         </label>
       </div>
 
-      <div className="flex flex-wrap gap-3 min-h-[80px] p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5 gap-3 p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
         {existingImages.map((img) => (
           <motion.div
             key={`existing-${img.id}`}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="relative group"
+            className="relative group aspect-square"
           >
             <img
               src={getImageUrl(img.image_url)}
               alt=""
-              className="w-20 h-20 object-cover rounded-lg border-2 border-white shadow-sm"
+              className="w-full h-full object-cover rounded-lg border-2 border-white shadow-sm"
             />
             <button
               type="button"
               onClick={() => onRemoveExisting(img.id)}
-              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-10"
             >
               <X size={12} />
             </button>
@@ -440,26 +440,26 @@ function ImageUploader({ label, description, existingImages, newImages, onUpload
             key={`new-${idx}`}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="relative group"
+            className="relative group aspect-square"
           >
             <img
               src={URL.createObjectURL(file)}
               alt=""
-              className="w-20 h-20 object-cover rounded-lg border-2 border-green-400 shadow-sm"
+              className="w-full h-full object-cover rounded-lg border-2 border-green-400 shadow-sm"
             />
             <button
               type="button"
               onClick={() => onRemoveNew(idx)}
-              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-10"
             >
               <X size={12} />
             </button>
-            <span className="absolute bottom-1 left-1 bg-green-500 text-white text-[8px] px-1 rounded font-bold">NEW</span>
+            <span className="absolute bottom-1 left-1 bg-green-500 text-white text-[8px] px-1 rounded font-bold uppercase">New</span>
           </motion.div>
         ))}
 
         {existingImages.length === 0 && newImages.length === 0 && (
-          <div className="w-full text-center text-gray-400 text-sm py-4">
+          <div className="col-span-full text-center text-gray-400 text-xs py-4">
             No images uploaded yet
           </div>
         )}

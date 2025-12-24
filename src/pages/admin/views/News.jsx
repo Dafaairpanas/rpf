@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertCircle, Star, Newspaper } from 'lucide-react';
 import useAdminCRUD from '../hooks/useAdminCRUD';
 import AdminTable from '../components/AdminTable';
+import SortFilter from '../components/SortFilter';
 
 const News = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const News = () => {
   } = useAdminCRUD('/news');
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState('newest');
 
   // TABLE COLUMNS
   const columns = [
@@ -54,10 +56,23 @@ const News = () => {
     }
   ];
 
-  // FILTER DATA
-  const filteredData = newsList.filter(item =>
-    item.title?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // FILTER & SORT DATA
+  const filteredData = useMemo(() => {
+    let filtered = newsList.filter(item =>
+      item.title?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return filtered.sort((a, b) => {
+      if (sortOrder === 'newest') {
+        return new Date(b.created_at) - new Date(a.created_at);
+      } else if (sortOrder === 'oldest') {
+        return new Date(a.created_at) - new Date(b.created_at);
+      } else if (sortOrder === 'name') {
+        return (a.title || '').localeCompare(b.title || '');
+      }
+      return 0;
+    });
+  }, [newsList, searchTerm, sortOrder]);
 
   // HANDLERS - Navigate to full-screen form
   const handleAdd = () => navigate('/admin/news/create');
@@ -78,7 +93,6 @@ const News = () => {
       <AdminTable
         title="News Articles"
         subtitle="Company news and announcements"
-        icon={<Newspaper size={20} className="text-[#3C2F26]" />}
         data={filteredData}
         columns={columns}
         loading={loading && newsList.length === 0}
@@ -88,6 +102,7 @@ const News = () => {
         onEdit={handleEdit}
         onDelete={deleteItem}
         addButtonText="New Article"
+        titleFilter={<SortFilter value={sortOrder} onChange={setSortOrder} />}
       />
     </div>
   );

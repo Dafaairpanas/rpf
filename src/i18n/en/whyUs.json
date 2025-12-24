@@ -15,12 +15,20 @@
     "globalReach": {
       "subtitle": "Exporting excellence worldwide",
       "title": "Global Reach",
-      "description": "Our export performance reflects our dedication to quality, serving over 30 countries worldwide with products that meet global standards."
+      "description": "Our export performance reflects our dedication to quality, serving many countries worldwide with products that meet global standards."
     },
     "certifications": {
       "title": "We Have Achieved",
       "titleHighlight": "Certifications",
       "subtitle": "Our certifications represent international quality standards."
+    },
+    "loading": {
+      "brands": "Loading brands...",
+      "certifications": "Loading certifications..."
+    },
+    "empty": {
+      "brands": "No brands found",
+      "certifications": "No certifications found"
     }
   }
 }

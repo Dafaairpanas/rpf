@@ -36,8 +36,8 @@ export default function DesktopNav({ activePath, changeLang, i18n }) {
   );
 
   return (
-    <div className="hidden lg:flex items-center gap-10">
-      <ul className="flex items-center gap-10 text-gray-800 font-medium text-md">
+    <div className="hidden lg:flex items-center gap-4">
+      <ul className="flex items-center gap-10 text-gray-800 font-medium text-[14px] font-poppins">
         {/* NAV_LINKS */}
         <NavLinks activePath={activePath} links={NAV_LINKS} />
 
@@ -78,7 +78,7 @@ export default function DesktopNav({ activePath, changeLang, i18n }) {
           </div>
         </div>
 
-        <a href="/careers" className="relative group">
+        <a href="/careers" className="relative group text-[15px]">
           <span className="hover:text-[#6B3F21] px-1">{t("careers")}</span>
 
           {activePath === "/careers" && (
@@ -88,7 +88,7 @@ export default function DesktopNav({ activePath, changeLang, i18n }) {
           <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#6B3F21] rounded-full transition-all duration-300 group-hover:w-full" />
         </a>
 
-        <a href="/contact" className="relative group">
+        <a href="/contact" className="relative group text-[15px]">
           <span className="hover:text-[#6B3F21] px-1">{t("contact")}</span>
 
           {activePath === "/contact" && (

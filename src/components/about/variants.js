@@ -2,14 +2,23 @@
  * About page animation variants - extracted to reduce component size
  */
 
-export const heroTextVariant = {
-  initial: { opacity: 0, y: 40 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.7 } },
-};
-
-export const heroParagraphVariant = {
-  initial: { opacity: 0, y: 40 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.25 } },
+export const heroVariants = {
+  section: {
+    initial: { opacity: 0, scale: 1.1 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 1.2, ease: "easeOut" } },
+  },
+  overlay: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { delay: 0.4, duration: 1 } },
+  },
+  title: {
+    initial: { y: 40, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { delay: 0.6, duration: 0.9 } },
+  },
+  subtitle: {
+    initial: { y: 20, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { delay: 0.9, duration: 0.9 } },
+  },
 };
 
 export const statsCardVariant = {
@@ -102,7 +111,7 @@ export const yearCircleVariant = {
 
 export const managementImageVariant = {
   initial: { opacity: 0, scale: 0.8 },
-  whileInView: { opacity: 1, scale: 1, transition: { duration: 1.0 } },
+  whileInView: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
   viewport: { once: true, amount: 0.5 },
 };
 

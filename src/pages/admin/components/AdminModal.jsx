@@ -24,7 +24,7 @@ const AdminModal = React.memo(function AdminModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm cursor-pointer"
           />
           
           {/* Modal Container */}
@@ -49,7 +49,7 @@ const AdminModal = React.memo(function AdminModal({
                 <h2 className="text-base md:text-lg font-bold truncate pr-4">{title}</h2>
                 <button 
                   onClick={onClose} 
-                  className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-white/20 rounded-xl transition active:scale-95 shrink-0"
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-white/20 rounded-xl transition active:scale-95 shrink-0 cursor-pointer"
                   aria-label="Close modal"
                 >
                   <X size={22} />

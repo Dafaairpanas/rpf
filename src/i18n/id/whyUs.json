@@ -9,18 +9,26 @@
     },
     "brands": {
       "title": "Dipercaya oleh",
-      "titleHighlight": "Brand Ternama",
+      "titleHighlight": "Merek Ternama",
       "subtitle": "Kami bangga menjadi mitra terpercaya dari perusahaan-perusahaan ternama di berbagai industri."
     },
     "globalReach": {
       "subtitle": "Mengekspor keunggulan ke seluruh dunia",
       "title": "Jangkauan Global",
-      "description": "Kinerja ekspor kami mencerminkan dedikasi kami terhadap kualitas, melayani lebih dari 30 negara di seluruh dunia dengan produk yang memenuhi standar global."
+      "description": "Kinerja ekspor kami mencerminkan dedikasi kami terhadap kualitas, melayani banyak negara di seluruh dunia dengan produk yang memenuhi standar global."
     },
     "certifications": {
       "title": "Kami Telah Meraih",
       "titleHighlight": "Sertifikasi",
       "subtitle": "Sertifikasi kami mewakili standar kualitas internasional."
+    },
+    "loading": {
+      "brands": "Memuat merek...",
+      "certifications": "Memuat sertifikasi..."
+    },
+    "empty": {
+      "brands": "Tidak ada merek ditemukan",
+      "certifications": "Tidak ada sertifikasi ditemukan"
     }
   }
 }

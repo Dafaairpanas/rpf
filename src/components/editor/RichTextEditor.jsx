@@ -27,6 +27,8 @@ import {
   ImageStyle,
   ImageResize,
   ImageInsert,
+  ImageBlock,
+  ImageInline,
   LinkImage,
   Table,
   TableToolbar,
@@ -40,7 +42,6 @@ import {
   SourceEditing,
   GeneralHtmlSupport,
   FullPage,
-  HtmlEmbed,
   WordCount,
   AutoLink,
   PasteFromOffice,
@@ -82,6 +83,8 @@ const RichTextEditor = ({ value, onChange, height = 400, placeholder = "Tulis ko
       ImageStyle,
       ImageResize,
       ImageInsert,
+      ImageBlock,
+      ImageInline,
       LinkImage,
       Table,
       TableToolbar,
@@ -94,7 +97,6 @@ const RichTextEditor = ({ value, onChange, height = 400, placeholder = "Tulis ko
       RemoveFormat,
       SourceEditing,
       GeneralHtmlSupport,
-      HtmlEmbed,
       WordCount,
       PasteFromOffice,
       Base64UploadAdapter
@@ -115,7 +117,7 @@ const RichTextEditor = ({ value, onChange, height = 400, placeholder = "Tulis ko
         '|',
         'outdent', 'indent',
         '|',
-        'link', 'insertImage', 'insertTable', 'mediaEmbed', 'blockQuote', 'codeBlock', 'htmlEmbed',
+        'link', 'insertImage', 'insertTable', 'mediaEmbed', 'blockQuote', 'codeBlock',
         '|',
         'highlight', 'horizontalLine',
         '|',
@@ -148,21 +150,34 @@ const RichTextEditor = ({ value, onChange, height = 400, placeholder = "Tulis ko
       ]
     },
     image: {
+      // Insert image as block by default for better alignment support
+      insert: {
+        type: 'auto'
+      },
+      // Image toolbar that appears when clicking on image
       toolbar: [
-        'imageTextAlternative',
-        'toggleImageCaption',
-        '|',
         'imageStyle:inline',
         'imageStyle:wrapText',
         'imageStyle:breakText',
+        'imageStyle:side',
+        '|',
+        'imageStyle:alignBlockLeft',
+        'imageStyle:alignCenter', 
+        'imageStyle:alignBlockRight',
+        '|',
+        'toggleImageCaption',
+        'imageTextAlternative',
         '|',
         'resizeImage'
       ],
+      // Resize configuration
+      resizeUnit: '%',
       resizeOptions: [
         { name: 'resizeImage:original', value: null, label: 'Original' },
         { name: 'resizeImage:25', value: '25', label: '25%' },
         { name: 'resizeImage:50', value: '50', label: '50%' },
-        { name: 'resizeImage:75', value: '75', label: '75%' }
+        { name: 'resizeImage:75', value: '75', label: '75%' },
+        { name: 'resizeImage:100', value: '100', label: '100%' }
       ]
     },
     table: {
@@ -257,6 +272,37 @@ const RichTextEditor = ({ value, onChange, height = 400, placeholder = "Tulis ko
         .rich-text-editor .ck.ck-content h2 { font-size: 1.5em; font-weight: 700; }
         .rich-text-editor .ck.ck-content h3 { font-size: 1.25em; font-weight: 600; }
         .rich-text-editor .ck.ck-content img { max-width: 100%; border-radius: 8px; }
+        /* Image alignment styles */
+        .rich-text-editor .ck.ck-content .image {
+          margin: 1em 0;
+        }
+        .rich-text-editor .ck.ck-content .image.image_resized {
+          max-width: 100%;
+        }
+        .rich-text-editor .ck.ck-content .image.image-style-align-left {
+          float: left;
+          margin-right: 1.5em;
+          margin-bottom: 1em;
+        }
+        .rich-text-editor .ck.ck-content .image.image-style-align-right {
+          float: right;
+          margin-left: 1.5em;
+          margin-bottom: 1em;
+        }
+        .rich-text-editor .ck.ck-content .image.image-style-align-center {
+          margin-left: auto;
+          margin-right: auto;
+          display: block;
+        }
+        .rich-text-editor .ck.ck-content .image.image-style-block-align-left {
+          margin-right: auto;
+        }
+        .rich-text-editor .ck.ck-content .image.image-style-block-align-right {
+          margin-left: auto;
+        }
+        .rich-text-editor .ck.ck-content .image img {
+          display: block;
+        }
         .rich-text-editor .ck.ck-content blockquote {
           border-left: 4px solid #3C2F26;
           padding-left: 16px;

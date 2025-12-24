@@ -30,7 +30,7 @@ function News() {
     handlePreviousPage,
     handleNextPage,
     handlePageClick
-  } = useNews(6);
+  } = useNews(7);
 
   return (
     <div className="w-full overflow-x-hidden">
@@ -60,7 +60,7 @@ function News() {
 
         {/* NEWS CARDS GRID */}
         {!loading && (
-          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12 lg:mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12 lg:mb-16">
             {news.length > 0 ? (
               news.map((item, index) => (
                 <NewsCard key={item.id} item={item} index={index} t={t} />
@@ -76,10 +76,10 @@ function News() {
                   <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#C58E47]/20 animate-[spin_20s_linear_infinite]" />
                 </div>
                 <h3 className="text-lg sm:text-xl font-semibold text-[#3C2F26] text-center mb-2">
-                  Belum Ada Berita
+                  {t("empty.title")}
                 </h3>
                 <p className="text-sm sm:text-base text-gray-500 text-center max-w-md">
-                  Berita dan artikel terbaru akan segera tersedia
+                  {t("empty.subtitle")}
                 </p>
               </div>
             )}

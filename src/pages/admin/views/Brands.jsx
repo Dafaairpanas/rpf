@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { AlertCircle, Loader2 } from 'lucide-react';
 import useAdminCRUD from '../hooks/useAdminCRUD';
 import useDebounce from '@/hooks/useDebounce';
 import AdminTable from '../components/AdminTable';
+import SortFilter from '../components/SortFilter';
 import AdminModal from '../components/AdminModal';
 import AdminImageUploader from '../components/AdminImageUploader';
 import { getImageUrl } from '@/config';
@@ -19,6 +20,7 @@ const BrandsCRUD = () => {
   } = useAdminCRUD('/brands');
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState('newest');
   const debouncedSearch = useDebounce(searchTerm, 300);
 
   // FORM STATE
@@ -28,10 +30,23 @@ const BrandsCRUD = () => {
   const [newImage, setNewImage] = useState(null);
   const [existingImage, setExistingImage] = useState('');
 
-  // FILTERING
-  const filteredBrands = brands.filter(brand =>
-    brand.name?.toLowerCase().includes(debouncedSearch.toLowerCase())
-  );
+  // FILTERING & SORTING
+  const filteredBrands = useMemo(() => {
+    let filtered = brands.filter(brand =>
+      brand.name?.toLowerCase().includes(debouncedSearch.toLowerCase())
+    );
+
+    return filtered.sort((a, b) => {
+      if (sortOrder === 'newest') {
+        return new Date(b.created_at) - new Date(a.created_at);
+      } else if (sortOrder === 'oldest') {
+        return new Date(a.created_at) - new Date(b.created_at);
+      } else if (sortOrder === 'name') {
+        return (a.name || '').localeCompare(b.name || '');
+      }
+      return 0;
+    });
+  }, [brands, debouncedSearch, sortOrder]);
 
   // HANDLERS
   const handleOpenModal = (brand = null) => {
@@ -104,6 +119,7 @@ const BrandsCRUD = () => {
         onAdd={() => handleOpenModal()}
         onEdit={handleOpenModal}
         onDelete={deleteItem}
+        titleFilter={<SortFilter value={sortOrder} onChange={setSortOrder} />}
       />
 
       <AdminModal

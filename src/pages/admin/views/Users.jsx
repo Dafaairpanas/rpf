@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { AlertCircle, Loader2, Save, Mail, Lock, User as UserIcon, Shield, Building2 } from 'lucide-react';
 import api from '@/api/axios';
 import useAdminCRUD from '../hooks/useAdminCRUD';
 import AdminTable from '../components/AdminTable';
+import SortFilter from '../components/SortFilter';
 import AdminModal from '../components/AdminModal';
 
 const Users = () => {
@@ -17,6 +18,7 @@ const Users = () => {
   } = useAdminCRUD('/users');
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState('newest');
   const [roles, setRoles] = useState([]);
 
   // FORM STATE
@@ -125,6 +127,25 @@ const Users = () => {
     }
   ];
 
+  // FILTERED & SORTED DATA
+  const filteredUsers = useMemo(() => {
+    let filtered = users.filter(user =>
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return filtered.sort((a, b) => {
+      if (sortOrder === 'newest') {
+        return new Date(b.created_at) - new Date(a.created_at);
+      } else if (sortOrder === 'oldest') {
+        return new Date(a.created_at) - new Date(b.created_at);
+      } else if (sortOrder === 'name') {
+        return (a.name || '').localeCompare(b.name || '');
+      }
+      return 0;
+    });
+  }, [users, searchTerm, sortOrder]);
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 bg-[#F4F2EE] min-h-screen">
       {(error || success) && (
@@ -138,7 +159,7 @@ const Users = () => {
 
       <AdminTable
         title="Active Operators"
-        data={users}
+        data={filteredUsers}
         columns={columns}
         loading={loading && users.length === 0}
         searchTerm={searchTerm}
@@ -146,6 +167,7 @@ const Users = () => {
         onAdd={() => handleOpenModal()}
         onEdit={handleOpenModal}
         onDelete={deleteItem}
+        titleFilter={<SortFilter value={sortOrder} onChange={setSortOrder} />}
       />
 
       <AdminModal

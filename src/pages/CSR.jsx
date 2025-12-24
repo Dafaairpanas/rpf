@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
-import { IMAGES } from "@/assets/assets";
+import { IMAGES, HERO_BACKGROUNDS } from "@/assets/assets";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getCsrs } from "@/api/csr.api";
+import { generatePagination } from "@/utils/pagination";
 
 // --- Varian Animasi ---
 
@@ -23,6 +24,25 @@ const sectionFadeInVariant = {
   whileInView: { opacity: 1, y: 0 },
   transition: { duration: 0.7, ease: "easeOut" },
   viewport: { once: true, amount: 0.1 },
+};
+
+const heroVariants = {
+  section: {
+    initial: { opacity: 0, scale: 1.1 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 1.2, ease: "easeOut" } },
+  },
+  overlay: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { delay: 0.4, duration: 1 } },
+  },
+  title: {
+    initial: { y: 40, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { delay: 0.6, duration: 0.9 } },
+  },
+  subtitle: {
+    initial: { y: 20, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { delay: 0.9, duration: 0.9 } },
+  },
 };
 
 const cardItemVariant = {
@@ -63,13 +83,26 @@ function CSR() {
       const response = await getCsrs({ page, per_page: 6 });
       if (response.data.success) {
         const result = response.data.data;
-        setCsrs(result.data || []);
-        setPagination({
-          current_page: result.current_page,
-          last_page: result.last_page,
-          per_page: result.per_page,
-          total: result.total
-        });
+        // Backend now returns array directly, not paginated
+        if (Array.isArray(result)) {
+          setCsrs(result);
+          // No pagination anymore
+          setPagination({
+            current_page: 1,
+            last_page: 1,
+            per_page: result.length,
+            total: result.length
+          });
+        } else {
+          // Fallback for old paginated response
+          setCsrs(result.data || []);
+          setPagination({
+            current_page: result.current_page,
+            last_page: result.last_page,
+            per_page: result.per_page,
+            total: result.total
+          });
+        }
       }
     } catch (error) {
       console.error('Error fetching CSRs:', error);
@@ -95,32 +128,9 @@ function CSR() {
     setCurrentPage(pageNumber);
   };
 
-  // Generate pagination items (tampilkan max 4 halaman)
+  // Generate pagination items with ellipsis
   const getPaginationItems = () => {
-    const items = [];
-    const maxVisible = 4;
-
-    if (pagination.last_page <= maxVisible) {
-      for (let i = 1; i <= pagination.last_page; i++) {
-        items.push(i);
-      }
-    } else {
-      if (currentPage <= 2) {
-        for (let i = 1; i <= maxVisible; i++) {
-          items.push(i);
-        }
-      } else if (currentPage >= pagination.last_page - 1) {
-        for (let i = pagination.last_page - maxVisible + 1; i <= pagination.last_page; i++) {
-          items.push(i);
-        }
-      } else {
-        for (let i = currentPage - 1; i <= currentPage + 2; i++) {
-          items.push(i);
-        }
-      }
-    }
-
-    return items;
+    return generatePagination(currentPage, pagination.last_page);
   };
 
   // Format tanggal
@@ -136,30 +146,34 @@ function CSR() {
   return (
     <div className="w-full">
       {/* SECTION: HERO */}
-      <section
-        className="relative w-full h-[100vh] bg-cover bg-center flex items-center justify-center"
-        style={{ backgroundImage: `url(${IMAGES.bg1})` }}
+      <motion.section
+        {...heroVariants.section}
+        className="relative w-full h-[100vh] bg-cover bg-center flex items-center justify-center text-center"
+        style={{ backgroundImage: `url(${HERO_BACKGROUNDS.csr})` }}
       >
         <motion.div
-          {...heroOverlayVariant}
+          {...heroVariants.overlay}
           className="absolute inset-0 bg-black/40"
         />
 
-        <motion.div
-          {...heroTextVariant}
-          className="relative z-10 text-center px-6 max-w-4xl"
-        >
-          <h1 className="text-white font-montserrat font-extrabold text-5xl sm:text-7xl leading-tight drop-shadow-md">
+        <div className="relative z-10 text-center px-6 max-w-4xl">
+          <motion.h1 
+            {...heroVariants.title}
+            className="text-white font-montserrat font-extrabold text-5xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md"
+          >
             {t("hero.title1")}{" "}
             <span className="text-[#DFD7BF]">{t("hero.highlight")}</span>{" "}
             <span>{t("hero.title2")}</span>
-          </h1>
+          </motion.h1>
 
-          <p className="text-gray-200 text-lg md:text-xl mt-6 drop-shadow">
+          <motion.p 
+            {...heroVariants.subtitle}
+            className="text-gray-200 text-lg md:text-xl mt-6 drop-shadow font-poppins"
+          >
             {t("hero.subtitle")}
-          </p>
-        </motion.div>
-      </section>
+          </motion.p>
+        </div>
+      </motion.section>
 
       {/* --- */}
 
@@ -188,7 +202,7 @@ function CSR() {
 
         {/* CARDS - FLEX LAYOUT */}
         {!loading && (
-          <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-6 md:gap-10">
+          <div className="flex flex-wrap justify-center gap-6 md:gap-10">
             {csrs.length > 0 ? (
               csrs.map((csr, index) => (
                 <Link to={`/csr/${csr.id}`} key={csr.id} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-27px)] max-w-[400px]">
@@ -240,7 +254,7 @@ function CSR() {
                               d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" 
                             />
                           </svg>
-                          <p className="font-medium">Tidak ada gambar</p>
+                          <p className="font-medium">{t("empty.noImage")}</p>
                         </div>
                       )}
                     </div>
@@ -289,10 +303,10 @@ function CSR() {
                     <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#C58E47]/20 animate-[spin_20s_linear_infinite]" />
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-[#3C2F26] text-center mb-2">
-                    Belum Ada Kegiatan CSR
+                    {t("empty.title")}
                   </h3>
                   <p className="text-sm sm:text-base text-gray-500 text-center max-w-md">
-                    Data kegiatan CSR belum tersedia saat ini
+                    {t("empty.subtitle")}
                   </p>
                 </div>
               </div>
@@ -322,23 +336,29 @@ function CSR() {
               <ChevronLeft size={16} />
             </motion.button>
 
-            {getPaginationItems().map((num) => (
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                key={num}
-                onClick={() => handlePageClick(num)}
-                className={`
-                  w-8 h-8 rounded-md flex items-center justify-center font-medium
-                  transition
-                  ${
-                    num === currentPage
-                      ? "bg-[#D9A556] text-white"
-                      : "bg-white text-gray-700 shadow-sm hover:bg-[#D9A556] hover:text-white"
-                  }
-                `}
-              >
-                {num}
-              </motion.button>
+            {getPaginationItems().map((num, idx) => (
+              num === '...' ? (
+                <span key={`dots-${idx}`} className="w-8 h-8 flex items-center justify-center text-gray-500">
+                  ...
+                </span>
+              ) : (
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  key={num}
+                  onClick={() => handlePageClick(num)}
+                  className={`
+                    w-8 h-8 rounded-md flex items-center justify-center font-medium
+                    transition
+                    ${
+                      num === currentPage
+                        ? "bg-[#D9A556] text-white"
+                        : "bg-white text-gray-700 shadow-sm hover:bg-[#D9A556] hover:text-white"
+                    }
+                  `}
+                >
+                  {num}
+                </motion.button>
+              )
             ))}
 
             <motion.button

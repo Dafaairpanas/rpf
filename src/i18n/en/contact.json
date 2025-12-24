@@ -35,5 +35,16 @@
         "Kabupaten Pati"
       ]
     }
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email format",
+    "messageRequired": "Message is required"
+  },
+  "messages": {
+    "sendFailed": "Failed to send message",
+    "error": "An error occurred. Please try again.",
+    "loadingProduct": "Loading product info..."
   }
 }

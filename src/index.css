@@ -28,6 +28,17 @@
   .from-bottom {
     transform: translateY(50px);
   }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
 
 @theme {
@@ -35,9 +46,31 @@
   --font-inter: "Inter", sans-serif;
   --font-montserrat: "Montserrat", sans-serif;
 }
+
+/* Base Font Rules:
+   - Montserrat: Titles (h1, h2)
+   - Inter: Subtitles (h3, h4, h5, h6)
+   - Poppins: Body text (p, span, div, etc.)
+*/
 :root {
   margin: 0;
   padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+h1,
+h2 {
+  font-family: "Montserrat", sans-serif;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Inter", sans-serif;
 }
 
 .stroke-text {
@@ -70,4 +103,107 @@
 }
 .w-std {
   width: 85rem;
+}
+
+/* CKEditor Content Styles - for rendering saved content */
+.ck-content .image,
+[class*="prose"] .image,
+.rich-text-content .image {
+  display: block;
+  margin: 1em 0;
+  clear: both;
+}
+
+.ck-content .image img,
+[class*="prose"] .image img,
+.rich-text-content .image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Image resized */
+.ck-content .image.image_resized,
+[class*="prose"] .image.image_resized,
+.rich-text-content .image.image_resized {
+  max-width: 100%;
+}
+
+.ck-content .image.image_resized img,
+[class*="prose"] .image.image_resized img,
+.rich-text-content .image.image_resized img {
+  width: 100%;
+}
+
+/* Image alignment styles */
+.ck-content .image-style-align-left,
+[class*="prose"] .image-style-align-left,
+.rich-text-content .image-style-align-left {
+  float: left;
+  margin-right: 1.5em;
+  margin-bottom: 1em;
+}
+
+.ck-content .image-style-align-right,
+[class*="prose"] .image-style-align-right,
+.rich-text-content .image-style-align-right {
+  float: right;
+  margin-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.ck-content .image-style-align-center,
+[class*="prose"] .image-style-align-center,
+.rich-text-content .image-style-align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ck-content .image-style-block-align-left,
+[class*="prose"] .image-style-block-align-left,
+.rich-text-content .image-style-block-align-left {
+  margin-right: auto;
+}
+
+.ck-content .image-style-block-align-right,
+[class*="prose"] .image-style-block-align-right,
+.rich-text-content .image-style-block-align-right {
+  margin-left: auto;
+}
+
+/* Figure and figcaption */
+.ck-content figure.image,
+[class*="prose"] figure.image,
+.rich-text-content figure.image {
+  display: table;
+  margin: 1em auto;
+}
+
+.ck-content figure.image figcaption,
+[class*="prose"] figure.image figcaption,
+.rich-text-content figure.image figcaption {
+  display: table-caption;
+  caption-side: bottom;
+  text-align: center;
+  font-size: 0.875em;
+  color: #6b7280;
+  padding: 0.5em;
+}
+
+/* Inline images */
+.ck-content .image-style-inline,
+[class*="prose"] .image-style-inline,
+.rich-text-content .image-style-inline {
+  display: inline-block;
+  margin: 0 0.5em;
+}
+
+/* Clear floats after content */
+.ck-content::after,
+[class*="prose"]::after,
+.rich-text-content::after {
+  content: "";
+  display: table;
+  clear: both;
 }

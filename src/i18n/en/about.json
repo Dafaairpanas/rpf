@@ -31,6 +31,7 @@
   },
 
   "values": {
+    "sectionTitle": "Core Values",
     "customer": {
       "title": "Customer",
       "desc": "Ensuring customer satisfaction with excellent product quality."
@@ -46,6 +47,8 @@
   },
 
   "timeline": {
+    "sectionTitle": "Our Story",
+    "sectionSubtitle": "PT.Rajawali Perkasa Furniture was established by Yafet Sutrisno in 2003, at Juwana-Pati, Central Java - Indonesia. We are proud to share our journey from humble beginnings to becoming a trusted partner for renowned companies in the furniture industry.",
     "0": {
       "year": "2003",
       "title": "Establishment",

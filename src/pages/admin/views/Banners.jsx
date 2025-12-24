@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { AlertCircle, Loader2, Link as LinkIcon, Eye, EyeOff } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { AlertCircle, Loader2, Link as LinkIcon, Eye, EyeOff, Package, ExternalLink, Search } from 'lucide-react';
 import useAdminCRUD from '../hooks/useAdminCRUD';
 import AdminTable from '../components/AdminTable';
+import SortFilter from '../components/SortFilter';
 import AdminModal from '../components/AdminModal';
 import AdminImageUploader from '../components/AdminImageUploader';
 import { API_BASE_URL } from '@/config';
+import api from '@/api/axios';
 
 const Banners = () => {
 
@@ -19,6 +21,14 @@ const Banners = () => {
   } = useAdminCRUD('/admin/banners');
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState('newest');
+
+  // PRODUCTS STATE (for Product Picker)
+  const [products, setProducts] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [linkType, setLinkType] = useState('product'); // 'product' | 'external' | 'none'
+  const [productSearchTerm, setProductSearchTerm] = useState('');
 
   // FORM STATE
   const [showModal, setShowModal] = useState(false);
@@ -32,6 +42,53 @@ const Banners = () => {
   const [newImage, setNewImage] = useState(null);
   const [existingImage, setExistingImage] = useState(null);
 
+  // FETCH PRODUCTS on mount
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoadingProducts(true);
+      try {
+        const response = await api.get('/products', { params: { per_page: 100 } });
+        if (response.data.success) {
+          const productData = response.data.data;
+          setProducts(Array.isArray(productData) ? productData : productData.data || []);
+        }
+      } catch (err) {
+        console.error('Error fetching products:', err);
+      } finally {
+        setLoadingProducts(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  // Helper: Parse link to detect product ID
+  const parseProductIdFromLink = (link) => {
+    if (!link) return null;
+    
+    // Check for product_id parameter (works for relative and absolute URLs)
+    const urlParams = new URLSearchParams(link.split('?')[1]);
+    const productId = urlParams.get('product_id');
+    if (productId) return parseInt(productId);
+
+    // Also check for legacy format /products/{id}
+    const legacyMatch = link.match(/\/products\/(\d+)$/);
+    return legacyMatch ? parseInt(legacyMatch[1]) : null;
+  };
+
+  // Helper: Get product name by ID
+  const getProductNameById = (productId) => {
+    const product = products.find(p => p.id === productId);
+    return product?.name || 'Unknown Product';
+  };
+
+  // Filtered products for search
+  const filteredProducts = useMemo(() => {
+    if (!productSearchTerm.trim()) return products;
+    return products.filter(p => 
+      p.name?.toLowerCase().includes(productSearchTerm.toLowerCase())
+    );
+  }, [products, productSearchTerm]);
+
   // HANDLERS
   const handleOpenModal = (banner = null) => {
     if (banner) {
@@ -43,13 +100,58 @@ const Banners = () => {
         is_active: !!banner.is_active
       });
       setExistingImage(banner.image ? (banner.image.startsWith('http') ? banner.image : `${API_BASE_URL}${banner.image.startsWith('/') ? '' : '/'}${banner.image}`) : null);
+      
+      // Parse link type and product ID
+      const productId = parseProductIdFromLink(banner.link);
+      if (productId) {
+        setLinkType('product');
+        setSelectedProductId(productId);
+      } else if (banner.link && banner.link.startsWith('http')) {
+        setLinkType('external');
+        setSelectedProductId(null);
+      } else if (banner.link) {
+        setLinkType('external'); // Treat other internal links as external type
+        setSelectedProductId(null);
+      } else {
+        setLinkType('none');
+        setSelectedProductId(null);
+      }
     } else {
       setEditingId(null);
       setFormData({ title: '', link: '', order: 1, is_active: true });
       setExistingImage(null);
+      setLinkType('none');
+      setSelectedProductId(null);
     }
     setNewImage(null);
+    setProductSearchTerm('');
     setShowModal(true);
+  };
+
+  // Handle product selection
+  const handleProductSelect = (productId) => {
+    setSelectedProductId(productId);
+    if (productId) {
+      // Use absolute URL to satisfy backend validation
+      const baseUrl = window.location.origin;
+      setFormData(prev => ({ ...prev, link: `${baseUrl}/collections?product_id=${productId}` }));
+    } else {
+      setFormData(prev => ({ ...prev, link: '' }));
+    }
+  };
+
+  // Handle link type change
+  const handleLinkTypeChange = (type) => {
+    setLinkType(type);
+    if (type === 'none') {
+      setSelectedProductId(null);
+      setFormData(prev => ({ ...prev, link: '' }));
+    } else if (type === 'product') {
+      setFormData(prev => ({ ...prev, link: '' }));
+    } else if (type === 'external') {
+      setSelectedProductId(null);
+      setFormData(prev => ({ ...prev, link: '' }));
+    }
   };
 
   const handleSave = async (e) => {
@@ -87,16 +189,25 @@ const Banners = () => {
     {
       key: 'title',
       label: 'Info',
-      render: (item) => (
-        <div className="flex flex-col">
-          <span className="font-bold text-[#3C2F26]">{item.title}</span>
-          {item.link && (
-            <span className="flex items-center gap-1 text-[10px] text-gray-400 font-medium">
-              <LinkIcon size={10} /> {item.link}
-            </span>
-          )}
-        </div>
-      )
+      render: (item) => {
+        const productId = parseProductIdFromLink(item.link);
+        return (
+          <div className="flex flex-col">
+            <span className="font-bold text-[#3C2F26]">{item.title}</span>
+            {item.link && (
+              productId ? (
+                <span className="flex items-center gap-1 text-[10px] text-emerald-600 font-medium">
+                  <Package size={10} /> {getProductNameById(productId)}
+                </span>
+              ) : (
+                <span className="flex items-center gap-1 text-[10px] text-blue-500 font-medium">
+                  <ExternalLink size={10} /> {item.link}
+                </span>
+              )
+            )}
+          </div>
+        );
+      }
     },
     {
       key: 'order',
@@ -124,6 +235,24 @@ const Banners = () => {
     }
   ];
 
+  // FILTERED & SORTED DATA
+  const filteredBanners = useMemo(() => {
+    let filtered = banners.filter(banner =>
+      banner.title?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return filtered.sort((a, b) => {
+      if (sortOrder === 'newest') {
+        return new Date(b.created_at) - new Date(a.created_at);
+      } else if (sortOrder === 'oldest') {
+        return new Date(a.created_at) - new Date(b.created_at);
+      } else if (sortOrder === 'name') {
+        return (a.title || '').localeCompare(b.title || '');
+      }
+      return 0;
+    });
+  }, [banners, searchTerm, sortOrder]);
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 bg-[#F4F2EE] min-h-screen">
       {(error || success) && (
@@ -137,7 +266,7 @@ const Banners = () => {
 
       <AdminTable
         title="Banner Management"
-        data={banners}
+        data={filteredBanners}
         columns={columns}
         loading={loading && banners.length === 0}
         searchTerm={searchTerm}
@@ -145,6 +274,7 @@ const Banners = () => {
         onAdd={() => handleOpenModal()}
         onEdit={handleOpenModal}
         onDelete={deleteItem}
+        titleFilter={<SortFilter value={sortOrder} onChange={setSortOrder} />}
       />
 
       <AdminModal
@@ -167,17 +297,150 @@ const Banners = () => {
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Target Link (Optional)</label>
-              <div className="relative">
-                <LinkIcon size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                <input
-                  type="text"
-                  value={formData.link}
-                  onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-                  placeholder="/collections/featured"
-                  className="w-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-3 sm:py-3.5 bg-gray-50 border border-transparent rounded-xl sm:rounded-2xl focus:bg-white focus:border-[#3C2F26]/20 transition-all font-medium text-gray-600"
-                />
+              <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Banner Link Type</label>
+              <div className="flex flex-wrap gap-2 mb-3">
+                <button
+                  type="button"
+                  onClick={() => handleLinkTypeChange('none')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    linkType === 'none' 
+                      ? 'bg-[#3C2F26] text-white' 
+                      : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                  }`}
+                >
+                  No Link
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleLinkTypeChange('product')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                    linkType === 'product' 
+                      ? 'bg-emerald-600 text-white' 
+                      : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                  }`}
+                >
+                  <Package size={14} /> Link to Product
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleLinkTypeChange('external')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                    linkType === 'external' 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                  }`}
+                >
+                  <ExternalLink size={14} /> Custom Link
+                </button>
               </div>
+
+              {/* Product Picker */}
+              {linkType === 'product' && (
+                <div className="space-y-3">
+                  <p className="text-xs text-gray-500 italic">
+                    Pilih produk tujuan, sistem akan membuat link otomatis.
+                  </p>
+                  
+                  {/* Search Products */}
+                  <div className="relative">
+                    <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <input
+                      type="text"
+                      value={productSearchTerm}
+                      onChange={(e) => setProductSearchTerm(e.target.value)}
+                      placeholder="Cari produk..."
+                      className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-emerald-500 transition-all text-sm"
+                    />
+                  </div>
+
+                  {/* Product List */}
+                  <div className="max-h-48 overflow-y-auto border border-gray-200 rounded-xl bg-white">
+                    {loadingProducts ? (
+                      <div className="flex items-center justify-center py-6">
+                        <Loader2 className="animate-spin text-gray-400" size={20} />
+                      </div>
+                    ) : filteredProducts.length === 0 ? (
+                      <div className="text-center py-6 text-gray-400 text-sm">
+                        No products found
+                      </div>
+                    ) : (
+                      filteredProducts.map(product => (
+                        <button
+                          key={product.id}
+                          type="button"
+                          onClick={() => handleProductSelect(product.id)}
+                          className={`w-full px-4 py-3 flex items-center gap-3 text-left transition-all cursor-pointer border-b border-gray-100 last:border-b-0 ${
+                            selectedProductId === product.id 
+                              ? 'bg-emerald-50 text-emerald-700' 
+                              : 'hover:bg-gray-50'
+                          }`}
+                        >
+                          <Package size={16} className={selectedProductId === product.id ? 'text-emerald-600' : 'text-gray-400'} />
+                          <div className="flex-1 min-w-0">
+                            <div className={`text-sm font-medium truncate ${selectedProductId === product.id ? 'text-emerald-700' : 'text-[#3C2F26]'}`}>
+                              {product.name}
+                            </div>
+                            {product.category?.name && (
+                              <div className="text-[10px] text-gray-400 uppercase tracking-wide">
+                                {product.category.name}
+                              </div>
+                            )}
+                          </div>
+                          {selectedProductId === product.id && (
+                            <div className="w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center">
+                              <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                          )}
+                        </button>
+                      ))
+                    )}
+                  </div>
+
+                  {/* Selected Product Preview */}
+                  {selectedProductId && (
+                    <div className="flex items-center gap-2 p-3 bg-emerald-50 border border-emerald-200 rounded-xl">
+                      <Package size={16} className="text-emerald-600" />
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-emerald-600 font-medium">Link akan menuju:</div>
+                        <div className="text-sm font-bold text-emerald-700 truncate">{getProductNameById(selectedProductId)}</div>
+                      </div>
+                      <code className="text-[10px] bg-emerald-100 px-2 py-1 rounded text-emerald-700 whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px]">
+                        ?product_id={selectedProductId}
+                      </code>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* External Link Input */}
+              {linkType === 'external' && (
+                <div className="space-y-2">
+                  <p className="text-xs text-gray-500 italic">
+                    Masukkan URL lengkap untuk link eksternal (contoh: https://example.com)
+                  </p>
+                  <div className="relative">
+                    <ExternalLink size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
+                    <input
+                      type="text"
+                      value={formData.link}
+                      onChange={(e) => setFormData({ ...formData, link: e.target.value })}
+                      placeholder="https://example.com atau /custom-path"
+                      className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-blue-500 transition-all font-medium text-gray-600"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* No Link Info */}
+              {linkType === 'none' && (
+                <div className="p-3 bg-gray-50 border border-gray-200 rounded-xl text-center">
+                  <p className="text-xs text-gray-500">
+                    Banner tidak akan memiliki link. Klik pada banner tidak akan melakukan apa-apa.
+                  </p>
+                </div>
+              )}
             </div>
 
             <div>

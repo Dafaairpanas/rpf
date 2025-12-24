@@ -6,7 +6,7 @@
     "subtitle": "Setiap Produk yang kami buat memberikan cerita-bukan hanya tentang desain dan kualitas, tetapi juga tanggung jawab. Dari bahan yang ramah lingkungan hingga proyek-proyek yang digerakkan oleh masyarakat, perjalanan Tanggung Jawab Sosial Perusahaan kami adalah tentang membangun masa depan yang lebih baik bersama-sama."
   },
   "content": {
-    "title": "Perbuatan Baik, Energi Positif: <span>Highlight CSR</span>",
+    "title": "Perbuatan Baik, Energi Positif: <span>Sorotan CSR</span>",
     "subtitle": "Jelajahi bagaimana kami memberikan dampak melalui inisiatif bermakna dan proyek berbasis komunitas",
     "readMore": "Baca Selengkapnya",
     "pagination": {
@@ -14,8 +14,19 @@
       "next": "Selanjutnya"
     }
   },
+  "detail": {
+    "previous": "Sebelumnya",
+    "next": "Selanjutnya",
+    "share": "Bagikan",
+    "backToCSR": "Kembali ke CSR"
+  },
   "card": {
     "date": "2 Desember 2025",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et rhoncus velit…"
+  },
+  "empty": {
+    "title": "Belum Ada Kegiatan CSR",
+    "subtitle": "Data kegiatan CSR belum tersedia saat ini",
+    "noImage": "Tidak ada gambar"
   }
 }

@@ -31,6 +31,10 @@
         "4": "Outdoor Big Bench",
         "5": "Outdoor Patio Chair"
       }
+    },
+    "empty": {
+      "title": "No Products Found",
+      "subtitle": "The product you are looking for was not found. Try changing the filter or search keyword."
     }
   }
 }

@@ -15,5 +15,15 @@
   "pagination": {
     "previous": "Previous",
     "next": "Next"
+  },
+  "detail": {
+    "previous": "Previous",
+    "next": "Next",
+    "share": "Share",
+    "backToNews": "Back to News"
+  },
+  "empty": {
+    "title": "No News Yet",
+    "subtitle": "The latest news and articles will be available soon"
   }
 }

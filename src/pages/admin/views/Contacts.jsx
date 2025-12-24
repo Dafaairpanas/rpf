@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { AlertCircle, Mail, MailOpen, Reply, Calendar, Info, ShoppingBag } from 'lucide-react';
 import useAdminCRUD from '../hooks/useAdminCRUD';
 import AdminTable from '../components/AdminTable';
+import SortFilter from '../components/SortFilter';
 import AdminModal from '../components/AdminModal';
 
 const Contacts = () => {
@@ -21,6 +22,7 @@ const Contacts = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
+  const [sortOrder, setSortOrder] = useState('newest');
   
   // DETAIL STATE
   const [showModal, setShowModal] = useState(false);
@@ -123,6 +125,25 @@ const Contacts = () => {
     }
   ];
 
+  // FILTERED & SORTED DATA
+  const filteredContacts = useMemo(() => {
+    let filtered = contacts.filter(contact =>
+      contact.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      contact.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return filtered.sort((a, b) => {
+      if (sortOrder === 'newest') {
+        return new Date(b.created_at) - new Date(a.created_at);
+      } else if (sortOrder === 'oldest') {
+        return new Date(a.created_at) - new Date(b.created_at);
+      } else if (sortOrder === 'name') {
+        return (a.name || '').localeCompare(b.name || '');
+      }
+      return 0;
+    });
+  }, [contacts, searchTerm, sortOrder]);
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 bg-[#F4F2EE] min-h-screen">
       {(error || success) && (
@@ -136,7 +157,7 @@ const Contacts = () => {
 
       <AdminTable
         title="Inbound Communications"
-        data={contacts}
+        data={filteredContacts}
         columns={columns}
         loading={loading && contacts.length === 0}
         searchTerm={searchTerm}
@@ -144,20 +165,23 @@ const Contacts = () => {
         onView={handleViewDetail}
         onDelete={deleteItem}
         filters={
-          <div className="relative group">
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="pl-4 pr-10 py-2.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3C2F26]/10 text-xs font-bold text-gray-500 appearance-none transition-all cursor-pointer uppercase tracking-widest"
-            >
-              <option value="">All Threads</option>
-              <option value="new">Unread</option>
-              <option value="read">Archived</option>
-              <option value="replied">Processed</option>
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-300 group-hover:text-gray-400 transition-colors">
-              ▼
+          <div className="flex items-center gap-3">
+            <div className="relative group">
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="pl-2 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3C2F26]/10 text-[10px] sm:text-xs font-bold text-gray-500 appearance-none transition-all cursor-pointer uppercase tracking-widest"
+              >
+                <option value="">All Threads</option>
+                <option value="new">Unread</option>
+                <option value="read">Archived</option>
+                <option value="replied">Processed</option>
+              </select>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-300 group-hover:text-gray-400 transition-colors">
+                ▼
+              </div>
             </div>
+            <SortFilter value={sortOrder} onChange={setSortOrder} />
           </div>
         }
       />
@@ -167,7 +191,7 @@ const Contacts = () => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         title="Interaction Intelligence"
-        maxWidth="max-w-2xl"
+        maxWidth="max-w-4xl"
       >
         {selectedContact && (
           <div className="space-y-8">
@@ -223,14 +247,14 @@ const Contacts = () => {
                 {selectedContact.status !== 'replied' && (
                   <button
                     onClick={() => handleUpdateStatus(selectedContact.id, 'replied')}
-                    className="bg-emerald-500 text-white px-6 py-3 rounded-2xl font-bold hover:bg-emerald-600 transition-all shadow-lg active:scale-95 flex items-center gap-2 text-xs uppercase tracking-widest"
+                    className="bg-emerald-500 text-white px-6 py-3 rounded-2xl font-bold hover:bg-emerald-600 transition-all shadow-lg active:scale-95 flex items-center gap-2 text-xs uppercase tracking-widest cursor-pointer"
                   >
                     <Reply size={16} /> Mark as Processed
                   </button>
                 )}
                 <button
                   onClick={() => setShowModal(false)}
-                  className="bg-gray-100 text-gray-500 px-6 py-3 rounded-2xl font-bold hover:bg-gray-200 transition-all text-xs uppercase tracking-widest"
+                  className="bg-gray-100 text-gray-500 px-6 py-3 rounded-2xl font-bold hover:bg-gray-200 transition-all text-xs uppercase tracking-widest cursor-pointer"
                 >
                   Close
                 </button>
@@ -247,7 +271,7 @@ const Contacts = () => {
             <button
               key={page}
               onClick={() => fetchData({ page })}
-              className={`w-10 h-10 rounded-xl font-bold text-xs transition-all ${
+              className={`w-10 h-10 rounded-xl font-bold text-xs transition-all cursor-pointer ${
                 page === pagination.current_page
                   ? 'bg-[#3C2F26] text-white shadow-xl scale-110'
                   : 'bg-white text-gray-400 hover:bg-gray-50'

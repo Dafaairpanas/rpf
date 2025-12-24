@@ -27,7 +27,7 @@ export default function TimelineSection({ t }) {
           {...sectionHeadingVariant}
           className="text-center text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6"
         >
-          Our Story
+          {t("timeline.sectionTitle")}
         </M.h2>
 
         <M.p
@@ -37,10 +37,7 @@ export default function TimelineSection({ t }) {
           viewport={{ once: true, amount: 0.2 }}
           className="text-center max-w-3xl mx-auto text-gray-300 leading-relaxed mb-8 sm:mb-30 text-sm sm:text-base "
         >
-          PT.Rajawali Perkasa Furniture was established by Yafet Sutrisno in
-          2003, at Juwana-Pati, Central Java - Indonesia. We are proud to
-          share our journey from humble beginnings to becoming a trusted
-          partner for renowned companies in the furniture industry.
+          {t("timeline.sectionSubtitle")}
         </M.p>
 
         {/* DESKTOP TIMELINE */}

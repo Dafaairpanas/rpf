@@ -27,31 +27,37 @@ const NewsPagination = memo(function NewsPagination({
         whileHover={{ scale: 1.1 }}
         onClick={onPrevious}
         disabled={currentPage === 1}
-        className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-[#E7E4DF] flex items-center justify-center text-gray-700 hover:bg-[#D9A556] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-[#E7E4DF] flex items-center justify-center text-gray-700 hover:bg-[#D9A556] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
       >
         <ChevronLeft size={14} className="sm:w-4 sm:h-4" />
       </motion.button>
 
-      {paginationItems.map((num) => (
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          key={num}
-          onClick={() => onPageClick(num)}
-          className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md flex items-center justify-center font-medium text-xs sm:text-sm transition ${
-            num === currentPage
-              ? "bg-[#D9A556] text-white"
-              : "bg-white text-gray-700 shadow-sm hover:bg-[#D9A556] hover:text-white"
-          }`}
-        >
-          {num}
-        </motion.button>
+      {paginationItems.map((num, idx) => (
+        num === '...' ? (
+          <span key={`dots-${idx}`} className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500">
+            ...
+          </span>
+        ) : (
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            key={num}
+            onClick={() => onPageClick(num)}
+            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md flex items-center justify-center font-medium text-xs sm:text-sm transition cursor-pointer ${
+              num === currentPage
+                ? "bg-[#D9A556] text-white"
+                : "bg-white text-gray-700 shadow-sm hover:bg-[#D9A556] hover:text-white"
+            }`}
+          >
+            {num}
+          </motion.button>
+        )
       ))}
 
       <motion.button
         whileHover={{ scale: 1.1 }}
         onClick={onNext}
         disabled={currentPage === lastPage}
-        className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-[#E7E4DF] flex items-center justify-center text-gray-700 hover:bg-[#D9A556] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-[#E7E4DF] flex items-center justify-center text-gray-700 hover:bg-[#D9A556] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
       >
         <ChevronRight size={14} className="sm:w-4 sm:h-4" />
       </motion.button>

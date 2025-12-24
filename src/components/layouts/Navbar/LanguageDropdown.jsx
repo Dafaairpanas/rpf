@@ -41,7 +41,7 @@ export default function LanguageDropdown({ FLAGS, i18n, changeLang }) {
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((s) => !s)}
-        className="flex items-center gap-2 px-2 py-1 rounded-full hover:shadow-sm transition ring-offset-2"
+        className="flex items-center gap-2 px-2 py-1 rounded-full hover:shadow-sm transition ring-offset-2 cursor-pointer"
       >
         <div
           className={`w-8 h-8 rounded-full overflow-hidden border ${
@@ -78,7 +78,7 @@ export default function LanguageDropdown({ FLAGS, i18n, changeLang }) {
                   if (!active) changeLang(lang.code);
                   setOpen(false);
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2 text-left transition hover:bg-gray-50 ${
+                className={`w-full flex items-center gap-3 px-3 py-2 text-left transition hover:bg-gray-50 cursor-pointer ${
                   active ? "bg-gray-100" : ""
                 }`}
               >

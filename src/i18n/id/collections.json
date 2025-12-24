@@ -3,7 +3,7 @@
     "hero": {
       "title": "Jelajahi",
       "titleHighlight": "Koleksi Kami",
-      "subtitle": "Temukan dunia keanggunan abadi. Tingkatkan ruang Anda dengan pilihan terbaik kami."
+      "subtitle": "Temukan keanggunan abadi. Tingkatkan ruang Anda dengan pilihan terbaik kami."
     },
     "main": {
       "title": "Temukan",
@@ -11,26 +11,30 @@
       "titleSuffix": "di Koleksi Kami"
     },
     "filters": {
-      "indoor": "Indoor",
-      "outdoor": "Outdoor",
+      "indoor": "Dalam Ruangan",
+      "outdoor": "Luar Ruangan",
       "all": "Semua",
       "searchPlaceholder": "Cari produk berdasarkan nama"
     },
     "products": {
       "indoor": {
-        "1": "Kursi Premium Indoor",
-        "2": "Meja Modern Indoor",
-        "3": "Set Sofa Indoor",
-        "4": "Lampu Indoor",
-        "5": "Laci Klasik Indoor"
+        "1": "Kursi Premium Dalam Ruangan",
+        "2": "Meja Modern Dalam Ruangan",
+        "3": "Set Sofa Dalam Ruangan",
+        "4": "Lampu Dalam Ruangan",
+        "5": "Laci Klasik Dalam Ruangan"
       },
       "outdoor": {
-        "1": "Kursi Santai Outdoor",
-        "2": "Meja Kopi Outdoor",
-        "3": "Kursi Minimalis Outdoor",
-        "4": "Bangku Besar Outdoor",
-        "5": "Kursi Teras Outdoor"
+        "1": "Kursi Santai Luar Ruangan",
+        "2": "Meja Kopi Luar Ruangan",
+        "3": "Kursi Minimalis Luar Ruangan",
+        "4": "Bangku Besar Luar Ruangan",
+        "5": "Kursi Teras Luar Ruangan"
       }
+    },
+    "empty": {
+      "title": "Tidak Ada Produk",
+      "subtitle": "Produk yang Anda cari tidak ditemukan. Coba ubah filter atau kata kunci pencarian."
     }
   }
 }

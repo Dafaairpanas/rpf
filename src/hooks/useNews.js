@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { getNews, getTopNews } from '@/api/news.api';
+import { generatePagination } from '@/utils/pagination';
 
 /**
  * useNews - Custom hook for news data fetching
  * Handles pagination, top news, and loading states
  */
 export function useNews(perPage = 6) {
+
   const [news, setNews] = useState([]);
   const [topNews, setTopNews] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -40,13 +42,26 @@ export function useNews(perPage = 6) {
       const response = await getNews({ page, per_page: perPage });
       if (response.data.success) {
         const result = response.data.data;
-        setNews(result.data || []);
-        setPagination({
-          current_page: result.current_page,
-          last_page: result.last_page,
-          per_page: result.per_page,
-          total: result.total
-        });
+        // Backend now returns array directly, not paginated
+        if (Array.isArray(result)) {
+          setNews(result);
+          // No pagination anymore
+          setPagination({
+            current_page: 1,
+            last_page: 1,
+            per_page: result.length,
+            total: result.length
+          });
+        } else {
+          // Fallback for old paginated response
+          setNews(result.data || []);
+          setPagination({
+            current_page: result.current_page,
+            last_page: result.last_page,
+            per_page: result.per_page,
+            total: result.total
+          });
+        }
       }
     } catch (error) {
       console.error('Error fetching News:', error);
@@ -77,23 +92,9 @@ export function useNews(perPage = 6) {
     setCurrentPage(pageNumber);
   }, []);
 
-  // Generate pagination items (max 4 visible)
+  // Generate pagination items with ellipsis
   const paginationItems = useMemo(() => {
-    const items = [];
-    const maxVisible = 4;
-
-    if (pagination.last_page <= maxVisible) {
-      for (let i = 1; i <= pagination.last_page; i++) items.push(i);
-    } else {
-      if (currentPage <= 2) {
-        for (let i = 1; i <= maxVisible; i++) items.push(i);
-      } else if (currentPage >= pagination.last_page - 1) {
-        for (let i = pagination.last_page - maxVisible + 1; i <= pagination.last_page; i++) items.push(i);
-      } else {
-        for (let i = currentPage - 1; i <= currentPage + 2; i++) items.push(i);
-      }
-    }
-    return items;
+    return generatePagination(currentPage, pagination.last_page);
   }, [pagination.last_page, currentPage]);
 
   // Filter out top news from regular cards

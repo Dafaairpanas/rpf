@@ -6,7 +6,7 @@ import api from '@/api/axios';
  * Hyper-stable version with request-in-progress shielding.
  */
 export default function useAdminCRUD(endpoint, options = {}) {
-  const { initialParams = {}, transformData = (d) => d, skipFetch = false } = options;
+  const { initialParams = { per_page: -1 }, transformData = (d) => d, skipFetch = false } = options;
   
   const [items, setItems] = useState([]);
   const [pagination, setPagination] = useState({ current_page: 1, last_page: 1, total: 0 });

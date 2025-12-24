@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertCircle, Heart } from 'lucide-react';
 import useAdminCRUD from '../hooks/useAdminCRUD';
 import AdminTable from '../components/AdminTable';
+import SortFilter from '../components/SortFilter';
 
 const Csr = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Csr = () => {
   } = useAdminCRUD('/csrs');
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState('newest');
 
   // TABLE COLUMNS
   const columns = [
@@ -41,10 +43,23 @@ const Csr = () => {
     }
   ];
 
-  // FILTER DATA
-  const filteredData = csrList.filter(item =>
-    item.title?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // FILTER & SORT DATA
+  const filteredData = useMemo(() => {
+    let filtered = csrList.filter(item =>
+      item.title?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return filtered.sort((a, b) => {
+      if (sortOrder === 'newest') {
+        return new Date(b.created_at) - new Date(a.created_at);
+      } else if (sortOrder === 'oldest') {
+        return new Date(a.created_at) - new Date(b.created_at);
+      } else if (sortOrder === 'name') {
+        return (a.title || '').localeCompare(b.title || '');
+      }
+      return 0;
+    });
+  }, [csrList, searchTerm, sortOrder]);
 
   // HANDLERS - Navigate to full-screen form
   const handleAdd = () => navigate('/admin/csr/create');
@@ -65,7 +80,7 @@ const Csr = () => {
       <AdminTable
         title="CSR Initiatives"
         subtitle="Corporate Social Responsibility Programs"
-        icon={<Heart size={20} className="text-[#3C2F26]" />}
+
         data={filteredData}
         columns={columns}
         loading={loading && csrList.length === 0}
@@ -75,6 +90,7 @@ const Csr = () => {
         onEdit={handleEdit}
         onDelete={deleteItem}
         addButtonText="New Initiative"
+        titleFilter={<SortFilter value={sortOrder} onChange={setSortOrder} />}
       />
     </div>
   );

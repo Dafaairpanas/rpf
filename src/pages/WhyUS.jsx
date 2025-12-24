@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { IMAGES } from "@/assets/assets";
+import { IMAGES, HERO_BACKGROUNDS } from "@/assets/assets";
 import { useTranslation } from "react-i18next";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Grid, Pagination, Navigation, Autoplay } from "swiper/modules";
@@ -35,10 +35,23 @@ const itemFadeInVariant = {
   show: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
 };
 
-const heroTextVariant = {
-  initial: { opacity: 0, y: 40 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 1.2, delay: 0.3 },
+const heroVariants = {
+  section: {
+    initial: { opacity: 0, scale: 1.1 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 1.2, ease: "easeOut" } },
+  },
+  overlay: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { delay: 0.4, duration: 1 } },
+  },
+  title: {
+    initial: { y: 40, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { delay: 0.6, duration: 0.9 } },
+  },
+  subtitle: {
+    initial: { y: 20, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { delay: 0.9, duration: 0.9 } },
+  },
 };
 
 // Custom Swiper Styles
@@ -152,28 +165,32 @@ function WhyUS() {
     <div className="w-full overflow-x-hidden">
       <style>{swiperStyles}</style>
       {/* SECTION: HERO */}
-      <section
-        className="relative w-full min-h-[85vh] sm:min-h-[95vh] md:min-h-[100vh] bg-cover bg-center flex items-center justify-center"
-        style={{ backgroundImage: `url(${IMAGES.bg1})` }}
+      <motion.section
+        {...heroVariants.section}
+        className="relative w-full min-h-[85vh] sm:min-h-[95vh] md:min-h-[100vh] bg-cover bg-center flex items-center justify-center text-center"
+        style={{ backgroundImage: `url(${HERO_BACKGROUNDS.whyus})` }}
       >
-        <div className="absolute inset-0 bg-black/40"></div>
+        <motion.div {...heroVariants.overlay} className="absolute inset-0 bg-black/40" />
 
-        <motion.div
-          {...heroTextVariant}
-          className="relative z-10 text-center px-4 sm:px-6 w-full max-w-4xl mx-auto flex flex-col items-center justify-center"
-        >
-          <h1 className="text-white font-montserrat font-extrabold text-5xl sm:text-7xl leading-tight drop-shadow-md">
+        <div className="relative z-10 text-center px-4 sm:px-6 w-full max-w-4xl mx-auto flex flex-col items-center justify-center">
+          <motion.h1 
+            {...heroVariants.title}
+            className="text-white font-montserrat font-extrabold text-5xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md"
+          >
             {t("whyus.hero.line1")} {t("whyus.hero.line2")}{" "}
             <span className="text-[#e8ddc7]">
               {t("whyus.hero.line3")} {t("whyus.hero.line4")}
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="text-gray-200 text-lg md:text-xl mt-6 font-poppins drop-shadow max-w-xl">
+          <motion.p 
+            {...heroVariants.subtitle}
+            className="text-gray-200 text-lg md:text-xl mt-6 font-poppins drop-shadow max-w-xl mx-auto"
+          >
             {t("whyus.hero.subtitle")}
-          </p>
-        </motion.div>
-      </section>
+          </motion.p>
+        </div>
+      </motion.section>
 
       {/* SECTION: BRANDS */}
       <section className="w-full py-10 px-4 sm:px-6 lg:px-12 bg-white">
@@ -202,11 +219,11 @@ function WhyUS() {
           >
             {loadingBrands ? (
               <div className="text-center py-12 text-gray-500">
-                Loading brands...
+                {t("whyus.loading.brands")}
               </div>
             ) : brands.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
-                No brands found
+                {t("whyus.empty.brands")}
               </div>
             ) : (
               <>
@@ -326,11 +343,11 @@ function WhyUS() {
 
           {loadingCerts ? (
             <div className="text-center py-12 text-gray-500">
-              Loading certifications...
+              {t("whyus.loading.certifications")}
             </div>
           ) : certifications.length === 0 ? (
             <div className="text-center py-12 text-gray-500">
-              No certifications found
+              {t("whyus.empty.certifications")}
             </div>
           ) : (
             <>

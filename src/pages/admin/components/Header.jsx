@@ -27,10 +27,6 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen, onMenuClick }) => {
         <Menu size={24} className="text-[#3C2F26]" />
       </button>
 
-      {/* System Version - Hidden on mobile */}
-      <div className="hidden sm:block mr-auto lg:mr-0 text-[#3C2F26] font-medium opacity-50 text-xs lg:text-sm">
-        Furniture Management System v2.0
-      </div>
 
       {/* User Dropdown */}
       <div 

@@ -73,7 +73,7 @@ const ProductModal = memo(function ProductModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={handleBackdropClick}
-        className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-2 sm:p-4"
+        className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-2 sm:p-4 cursor-pointer"
       >
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
@@ -86,7 +86,7 @@ const ProductModal = memo(function ProductModal({
           <motion.button
             whileHover={{ scale: 1.1 }}
             onClick={onClose}
-            className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/90 hover:bg-white rounded-full p-1.5 sm:p-2 z-30 shadow-lg border border-gray-200 transition-all"
+            className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/90 hover:bg-white rounded-full p-1.5 sm:p-2 z-30 shadow-lg border border-gray-200 transition-all cursor-pointer"
           >
             <X size={18} className="sm:w-5 sm:h-5 text-[#3C2F26]" />
           </motion.button>
@@ -120,14 +120,14 @@ const ProductModal = memo(function ProductModal({
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         onClick={prevImage}
-                        className="pointer-events-auto bg-white/90 hover:bg-white p-1.5 sm:p-2 rounded-full shadow-md transition"
+                        className="pointer-events-auto bg-white/90 hover:bg-white p-1.5 sm:p-2 rounded-full shadow-md transition cursor-pointer"
                       >
                         <ChevronLeft size={16} className="sm:w-[18px] sm:h-[18px] text-[#3C2F26]" />
                       </motion.button>
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         onClick={nextImage}
-                        className="pointer-events-auto bg-white/90 hover:bg-white p-1.5 sm:p-2 rounded-full shadow-md transition"
+                        className="pointer-events-auto bg-white/90 hover:bg-white p-1.5 sm:p-2 rounded-full shadow-md transition cursor-pointer"
                       >
                         <ChevronRight size={16} className="sm:w-[18px] sm:h-[18px] text-[#3C2F26]" />
                       </motion.button>
@@ -148,7 +148,7 @@ const ProductModal = memo(function ProductModal({
                           key={`thumb-prod-${idx}`}
                           whileHover={{ scale: 1.05 }}
                           onClick={() => selectImage(idx)}
-                          className={`w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                          className={`w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
                             idx === imageIndex 
                               ? 'border-[#C58E47] shadow-md' 
                               : 'border-gray-200 hover:border-gray-300'
@@ -172,7 +172,7 @@ const ProductModal = memo(function ProductModal({
                               key={`thumb-teak-${idx}`}
                               whileHover={{ scale: 1.1 }}
                               onClick={() => selectImage(teakStartIndex + idx)}
-                              className={`w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl border-2 overflow-hidden shadow-md transition-all ${
+                              className={`w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl border-2 overflow-hidden shadow-md transition-all cursor-pointer ${
                                 (teakStartIndex + idx) === imageIndex 
                                   ? 'border-[#C58E47]' 
                                   : 'border-white hover:border-gray-300'
@@ -249,7 +249,7 @@ const ProductModal = memo(function ProductModal({
                             key={`cover-${idx}`}
                             whileHover={{ scale: 1.1, y: -2 }}
                             onClick={() => selectImage(coverStartIndex + idx)}
-                            className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 overflow-hidden shadow-sm bg-white ${
+                            className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 overflow-hidden shadow-sm bg-white cursor-pointer ${
                               (coverStartIndex + idx) === imageIndex ? 'border-[#C58E47]' : 'border-white'
                             }`}
                           >
@@ -266,11 +266,11 @@ const ProductModal = memo(function ProductModal({
                   )}
 
                   {/* Notice */}
-                  <div className="py-2 sm:py-3">
+                  {/* <div className="py-2 sm:py-3">
                     <p className="text-[10px] sm:text-[11px] text-gray-400 italic font-poppins">
                       * Handcrafted with precision. Texture and grain may vary naturally.
                     </p>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Order Button */}
@@ -279,7 +279,7 @@ const ProductModal = memo(function ProductModal({
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleOrderClick}
-                    className="w-full bg-[#C58E47] hover:bg-[#B8793A] text-white font-bold text-sm sm:text-base py-2.5 sm:py-3 rounded-xl sm:rounded-2xl transition-all shadow-xl shadow-[#C58E47]/20 flex items-center justify-center gap-2 sm:gap-3"
+                    className="w-full bg-[#C58E47] hover:bg-[#B8793A] text-white font-bold text-sm sm:text-base py-2.5 sm:py-3 rounded-xl sm:rounded-2xl transition-all shadow-xl shadow-[#C58E47]/20 flex items-center justify-center gap-2 sm:gap-3 cursor-pointer"
                   >
                     Order Now
                     <ChevronRight size={16} className="sm:w-[18px] sm:h-[18px]" />

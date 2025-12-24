@@ -1,10 +1,10 @@
 {
   "hero": {
-    "line1": "Menciptakan furnitur indoor",
-    "line2": "& outdoor",
+    "line1": "Menciptakan furnitur dalam ruangan",
+    "line2": "& luar ruangan",
     "highlight": "Terbaik",
-    "line3": "dengan beragam finishing.",
-    "subtitle": "Dirancang untuk meningkatkan ruang Anda dengan kualitas, gaya, dan daya tahan yang lama."
+    "line3": "dengan beragam sentuhan akhir.",
+    "subtitle": "Dirancang untuk memperindah ruang Anda dengan kualitas, gaya, dan daya tahan yang lama."
   },
 
   "stats": {
@@ -31,12 +31,13 @@
   },
 
   "values": {
+    "sectionTitle": "Nilai Utama",
     "customer": {
       "title": "Pelanggan",
       "desc": "Memastikan kepuasan pelanggan dengan kualitas produk yang sangat baik."
     },
     "people": {
-      "title": "Manusia",
+      "title": "Sumber Daya Manusia",
       "desc": "Memastikan layanan terbaik dengan sumber daya manusia yang terlatih dengan baik."
     },
     "improvement": {
@@ -46,6 +47,8 @@
   },
 
   "timeline": {
+    "sectionTitle": "Kisah Kami",
+    "sectionSubtitle": "PT.Rajawali Perkasa Furniture didirikan oleh Yafet Sutrisno pada tahun 2003, di Juwana-Pati, Jawa Tengah - Indonesia. Kami bangga berbagi perjalanan kami dari awal yang sederhana hingga menjadi mitra terpercaya untuk perusahaan-perusahaan ternama di industri furnitur.",
     "0": {
       "year": "2003",
       "title": "Pendirian",

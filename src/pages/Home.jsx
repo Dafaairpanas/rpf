@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { IMAGES } from "@/assets/assets.js";
+import { AnimatePresence } from "framer-motion";
+import { IMAGES, HERO_BACKGROUNDS } from "@/assets/assets.js";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -10,6 +11,32 @@ import { getProductDisplayImage } from "@/utils/imageHelpers";
 const mainVariant = {
   hidden: { opacity: 0, x: -100 },
   visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } },
+};
+
+const heroVariants = {
+  section: {
+    initial: { opacity: 0, scale: 1.1 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 1.2, ease: "easeOut" } },
+  },
+  overlay: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { delay: 0.4, duration: 1 } },
+  },
+  title: {
+    initial: { y: 40, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { delay: 0.6, duration: 0.9 } },
+  },
+  subtitle: {
+    initial: { y: 20, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { delay: 0.9, duration: 0.9 } },
+  },
+};
+
+// Background slideshow animation
+const bgSlideVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.8, ease: "easeInOut" } },
+  exit: { opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } },
 };
 
 const cardContainer = {
@@ -48,12 +75,26 @@ const section4Variant = {
 
 // ============ CONSTANTS ============
 const FALLBACK_ITEMS = [1, 2, 3, 4];
+const SLIDESHOW_INTERVAL = 2000; // 2 detik
 
 function Home() {
   const { t } = useTranslation("home");
   const navigate = useNavigate();
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
+  const [activeBgIndex, setActiveBgIndex] = useState(0);
+
+  // Background slideshow effect
+  const heroImages = HERO_BACKGROUNDS.home;
+  useEffect(() => {
+    if (!Array.isArray(heroImages) || heroImages.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      setActiveBgIndex((prev) => (prev + 1) % heroImages.length);
+    }, SLIDESHOW_INTERVAL);
+    
+    return () => clearInterval(interval);
+  }, [heroImages]);
 
   // Fetch featured products
   useEffect(() => {
@@ -87,46 +128,60 @@ function Home() {
     return FALLBACK_ITEMS.map(id => ({ id, name: `Item ${id}`, isFallback: true }));
   }, [featuredProducts]);
 
-  // Memoized tripled array for infinite scroll effect
-  const tripledItems = useMemo(() => 
-    [...carouselItems, ...carouselItems, ...carouselItems],
-    [carouselItems]
-  );
+  // Memoized multiplied array for infinite scroll effect (10x to prevent gaps on zoom out)
+  const multipliedItems = useMemo(() => {
+    const items = carouselItems;
+    return [...items, ...items, ...items, ...items, ...items, ...items, ...items, ...items, ...items, ...items];
+  }, [carouselItems]);
+
+  // Get current background image
+  const currentBgImage = Array.isArray(heroImages) ? heroImages[activeBgIndex] : heroImages;
 
   return (
     <div className="w-full overflow-x-hidden">
-      <section
-        className="relative w-full h-[95vh] sm:h-[100vh] bg-cover bg-center flex items-center"
-        style={{ backgroundImage: `url(${IMAGES.bg1})` }}
+      <motion.section
+        {...heroVariants.section}
+        className="relative w-full h-[95vh] sm:h-[100vh] flex items-center overflow-hidden"
       >
-        <div className="absolute inset-0 bg-black/40"></div>
+        {/* Slideshow Background */}
+        <AnimatePresence mode="sync">
+          <motion.div
+            key={activeBgIndex}
+            variants={bgSlideVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${currentBgImage})` }}
+          />
+        </AnimatePresence>
+        
+        <motion.div {...heroVariants.overlay} className="absolute inset-0 bg-black/40 z-[1]" />
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={mainVariant}
-          className="relative z-10 w-full px-6 sm:px-10 text-left flex flex-col items-start justify-center gap-6 h-full mx-auto pt-10 max-w-std"
-        >
-          <h1 className="font-montserrat font-bold text-white text-5xl sm:text-5xl md:text-6xl leading-snug max-w-[260px] sm:max-w-[70%] mb-[5rem] sm:mb-0">
-            {t("section1.line1")} {t("section1.line2")}{" "}
-            <span className="text-[#EEE4C8]">
-              {t("section1.highlight")}&nbsp;
-            </span>{" "}
-            {t("section1.line3")} {t("section1.line4")} {t("section1.line5")}
-          </h1>
+        <div className="relative z-10 w-std mx-auto px-6 h-full flex items-center">
+          <div className="max-w-4xl text-left">
+            <motion.h1
+              {...heroVariants.title}
+              className="font-montserrat font-extrabold text-white text-5xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md mb-[5rem] sm:mb-0"
+            >
+              {t("section1.line1")} {t("section1.line2")}{" "}
+              <span className="text-[#EEE4C8]">
+                {t("section1.highlight")}&nbsp;
+              </span>
+              {t("section1.line3")} {t("section1.line4")} {t("section1.line5")}
+            </motion.h1>
 
-          <motion.a
-            href="/about"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="w-fit px-16 py-3 mt-12 mb-16 text-[#28221F] text-2xl font-inter font-semibold rounded-xl shadow-lg text-center bg-[#CB9147] transition-all duration-500 ease-out hover:bg-[#28221F]  hover:from-transparent hover:text-white hover:translate-y-[-2px] hover:scale-105"
-          >
-            {t("section1.button")}
-          </motion.a>
-        </motion.div>
-      </section>
+            <motion.div {...heroVariants.subtitle}>
+              <a
+                href="/about"
+                className="inline-block w-fit px-12 sm:px-16 py-3 mt-10 text-[#28221F] text-xl sm:text-2xl font-inter font-semibold rounded-xl shadow-lg text-center bg-[#CB9147] transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105 cursor-pointer"
+              >
+                {t("section1.button")}
+              </a>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
 
       <motion.section
         initial="hidden"
@@ -161,9 +216,9 @@ function Home() {
             <img
               src={IMAGES.indoor}
               alt="Indoor furniture"
-              className="w-full h-[250px] sm:h-[300px] md:h-[350px] object-cover rounded-xl hover:scale-105 transition-transform duration-500"
+              className="w-full h-[250px] sm:h-[300px] md:h-[350px] object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
             />
-            <span className="absolute top-4 left-4 bg-gradient-to-r from-[#343130] to-[#654823] text-white px-6 py-3 rounded-md text-xs sm:text-sm font-poppins transition-all duration-500 group-hover:-top-6 group-hover:left-8">
+            <span className="absolute top-4 left-4 bg-gradient-to-r from-[#343130] to-[#654823] text-white px-6 py-3 rounded-md text-xs sm:text-sm font-poppins transition-all duration-500 group-hover:-top-6 group-hover:left-6">
               {t("section2.indoor")}
             </span>
           </motion.div>
@@ -176,9 +231,9 @@ function Home() {
             <img
               src={IMAGES.outdoor}
               alt="Outdoor furniture"
-              className="w-full h-[250px] sm:h-[300px] md:h-[350px] object-cover rounded-xl hover:scale-105 transition-transform duration-500"
+              className="w-full h-[250px] sm:h-[300px] md:h-[350px] object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
             />
-            <span className="absolute top-4 left-4 bg-gradient-to-r from-[#343130] to-[#654823] text-white px-6 py-3 rounded-md text-xs sm:text-sm font-poppins transition-all duration-500 group-hover:-top-6 group-hover:left-8">
+            <span className="absolute top-4 left-4 bg-gradient-to-r from-[#343130] to-[#654823] text-white px-6 py-3 rounded-md text-xs sm:text-sm font-poppins transition-all duration-500 group-hover:-top-5 group-hover:left-6">
               {t("section2.outdoor")}
             </span>
           </motion.div>
@@ -194,63 +249,64 @@ function Home() {
       >
         <motion.div
           variants={cardItem}
-          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-14 "
+          className="text-center mb-14"
         >
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-inter font-bold">
             {t("section3.title")}
           </h2>
-
-          <a
-            href="/collections"
-            className="text-base sm:text-lg text-[#e6d6b8] hover:bg-[#e6d6b8] hover:text-black py-2 px-4 rounded-full transition-all duration-300 w-max hover:translate-y-[5px] font-poppins font-medium"
-          >
-            {t("section3.button")}
-          </a>
         </motion.div>
 
         <div className="relative w-full overflow-hidden">
-          <motion.div
-            initial={{ x: 0 }}
-            animate={{
-              x: -2400,
-              transition: {
-                duration: 30,
-                repeat: Infinity,
-                ease: "linear",
-                repeatType: "loop",
-              },
-            }}
-            className="flex gap-6 sm:gap-8 w-max"
-          >
-            {tripledItems.map((item, index) => (
-              <motion.div
-                key={`card-${item.id}-${index}`}
-                onClick={() => {
-                  if (item.isFallback) {
-                    navigate("/collections");
-                  } else {
-                    navigate(`/collections?product_id=${item.id}`);
-                  }
-                }}
-                className="group bg-white rounded-xl flex flex-col justify-center py-6 h-fit flex-shrink-0 w-[160px] sm:w-[220px] md:w-[260px] cursor-pointer"
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <div className="overflow-hidden rounded-lg flex items-center justify-center h-32 sm:h-48 md:h-56">
-                  <motion.img
-                    src={item.isFallback ? IMAGES.chairSvg : getProductDisplayImage(item, IMAGES.chairSvg)}
-                    alt={item.name || `Product ${item.id}`}
-                    loading="lazy"
-                    className="object-contain h-full w-full group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => { e.target.src = IMAGES.chairSvg }}
-                  />
-                </div>
+          {/* CSS-based infinite scroll for smoother animation */}
+          <style>
+            {`
+              @keyframes scrollCarousel {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-10%); }
+              }
+              .carousel-track {
+                animation: scrollCarousel 12s linear infinite;
+              }
+              .carousel-track:hover {
+                animation-play-state: paused;
+              }
+            `}
+          </style>
+          
+          {/* Centered wrapper */}
+          <div className="flex justify-center w-full">
+            <div className="carousel-track flex gap-6 sm:gap-8">
+              {multipliedItems.map((item, index) => (
+                <motion.div
+                  key={`card-${item.id}-${index}`}
+                  onClick={() => {
+                    if (item.isFallback) {
+                      navigate("/collections");
+                    } else {
+                      navigate(`/collections?product_id=${item.id}`);
+                    }
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  className="group bg-white rounded-xl flex flex-col justify-center py-6 h-fit flex-shrink-0 w-[160px] sm:w-[220px] md:w-[260px] cursor-pointer"
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <div className="overflow-hidden rounded-lg flex items-center justify-center h-32 sm:h-48 md:h-56">
+                    <motion.img
+                      src={item.isFallback ? IMAGES.chairSvg : getProductDisplayImage(item, IMAGES.chairSvg)}
+                      alt={item.name || `Product ${item.id}`}
+                      loading="lazy"
+                      className="object-contain h-full w-full group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => { e.target.src = IMAGES.chairSvg }}
+                    />
+                  </div>
 
-                <p className="text-xs sm:text-sm md:text-base text-black group-hover:text-[#CB9147] transition-colors duration-300 text-center mt-4 font-poppins font-medium px-2 truncate">
-                  {item.name}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
+                  <p className="text-xs sm:text-sm md:text-base text-black group-hover:text-[#CB9147] transition-colors duration-300 text-center mt-4 font-poppins font-medium px-2 truncate">
+                    {item.name}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
 
           <div className="absolute left-0 top-0 w-20 sm:w-32 h-full bg-gradient-to-r from-[#1c1511] to-transparent pointer-events-none z-10"></div>
           <div className="absolute right-0 top-0 w-20 sm:w-32 h-full bg-gradient-to-l from-[#1c1511] to-transparent pointer-events-none z-10"></div>
@@ -262,13 +318,13 @@ function Home() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
         variants={section4Variant}
-        className="w-full py-10 pb-20 px-5 sm:px-10 md:px-16 bg-[#F5F5F5] text-center"
+        className="w-full py-10 pb-12 px-5 sm:px-10 md:px-16 bg-[#F5F5F5] text-center"
       >
         <h2 className="text-2xl sm:text-4xl md:text-5xl font-montserrat font-extrabold text-[#28221F]">
           {t("section4.title")}
         </h2>
 
-        <p className="text-gray-600 mt-4 text-sm sm:text-lg max-w-2xl mx-auto font-poppins">
+        <p className="text-gray-600 mt-4 text-sm sm:text-lg max-w-2xl mx-auto font-poppins ">
           {t("section4.desc")}
         </p>
 
@@ -277,7 +333,7 @@ function Home() {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           viewport={{ once: true, amount: 0.5 }}
-          className="w-full max-w-4xl mx-auto h-54 sm:h-82 rounded-xl mt-12 sm:mt-16 mb-24 "
+          className="w-full max-w-4xl mx-auto h-52 sm:h-126 rounded-xl mt-12 mb-12 "
         >
           <iframe
             className="w-full h-full rounded-xl"
@@ -292,9 +348,9 @@ function Home() {
           href="/contact"
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
           viewport={{ once: true, amount: 0.5 }}
-          className="w-fit px-16 py-6  text-[#28221F] text-2xl font-montserrat font-bold rounded-xl shadow-lg text-center bg-[#CB9147]  transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105 "
+          className="w-fit px-16 py-6 text-[#28221F] text-2xl font-montserrat font-bold rounded-xl shadow-lg text-center bg-[#CB9147]  transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105 "
         >
           {t("section4.button")}
         </motion.a>

@@ -18,7 +18,7 @@ const AnimatedNumber = memo(function AnimatedNumber({ target }) {
     }
     if (start === end) return;
 
-    const duration = 1500;
+    const duration = 2000;
     const incrementTime = 10;
     const step = Math.ceil(end / (duration / incrementTime));
 

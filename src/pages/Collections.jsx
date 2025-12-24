@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import { ChevronRight, ChevronLeft, Loader } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { IMAGES } from "@/assets/assets";
-import api from "@/api/axios";
+import { IMAGES, HERO_BACKGROUNDS } from "@/assets/assets";
 import { getBanners } from "@/api/banner.api";
 import useDebounce from "@/hooks/useDebounce";
 import { useProducts, useProductDetail } from "@/hooks/useProducts";
 import { ProductModal, ProductCard, BannerCarousel } from "@/components/collections";
+import { generatePagination } from "@/utils/pagination";
 
 // ============ CONSTANTS (Module Level - Never Recreated) ============
 const ITEMS_PER_PAGE = 8;
@@ -57,8 +57,11 @@ export default function Collections() {
   const [currentPage, setCurrentPage] = useState(1);
   const debouncedSearch = useDebounce(searchTerm, 400);
 
-  // -------- Categories State --------
-  const [categories, setCategories] = useState([]);
+  // -------- Static Categories (with i18n keys) --------
+  const STATIC_CATEGORIES = [
+    { id: 1, slug: 'indoor', labelKey: 'collections.filters.indoor' },
+    { id: 2, slug: 'outdoor', labelKey: 'collections.filters.outdoor' }
+  ];
 
   // -------- Banner State --------
   const [banners, setBanners] = useState(FALLBACK_BANNERS);
@@ -103,30 +106,20 @@ export default function Collections() {
     return () => controller.abort();
   }, []);
 
-  // Fetch categories on mount
-  useEffect(() => {
-    api.get("/master-categories")
-      .then((res) => {
-        if (res.data.success) {
-          const catData = res.data.data;
-          setCategories(Array.isArray(catData) ? catData : catData.data || []);
-        }
-      })
-      .catch(() => setCategories([]));
-  }, []);
-
-  // URL query params
+  // URL query params - handle type from URL
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const type = params.get("type");
-    if (type && categories.length > 0) {
-      const matched = categories.find(
-        (cat) => cat.slug === type || cat.name.toLowerCase() === type.toLowerCase()
+    if (type) {
+      const matched = STATIC_CATEGORIES.find(
+        (cat) => cat.slug === type.toLowerCase()
       );
-      setActiveFilter(matched ? matched.id : type);
+      setActiveFilter(matched ? matched.id : 'all');
       setCurrentPage(1);
     }
-  }, [location.search, categories]);
+  }, [location.search]);
+
+
 
   // Auto-open product modal from URL parameter
   useEffect(() => {
@@ -205,13 +198,13 @@ export default function Collections() {
       <motion.section
         {...heroVariants.section}
         className="relative w-full min-h-[95vh] sm:min-h-[100vh] bg-cover bg-center flex items-center justify-center"
-        style={{ backgroundImage: `url(${IMAGES.bg1})` }}
+        style={{ backgroundImage: `url(${HERO_BACKGROUNDS.collections})` }}
       >
         <motion.div {...heroVariants.overlay} className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 text-center px-6 w-std h-full mx-auto">
           <motion.h1
             {...heroVariants.title}
-            className="font-montserrat text-white font-extrabold text-5xl sm:text-6xl leading-tight drop-shadow-md"
+            className="font-montserrat text-white font-extrabold text-5xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md"
           >
             {t("collections.hero.title")}{" "}
             <span className="text-[#EEE4C8]">{t("collections.hero.titleHighlight")}</span>
@@ -226,7 +219,7 @@ export default function Collections() {
       </motion.section>
 
       {/* BANNER CAROUSEL */}
-      <div className="w-full bg-[#F4F2EE] pt-20 px-4 sm:px-6 md:px-16">
+      <div className="w-full bg-[#F4F2EE] pt-20 px-0 sm:px-6 md:px-16">
         <motion.div {...fadeInTop} className="max-w-7xl mx-auto relative">
           <BannerCarousel
             banners={banners}
@@ -259,22 +252,22 @@ export default function Collections() {
             <motion.button
               whileHover={{ scale: 1.08 }}
               onClick={() => handleFilterChange("all")}
-              className={`px-5 py-2 rounded-xl font-semibold shadow-md transition-all text-sm ${
+              className={`px-5 py-2 rounded-xl font-semibold shadow-md transition-all text-sm cursor-pointer ${
                 activeFilter === "all" ? "bg-[#3C2F26] text-white" : "bg-white border border-[#A6A099] text-[#28221F]"
               }`}
             >
               {t("collections.filters.all")}
             </motion.button>
-            {categories.map((cat) => (
+            {STATIC_CATEGORIES.map((cat) => (
               <motion.button
                 key={cat.id}
                 whileHover={{ scale: 1.08 }}
                 onClick={() => handleFilterChange(cat.id)}
-                className={`px-5 py-2 rounded-xl font-semibold shadow-sm transition-all text-sm ${
+                className={`px-5 py-2 rounded-xl font-semibold shadow-sm transition-all text-sm cursor-pointer ${
                   activeFilter === cat.id ? "bg-[#3C2F26] text-white" : "bg-white border border-[#A6A099] text-[#28221F]"
                 }`}
               >
-                {cat.name}
+                {t(cat.labelKey)}
               </motion.button>
             ))}
           </div>
@@ -314,10 +307,10 @@ export default function Collections() {
                     <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#C58E47]/20 animate-[spin_20s_linear_infinite]" />
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-[#3C2F26] text-center mb-2">
-                    Tidak Ada Produk
+                    {t("collections.empty.title")}
                   </h3>
                   <p className="text-sm sm:text-base text-gray-500 text-center max-w-md">
-                    Produk yang Anda cari tidak ditemukan. Coba ubah filter atau kata kunci pencarian.
+                    {t("collections.empty.subtitle")}
                   </p>
                 </div>
               )}
@@ -340,19 +333,25 @@ export default function Collections() {
                   <ChevronLeft size={16} />
                 </motion.button>
                 
-                {Array.from({ length: pagination.lastPage }, (_, i) => i + 1).map((num) => (
-                  <motion.button
-                    key={num}
-                    whileHover={{ scale: 1.12 }}
-                    onClick={() => handlePageChange(num)}
-                    className={`w-8 h-8 rounded-sm flex items-center justify-center border text-sm font-bold transition-all ${
-                      num === currentPage
-                        ? "bg-[#C58E47] text-white border-[#C58E47]"
-                        : "border-gray-400 text-gray-500 hover:bg-gray-200"
-                    }`}
-                  >
-                    {num}
-                  </motion.button>
+                {generatePagination(currentPage, pagination.lastPage).map((num, idx) => (
+                  num === '...' ? (
+                    <span key={`dots-${idx}`} className="w-8 h-8 flex items-center justify-center text-gray-500">
+                      ...
+                    </span>
+                  ) : (
+                    <motion.button
+                      key={num}
+                      whileHover={{ scale: 1.12 }}
+                      onClick={() => handlePageChange(num)}
+                      className={`w-8 h-8 rounded-sm flex items-center justify-center border text-sm font-bold transition-all ${
+                        num === currentPage
+                          ? "bg-[#C58E47] text-white border-[#C58E47]"
+                          : "border-gray-400 text-gray-500 hover:bg-gray-200"
+                      }`}
+                    >
+                      {num}
+                    </motion.button>
+                  )
                 ))}
                 
                 <motion.button

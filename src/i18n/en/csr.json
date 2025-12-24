@@ -14,8 +14,19 @@
       "next": "Next"
     }
   },
+  "detail": {
+    "previous": "Previous",
+    "next": "Next",
+    "share": "Share",
+    "backToCSR": "Back to CSR"
+  },
   "card": {
     "date": "December 2, 2025",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et rhoncus velit…"
+  },
+  "empty": {
+    "title": "No CSR Activities Yet",
+    "subtitle": "CSR activity data is not available at this time",
+    "noImage": "No image"
   }
 }

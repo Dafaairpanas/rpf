@@ -8,7 +8,7 @@ export default function AdminDashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex bg-[#F4F2EE] min-h-screen font-sans">
+    <div className="flex bg-[#F4F2EE] min-h-screen font-poppins">
       <Sidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 
@@ -20,7 +20,7 @@ export default function AdminDashboard() {
       />
       
       {/* Main content - responsive margin */}
-      <main className="flex-1 lg:ml-[200px] pt-[70px] overflow-x-auto">
+      <main className="flex-1 lg:ml-[200px] pt-[80px] lg:pt-[64px] overflow-x-auto transition-all duration-300">
         <div className="w-full lg:max-w-[1300px] lg:mx-auto">
           <Outlet />
         </div>

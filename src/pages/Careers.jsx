@@ -1,29 +1,36 @@
 import React, { useState } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
-import { IMAGES } from "@/assets/assets";
+import { IMAGES, HERO_BACKGROUNDS } from "@/assets/assets";
 import { useTranslation } from "react-i18next";
 
 // --- ANIMATION VARIANTS ---
 
 // Hero Text Variant (Slide Up & Fade In)
-const heroTextVariant = {
-  initial: { opacity: 0, y: 40 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.7 } },
-};
-
-// Hero Paragraph Variant
-const heroParagraphVariant = {
-  initial: { opacity: 0, y: 40 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.25 } },
-};
-
-// Varian untuk Section Heading/Title (Fade In dari atas)
 const sectionHeadingVariant = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
   transition: { duration: 0.6 },
   viewport: { once: true, amount: 0.1 },
+};
+
+const heroVariants = {
+  section: {
+    initial: { opacity: 0, scale: 1.1 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 1.2, ease: "easeOut" } },
+  },
+  overlay: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { delay: 0.4, duration: 1 } },
+  },
+  title: {
+    initial: { y: 40, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { delay: 0.6, duration: 0.9 } },
+  },
+  subtitle: {
+    initial: { y: 20, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { delay: 0.9, duration: 0.9 } },
+  },
 };
 
 // Varian untuk Job Card (Staggered Slide Up & Fade In)
@@ -100,29 +107,30 @@ function Careers() {
   return (
     <div className="w-full">
       {/* SECTION: HERO */}
-      <section
-        className="relative w-full min-h-[95vh] sm:min-h-[100vh] bg-cover bg-center flex items-center justify-center"
-        style={{ backgroundImage: `url(${IMAGES.bg1})` }}
+      <motion.section
+        {...heroVariants.section}
+        className="relative w-full min-h-[95vh] sm:min-h-[100vh] bg-cover bg-center flex items-center justify-center text-center"
+        style={{ backgroundImage: `url(${HERO_BACKGROUNDS.careers})` }}
       >
-        <div className="absolute inset-0 bg-black/40"></div>
+        <motion.div {...heroVariants.overlay} className="absolute inset-0 bg-black/40" />
 
         <div className="relative z-10 text-center px-6 max-w-4xl">
-          <motion.h1
-            {...heroTextVariant}
-            className="text-white font-montserrat font-extrabold text-5xl sm:text-6xl leading-tight drop-shadow-md"
+          <motion.h1 
+            {...heroVariants.title}
+            className="text-white font-montserrat font-extrabold text-5xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md"
           >
             {t("hero.title")}{" "}
             <span className="text-[#EEE4C8]">{t("hero.title_highlight")}</span>
           </motion.h1>
 
-          <motion.p
-            {...heroParagraphVariant}
-            className="text-gray-200 text-base sm:text-lg md:text-xl mt-6 drop-shadow"
+          <motion.p 
+            {...heroVariants.subtitle}
+            className="text-gray-200 text-base sm:text-lg md:text-xl mt-6 drop-shadow font-poppins"
           >
             {t("hero.subtitle")}
           </motion.p>
         </div>
-      </section>
+      </motion.section>
 
       {/* SECTION: MAIN CONTENT (JOB LIST) */}
       <section className="relative w-full py-20 px-6 sm:px-10 md:px-20">
@@ -194,10 +202,10 @@ function Careers() {
             <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#C58E47]/20 animate-[spin_20s_linear_infinite]" />
           </div>
           <h3 className="text-lg sm:text-xl font-semibold text-[#3C2F26] text-center mb-2">
-            Lowongan Akan Segera Hadir
+            {t("comingSoon.title")}
           </h3>
           <p className="text-sm sm:text-base text-gray-500 text-center max-w-md">
-            Kami sedang mempersiapkan kesempatan karir yang menarik. Pantau terus halaman ini untuk update terbaru!
+            {t("comingSoon.subtitle")}
           </p>
         </div>
       </section>

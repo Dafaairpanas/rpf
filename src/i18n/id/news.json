@@ -15,5 +15,15 @@
   "pagination": {
     "previous": "Sebelumnya",
     "next": "Selanjutnya"
+  },
+  "detail": {
+    "previous": "Sebelumnya",
+    "next": "Selanjutnya",
+    "share": "Bagikan",
+    "backToNews": "Kembali ke Berita"
+  },
+  "empty": {
+    "title": "Belum Ada Berita",
+    "subtitle": "Berita dan artikel terbaru akan segera tersedia"
   }
 }
