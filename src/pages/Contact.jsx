@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
-import { Loader2, CheckCircle, AlertCircle, X, ShoppingBag } from "lucide-react";
+import {
+  Loader2,
+  CheckCircle,
+  AlertCircle,
+  X,
+  ShoppingBag,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { submitContactForm } from "@/api/contact.api";
 import api from "@/api/axios";
@@ -49,16 +55,26 @@ const ContactInfoItem = ({ icon, label, children }) => (
 );
 
 // --- KOMPONEN INPUT FIELD ---
-const InputField = ({ label, field, type = "text", placeholder, isTextarea, formData, handleChange, errors, t }) => (
+const InputField = ({
+  label,
+  field,
+  type = "text",
+  placeholder,
+  isTextarea,
+  formData,
+  handleChange,
+  errors,
+  t,
+}) => (
   <div className="mb-5">
     <label className="block text-white text-sm font-medium mb-2 pl-1 font-poppins">
-      {label} {field !== 'phone' && <span className="text-red-400">*</span>}
+      {label} {field !== "phone" && <span className="text-red-400">*</span>}
     </label>
     {isTextarea ? (
       <textarea
         value={formData[field]}
         onChange={(e) => handleChange(field, e.target.value)}
-        className={`w-full p-3.5 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#BF9054] transition duration-200 h-50 resize-none text-sm ${errors[field] ? 'ring-2 ring-red-400' : ''}`}
+        className={`w-full p-3.5 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#BF9054] transition duration-200 h-50 resize-none text-sm ${errors[field] ? "ring-2 ring-red-400" : ""}`}
         placeholder={placeholder}
       />
     ) : (
@@ -66,7 +82,7 @@ const InputField = ({ label, field, type = "text", placeholder, isTextarea, form
         type={type}
         value={formData[field]}
         onChange={(e) => handleChange(field, e.target.value)}
-        className={`w-full p-3.5 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#BF9054] transition duration-200 text-sm ${errors[field] ? 'ring-2 ring-red-400' : ''}`}
+        className={`w-full p-3.5 rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#BF9054] transition duration-200 text-sm ${errors[field] ? "ring-2 ring-red-400" : ""}`}
         placeholder={placeholder}
       />
     )}
@@ -79,41 +95,42 @@ const InputField = ({ label, field, type = "text", placeholder, isTextarea, form
 const ContactUs = () => {
   const { t } = useTranslation("contact");
   const [searchParams] = useSearchParams();
-  const productId = searchParams.get('product_id');
-  
+  const productId = searchParams.get("product_id");
+
   // Product info for "Order Now" flow
   const [productInfo, setProductInfo] = useState(null);
   const [loadingProduct, setLoadingProduct] = useState(false);
-  
+
   // Form state
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [submitError, setSubmitError] = useState('');
-  
+  const [submitError, setSubmitError] = useState("");
+
   // Fetch product info if product_id exists
   useEffect(() => {
     if (productId) {
       setLoadingProduct(true);
-      api.get(`/products/${productId}`)
-        .then(res => {
+      api
+        .get(`/products/${productId}`)
+        .then((res) => {
           if (res.data.success) {
             const product = res.data.data;
             setProductInfo(product);
             // Pre-fill message with product name
-            setFormData(prev => ({
+            setFormData((prev) => ({
               ...prev,
-              message: `Saya tertarik dengan produk "${product.name}".\n\n`
+              message: `Saya tertarik dengan produk "${product.name}".\n\n`,
             }));
           }
         })
-        .catch(err => console.error('Error fetching product:', err))
+        .catch((err) => console.error("Error fetching product:", err))
         .finally(() => setLoadingProduct(false));
     }
   }, [productId]);
@@ -121,21 +138,21 @@ const ContactUs = () => {
   // Validation
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.name.trim()) {
-      newErrors.name = t('validation.nameRequired');
+      newErrors.name = t("validation.nameRequired");
     }
-    
+
     if (!formData.email.trim()) {
-      newErrors.email = t('validation.emailRequired');
+      newErrors.email = t("validation.emailRequired");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = t('validation.emailInvalid');
+      newErrors.email = t("validation.emailInvalid");
     }
-    
+
     if (!formData.message.trim()) {
-      newErrors.message = t('validation.messageRequired');
+      newErrors.message = t("validation.messageRequired");
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -144,28 +161,28 @@ const ContactUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setSubmitError('');
-    
+
     if (!validateForm()) return;
-    
+
     setLoading(true);
     try {
       // Include product_id if from "Order Now" flow
       const submitData = {
         ...formData,
-        ...(productId && { product_id: parseInt(productId) })
+        ...(productId && { product_id: parseInt(productId) }),
       };
       const response = await submitContactForm(submitData);
       if (response.data.success) {
         setShowSuccess(true);
-        setFormData({ name: '', email: '', phone: '', message: '' });
+        setFormData({ name: "", email: "", phone: "", message: "" });
         // Auto close success modal after 3 seconds
         setTimeout(() => setShowSuccess(false), 3000);
       } else {
-        setSubmitError(response.data.message || t('messages.sendFailed'));
+        setSubmitError(response.data.message || t("messages.sendFailed"));
       }
     } catch (err) {
-      console.error('Contact form error:', err);
-      setSubmitError(err.response?.data?.message || t('messages.error'));
+      console.error("Contact form error:", err);
+      setSubmitError(err.response?.data?.message || t("messages.error"));
     } finally {
       setLoading(false);
     }
@@ -173,13 +190,12 @@ const ContactUs = () => {
 
   // Handle input change
   const handleChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
     // Clear error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
-
 
   return (
     <div className="min-h-screen bg-[#F8F8F8] py-6 sm:py-8 px-3 sm:px-4 md:px-6 lg:px-8 font-poppins mt-16 sm:mt-20 md:mt-24">
@@ -199,8 +215,13 @@ const ContactUs = () => {
               className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full text-center"
             >
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-gray-800 mb-2">Pesan Terkirim!</h3>
-              <p className="text-gray-600 mb-6">Terima kasih telah menghubungi kami. Tim kami akan segera merespons.</p>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">
+                Pesan Terkirim!
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Terima kasih telah menghubungi kami. Tim kami akan segera
+                merespons.
+              </p>
               <button
                 onClick={() => setShowSuccess(false)}
                 className="px-6 py-2 bg-[#3C2F26] text-white rounded-lg hover:bg-[#52453B] transition"
@@ -237,21 +258,23 @@ const ContactUs = () => {
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 font-inter">
             {t("form.title")}
           </h2>
-          
+
           {submitError && (
             <div className="mb-4 p-3 bg-red-500/20 border border-red-400 rounded-lg flex items-center gap-2">
               <AlertCircle className="text-red-400 flex-shrink-0" size={18} />
               <p className="text-red-300 text-sm">{submitError}</p>
             </div>
           )}
-          
+
           {loadingProduct && (
             <div className="mb-6 p-4 bg-white/5 rounded-xl flex items-center gap-2">
               <Loader2 className="animate-spin text-white/50" size={18} />
-              <span className="text-white/50 text-sm">{t('messages.loadingProduct')}</span>
+              <span className="text-white/50 text-sm">
+                {t("messages.loadingProduct")}
+              </span>
             </div>
           )}
-          
+
           <form onSubmit={handleSubmit} className="sm:mt-4">
             <InputField
               label={t("form.labels.fullName")}

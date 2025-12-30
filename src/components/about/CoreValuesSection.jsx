@@ -25,13 +25,13 @@ export default function CoreValuesSection({ t }) {
   ];
 
   return (
-    <section className="w-full py-8 sm:py-10 bg-white">
+    <section className="w-full py-6 sm:py-10 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <h2 className="text-center text-2xl sm:text-3xl md:text-5xl font-bold text-[#28221F] mb-10 sm:mb-16">
+        <h2 className="text-center text-xl sm:text-3xl md:text-5xl font-bold text-[#28221F] mb-6 sm:mb-16">
           {t("values.sectionTitle")}
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
           {values.map((item, index) => (
             <M.div
               key={index}
@@ -40,28 +40,28 @@ export default function CoreValuesSection({ t }) {
               whileInView="whileInView"
               initial="initial"
               whileHover="whileHover"
-              className="bg-gradient-to-b from-[#DFD7BF] to-[#F8F6F2] rounded-2xl p-6 sm:p-8 shadow-md cursor-pointer text-center flex flex-col items-center h-[280px] sm:h-[300px]"
+              className="bg-gradient-to-b from-[#DFD7BF] to-[#F8F6F2] rounded-xl sm:rounded-2xl p-4 sm:p-8 shadow-md cursor-pointer text-center flex flex-col items-center h-auto sm:h-[300px]"
             >
               {/* Icon Container - Fixed Height */}
-              <div className="flex justify-center items-center h-16 sm:h-20 mb-4">
+              <div className="flex justify-center items-center h-10 sm:h-20 mb-2 sm:mb-4">
                 <img
                   src={item.img}
                   alt={item.title}
-                  className="w-16 h-12 sm:w-20 sm:h-16 object-contain"
+                  className="w-10 h-8 sm:w-20 sm:h-16 object-contain"
                   loading="lazy"
                 />
               </div>
 
               {/* Title - Fixed Height */}
-              <div className="h-14 sm:h-16 flex items-start justify-center">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
+              <div className="h-10 sm:h-16 flex items-start justify-center">
+                <h3 className="text-base sm:text-xl md:text-2xl font-semibold text-gray-900">
                   {item.title}
                 </h3>
               </div>
 
               {/* Description - Takes remaining space */}
-              <div className="flex-1 flex items-start mt-2">
-                <p className="text-gray-700 text-xs sm:text-sm md:text-base leading-relaxed">
+              <div className="flex-1 flex items-start mt-1 sm:mt-2">
+                <p className="text-gray-700 text-[10px] sm:text-sm md:text-base leading-relaxed">
                   {item.desc}
                 </p>
               </div>

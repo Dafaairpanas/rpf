@@ -1,48 +1,48 @@
-import React, { useState, useMemo } from 'react';
-import { AlertCircle, Loader2 } from 'lucide-react';
-import useAdminCRUD from '../hooks/useAdminCRUD';
-import useDebounce from '@/hooks/useDebounce';
-import AdminTable from '../components/AdminTable';
-import SortFilter from '../components/SortFilter';
-import AdminModal from '../components/AdminModal';
-import AdminImageUploader from '../components/AdminImageUploader';
-import { getImageUrl } from '@/config';
+import React, { useState, useMemo } from "react";
+import { AlertCircle, Loader2 } from "lucide-react";
+import useAdminCRUD from "../hooks/useAdminCRUD";
+import useDebounce from "@/hooks/useDebounce";
+import AdminTable from "../components/AdminTable";
+import SortFilter from "../components/SortFilter";
+import AdminModal from "../components/AdminModal";
+import AdminImageUploader from "../components/AdminImageUploader";
+import { getImageUrl } from "@/config";
 
 const BrandsCRUD = () => {
   // HOOKS
-  const { 
-    items: brands, 
-    loading, 
-    error, 
-    success, 
-    deleteItem, 
-    saveData 
-  } = useAdminCRUD('/brands');
+  const {
+    items: brands,
+    loading,
+    error,
+    success,
+    deleteItem,
+    saveData,
+  } = useAdminCRUD("/brands");
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortOrder, setSortOrder] = useState('newest');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOrder, setSortOrder] = useState("newest");
   const debouncedSearch = useDebounce(searchTerm, 300);
 
   // FORM STATE
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState({ name: '' });
+  const [formData, setFormData] = useState({ name: "" });
   const [newImage, setNewImage] = useState(null);
-  const [existingImage, setExistingImage] = useState('');
+  const [existingImage, setExistingImage] = useState("");
 
   // FILTERING & SORTING
   const filteredBrands = useMemo(() => {
-    let filtered = brands.filter(brand =>
-      brand.name?.toLowerCase().includes(debouncedSearch.toLowerCase())
+    let filtered = brands.filter((brand) =>
+      brand.name?.toLowerCase().includes(debouncedSearch.toLowerCase()),
     );
 
     return filtered.sort((a, b) => {
-      if (sortOrder === 'newest') {
+      if (sortOrder === "newest") {
         return new Date(b.created_at) - new Date(a.created_at);
-      } else if (sortOrder === 'oldest') {
+      } else if (sortOrder === "oldest") {
         return new Date(a.created_at) - new Date(b.created_at);
-      } else if (sortOrder === 'name') {
-        return (a.name || '').localeCompare(b.name || '');
+      } else if (sortOrder === "name") {
+        return (a.name || "").localeCompare(b.name || "");
       }
       return 0;
     });
@@ -56,8 +56,8 @@ const BrandsCRUD = () => {
       setExistingImage(brand.image_url);
     } else {
       setEditingId(null);
-      setFormData({ name: '' });
-      setExistingImage('');
+      setFormData({ name: "" });
+      setExistingImage("");
     }
     setNewImage(null);
     setShowModal(true);
@@ -68,8 +68,8 @@ const BrandsCRUD = () => {
     if (!formData.name.trim()) return;
 
     const fd = new FormData();
-    fd.append('name', formData.name);
-    if (newImage) fd.append('image_url', newImage);
+    fd.append("name", formData.name);
+    if (newImage) fd.append("image_url", newImage);
 
     const result = await saveData(fd, editingId, true);
     if (result) setShowModal(false);
@@ -83,28 +83,38 @@ const BrandsCRUD = () => {
   // TABLE COLUMNS
   const columns = [
     {
-      key: 'image_url',
-      label: 'Image',
+      key: "image_url",
+      label: "Image",
       render: (item) => (
-        <img 
-          src={getImageUrl(item.image_url)} 
+        <img
+          src={getImageUrl(item.image_url)}
           alt={item.name}
           className="w-12 h-12 rounded object-cover border-2 border-amber-300"
-          onError={(e) => { e.target.src = 'https://via.placeholder.com/50?text=Error'; }}
+          onError={(e) => {
+            e.target.src = "https://via.placeholder.com/50?text=Error";
+          }}
         />
-      )
+      ),
     },
-    { key: 'name', label: 'Name' }
+    { key: "name", label: "Name" },
   ];
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 bg-[#F4F2EE] min-h-screen">
       {/* Messages */}
       {(error || success) && (
-        <div className={`mb-6 p-4 rounded-lg flex items-center gap-2 border ${
-          error ? 'bg-red-50 border-red-200 text-red-700' : 'bg-green-50 border-green-200 text-green-700'
-        }`}>
-          {error ? <AlertCircle size={20} /> : <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />}
+        <div
+          className={`mb-6 p-4 rounded-lg flex items-center gap-2 border ${
+            error
+              ? "bg-red-50 border-red-200 text-red-700"
+              : "bg-green-50 border-green-200 text-green-700"
+          }`}
+        >
+          {error ? (
+            <AlertCircle size={20} />
+          ) : (
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+          )}
           <p className="text-sm font-medium">{error || success}</p>
         </div>
       )}
@@ -125,7 +135,7 @@ const BrandsCRUD = () => {
       <AdminModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title={editingId ? 'Edit Brand' : 'Add New Brand'}
+        title={editingId ? "Edit Brand" : "Add New Brand"}
         maxWidth="max-w-md"
       >
         <form onSubmit={handleSave} className="space-y-6">
@@ -137,7 +147,9 @@ const BrandsCRUD = () => {
               type="text"
               required
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               className="w-full px-4 py-3 min-h-[48px] bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3C2F26]/20 transition-all font-medium"
               placeholder="e.g. Ikea, Informa"
             />
@@ -149,7 +161,7 @@ const BrandsCRUD = () => {
             newImages={newImage ? [newImage] : []}
             onUpload={handleImageChange}
             onRemoveNew={() => setNewImage(null)}
-            onRemoveExisting={() => setExistingImage('')}
+            onRemoveExisting={() => setExistingImage("")}
           />
 
           <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
@@ -166,7 +178,7 @@ const BrandsCRUD = () => {
               className="w-full sm:flex-1 bg-[#3C2F26] text-white min-h-[48px] rounded-xl font-bold hover:bg-[#2a1f18] disabled:bg-gray-300 transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2"
             >
               {loading && <Loader2 className="animate-spin" size={18} />}
-              {editingId ? 'Update' : 'Create'}
+              {editingId ? "Update" : "Create"}
             </button>
           </div>
         </form>

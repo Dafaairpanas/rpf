@@ -16,7 +16,11 @@ const mainVariant = {
 const heroVariants = {
   section: {
     initial: { opacity: 0, scale: 1.1 },
-    animate: { opacity: 1, scale: 1, transition: { duration: 1.2, ease: "easeOut" } },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 1.2, ease: "easeOut" },
+    },
   },
   overlay: {
     initial: { opacity: 0 },
@@ -88,11 +92,11 @@ function Home() {
   const heroImages = HERO_BACKGROUNDS.home;
   useEffect(() => {
     if (!Array.isArray(heroImages) || heroImages.length <= 1) return;
-    
+
     const interval = setInterval(() => {
       setActiveBgIndex((prev) => (prev + 1) % heroImages.length);
     }, SLIDESHOW_INTERVAL);
-    
+
     return () => clearInterval(interval);
   }, [heroImages]);
 
@@ -101,7 +105,7 @@ function Home() {
     const fetchFeaturedProducts = async () => {
       try {
         // Fetch products without featured filter (backend might not support it yet)
-        const res = await api.get('/products', { params: { limit: 8 } });
+        const res = await api.get("/products", { params: { limit: 8 } });
         if (res.data.success) {
           const data = res.data.data;
           const products = Array.isArray(data) ? data : data.data || [];
@@ -118,30 +122,50 @@ function Home() {
   }, []);
 
   // Stable navigation handler
-  const goToCollection = useCallback((type) => {
-    navigate(`/collections?type=${type}`);
-  }, [navigate]);
+  const goToCollection = useCallback(
+    (type) => {
+      navigate(`/collections?type=${type}`);
+    },
+    [navigate],
+  );
 
   // Memoized carousel items - prevents recreation every render
   const carouselItems = useMemo(() => {
     if (featuredProducts.length > 0) return featuredProducts;
-    return FALLBACK_ITEMS.map(id => ({ id, name: `Item ${id}`, isFallback: true }));
+    return FALLBACK_ITEMS.map((id) => ({
+      id,
+      name: `Item ${id}`,
+      isFallback: true,
+    }));
   }, [featuredProducts]);
 
   // Memoized multiplied array for infinite scroll effect (10x to prevent gaps on zoom out)
   const multipliedItems = useMemo(() => {
     const items = carouselItems;
-    return [...items, ...items, ...items, ...items, ...items, ...items, ...items, ...items, ...items, ...items];
+    return [
+      ...items,
+      ...items,
+      ...items,
+      ...items,
+      ...items,
+      ...items,
+      ...items,
+      ...items,
+      ...items,
+      ...items,
+    ];
   }, [carouselItems]);
 
   // Get current background image
-  const currentBgImage = Array.isArray(heroImages) ? heroImages[activeBgIndex] : heroImages;
+  const currentBgImage = Array.isArray(heroImages)
+    ? heroImages[activeBgIndex]
+    : heroImages;
 
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className="w-full overflow-x-hidden ">
       <motion.section
         {...heroVariants.section}
-        className="relative w-full h-[95vh] sm:h-[100vh] flex items-center overflow-hidden"
+        className="relative w-full hero-full flex items-center overflow-hidden"
       >
         {/* Slideshow Background */}
         <AnimatePresence mode="sync">
@@ -151,18 +175,21 @@ function Home() {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${currentBgImage})` }}
           />
         </AnimatePresence>
-        
-        <motion.div {...heroVariants.overlay} className="absolute inset-0 bg-black/40 z-[1]" />
 
-        <div className="relative z-10 w-std mx-auto px-6 h-full flex items-center">
+        <motion.div
+          {...heroVariants.overlay}
+          className="absolute inset-0 bg-black/40 z-[1]"
+        />
+
+        <div className="relative z-10 w-std mx-auto px-6 h-full flex items-center mt-16 sm:mt-0 smooth-responsive">
           <div className="max-w-4xl text-left">
             <motion.h1
               {...heroVariants.title}
-              className="font-montserrat font-extrabold text-white text-5xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md mb-[5rem] sm:mb-0"
+              className="font-montserrat font-extrabold text-white text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md smooth-responsive"
             >
               {t("section1.line1")} {t("section1.line2")}{" "}
               <span className="text-[#EEE4C8]">
@@ -174,7 +201,7 @@ function Home() {
             <motion.div {...heroVariants.subtitle}>
               <a
                 href="/about"
-                className="inline-block w-fit px-12 sm:px-16 py-3 mt-10 text-[#28221F] text-xl sm:text-2xl font-inter font-semibold rounded-xl shadow-lg text-center bg-[#CB9147] transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105 cursor-pointer"
+                className="inline-block w-fit px-8 sm:px-16 py-2 sm:py-3 mt-6 sm:mt-10 text-[#28221F] text-base sm:text-2xl font-inter font-semibold rounded-xl shadow-lg text-center bg-[#CB9147] transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105 cursor-pointer"
               >
                 {t("section1.button")}
               </a>
@@ -247,10 +274,7 @@ function Home() {
         variants={cardContainer}
         className="w-full px-5 sm:px-10 md:px-16 py-10 bg-[#1c1511] text-white overflow-hidden"
       >
-        <motion.div
-          variants={cardItem}
-          className="text-center mb-14"
-        >
+        <motion.div variants={cardItem} className="text-center mb-14">
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-inter font-bold">
             {t("section3.title")}
           </h2>
@@ -272,7 +296,7 @@ function Home() {
               }
             `}
           </style>
-          
+
           {/* Centered wrapper */}
           <div className="flex justify-center w-full">
             <div className="carousel-track flex gap-6 sm:gap-8">
@@ -288,15 +312,22 @@ function Home() {
                   }}
                   whileHover={{ scale: 1.02 }}
                   className="group bg-white rounded-xl flex flex-col justify-center py-6 h-fit flex-shrink-0 w-[160px] sm:w-[220px] md:w-[260px] cursor-pointer"
+                  style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  <div className="overflow-hidden rounded-lg flex items-center justify-center h-32 sm:h-48 md:h-56">
+                  <div className="flex items-center justify-center h-32 sm:h-48 md:h-56 px-2">
                     <motion.img
-                      src={item.isFallback ? IMAGES.chairSvg : getProductDisplayImage(item, IMAGES.chairSvg)}
+                      src={
+                        item.isFallback
+                          ? IMAGES.chairSvg
+                          : getProductDisplayImage(item, IMAGES.chairSvg)
+                      }
                       alt={item.name || `Product ${item.id}`}
                       loading="lazy"
                       className="object-contain h-full w-full group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => { e.target.src = IMAGES.chairSvg }}
+                      onError={(e) => {
+                        e.target.src = IMAGES.chairSvg;
+                      }}
                     />
                   </div>
 
@@ -308,8 +339,8 @@ function Home() {
             </div>
           </div>
 
-          <div className="absolute left-0 top-0 w-20 sm:w-32 h-full bg-gradient-to-r from-[#1c1511] to-transparent pointer-events-none z-10"></div>
-          <div className="absolute right-0 top-0 w-20 sm:w-32 h-full bg-gradient-to-l from-[#1c1511] to-transparent pointer-events-none z-10"></div>
+          <div className="absolute left-0 top-0  sm:w-32 h-full bg-gradient-to-r from-[#1c1511] to-transparent pointer-events-none z-10"></div>
+          <div className="absolute right-0 top-0 sm:w-32 h-full bg-gradient-to-l from-[#1c1511] to-transparent pointer-events-none z-10"></div>
         </div>
       </motion.section>
 
@@ -350,7 +381,7 @@ function Home() {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3, delay: 0.3 }}
           viewport={{ once: true, amount: 0.5 }}
-          className="w-fit px-16 py-6 text-[#28221F] text-2xl font-montserrat font-bold rounded-xl shadow-lg text-center bg-[#CB9147]  transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105 "
+          className="w-fit px-8 sm:px-12 md:px-16 py-3 sm:py-4 md:py-6 text-base sm:text-xl md:text-2xl font-montserrat font-bold rounded-md sm:rounded-xl shadow-lg text-center bg-[#CB9147] text-[#28221F] transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105"
         >
           {t("section4.button")}
         </motion.a>

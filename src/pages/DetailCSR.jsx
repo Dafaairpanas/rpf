@@ -30,11 +30,11 @@ export default function DetailCSR() {
       const response = await getCsrById(id);
       if (response.data.success) {
         setCsr(response.data.data);
-        
+
         // Fetch adjacent CSR for navigation titles
         const prevId = parseInt(id) - 1;
         const nextId = parseInt(id) + 1;
-        
+
         try {
           if (prevId >= 1) {
             const prevResponse = await getCsrById(prevId);
@@ -49,7 +49,7 @@ export default function DetailCSR() {
         } catch {
           setPrevCsr(null);
         }
-        
+
         try {
           const nextResponse = await getCsrById(nextId);
           if (nextResponse.data.success) {
@@ -61,11 +61,11 @@ export default function DetailCSR() {
           setNextCsr(null);
         }
       } else {
-        setError('CSR not found');
+        setError("CSR not found");
       }
     } catch (err) {
-      console.error('Error fetching CSR detail:', err);
-      setError('Failed to load CSR details');
+      console.error("Error fetching CSR detail:", err);
+      setError("Failed to load CSR details");
     } finally {
       setLoading(false);
     }
@@ -73,11 +73,11 @@ export default function DetailCSR() {
 
   // Format date
   const formatDate = (dateString) => {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString('id-ID', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    if (!dateString) return "";
+    return new Date(dateString).toLocaleDateString("id-ID", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -125,10 +125,12 @@ export default function DetailCSR() {
 
   // helper: extract initials
   const getInitials = (name) => {
-    if (!name) return 'A';
-    const parts = name.split(' ');
+    if (!name) return "A";
+    const parts = name.split(" ");
     if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
-    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+    return (
+      parts[0].charAt(0) + parts[parts.length - 1].charAt(0)
+    ).toUpperCase();
   };
 
   // Share buttons component
@@ -149,7 +151,16 @@ export default function DetailCSR() {
       aria-label={item.label}
     >
       {index === 0 && (
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M3 12a4 4 0 014-4h4" />
           <path d="M17 16a4 4 0 01-4 4h-4" />
           <path d="M8 12h8" />
@@ -174,7 +185,7 @@ export default function DetailCSR() {
   ));
 
   return (
-    <div className="min-h-screen bg-[#f3f4f6] text-[#111827] font-poppins ">
+    <div className=" bg-[#f3f4f6] text-[#111827] font-poppins ">
       {/* Loading State */}
       {loading && (
         <div className="flex justify-center items-center min-h-screen">
@@ -187,7 +198,7 @@ export default function DetailCSR() {
         <div className="flex flex-col justify-center items-center min-h-screen">
           <h2 className="text-2xl font-bold text-red-600 mb-4">{error}</h2>
           <button
-            onClick={() => navigate('/corporate-social-responsibility')}
+            onClick={() => navigate("/corporate-social-responsibility")}
             className="px-6 py-3 bg-[#3C2F26] text-white rounded-lg hover:bg-[#52453B] transition"
           >
             Kembali ke Daftar CSR
@@ -222,11 +233,15 @@ export default function DetailCSR() {
                 transition={{ delay: 0.4, duration: 0.6 }}
               >
                 <div className="w-10 h-10 bg-[#3C2F26] text-white rounded-xl flex items-center justify-center font-bold shadow-sm">
-                  {getInitials(csr.creator?.name || 'Administrator')}
+                  {getInitials(csr.creator?.name || "Administrator")}
                 </div>
                 <div>
-                  <div className="font-medium text-[#28221F]">{csr.creator?.name || 'Administrator'}</div>
-                  <div className="text-sm opacity-70">{formatDate(csr.created_at)}</div>
+                  <div className="font-medium text-[#28221F]">
+                    {csr.creator?.name || "Administrator"}
+                  </div>
+                  <div className="text-sm opacity-70">
+                    {formatDate(csr.created_at)}
+                  </div>
                 </div>
               </motion.div>
             </motion.div>
@@ -251,7 +266,8 @@ export default function DetailCSR() {
               <div
                 className="ck-content"
                 dangerouslySetInnerHTML={{
-                  __html: csr.content?.content || '<p>Tidak ada konten tersedia</p>'
+                  __html:
+                    csr.content?.content || "<p>Tidak ada konten tersedia</p>",
                 }}
               />
             </motion.section>
@@ -281,14 +297,19 @@ export default function DetailCSR() {
                       </div>
                     </button>
                   </motion.div>
-                ) : <div className="flex-1" />}
+                ) : (
+                  <div className="flex-1" />
+                )}
 
                 {/* Share - Center */}
                 <div className="flex-1 flex flex-col items-center">
                   <div className="mb-3 text-gray-600 font-medium">
                     {t("detail.share")}
                   </div>
-                  <div className="flex items-center gap-5 text-[#6b4b3a]" id="share-desktop-csr">
+                  <div
+                    className="flex items-center gap-5 text-[#6b4b3a]"
+                    id="share-desktop-csr"
+                  >
                     {shareButtons}
                   </div>
                 </div>
@@ -314,7 +335,9 @@ export default function DetailCSR() {
                       />
                     </button>
                   </motion.div>
-                ) : <div className="flex-1" />}
+                ) : (
+                  <div className="flex-1" />
+                )}
               </div>
 
               {/* Mobile Layout: Share + Navigation below */}
@@ -324,7 +347,10 @@ export default function DetailCSR() {
                   <div className="mb-3 text-gray-600 font-medium">
                     {t("detail.share")}
                   </div>
-                  <div className="flex items-center gap-5 text-[#6b4b3a]" id="share-mobile-csr">
+                  <div
+                    className="flex items-center gap-5 text-[#6b4b3a]"
+                    id="share-mobile-csr"
+                  >
                     {shareButtons}
                   </div>
                 </div>

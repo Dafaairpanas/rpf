@@ -1,6 +1,6 @@
-import { memo } from 'react';
-import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { memo } from "react";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 /**
  * NewsPagination - Pagination controls for news list
@@ -11,55 +11,57 @@ const NewsPagination = memo(function NewsPagination({
   paginationItems,
   onPrevious,
   onNext,
-  onPageClick
+  onPageClick,
 }) {
   if (lastPage <= 1) return null;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
-      className="mt-8 sm:mt-12 lg:mt-16 flex justify-center gap-1.5 sm:gap-2"
+      className="flex items-center justify-center gap-3 mt-12 p-10 pb-20"
     >
       <motion.button
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: currentPage > 1 ? 1.1 : 1 }}
         onClick={onPrevious}
         disabled={currentPage === 1}
-        className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-[#E7E4DF] flex items-center justify-center text-gray-700 hover:bg-[#D9A556] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        className="w-8 h-8 flex items-center justify-center rounded-sm border border-gray-400 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
       >
-        <ChevronLeft size={14} className="sm:w-4 sm:h-4" />
+        <ChevronLeft size={16} />
       </motion.button>
 
-      {paginationItems.map((num, idx) => (
-        num === '...' ? (
-          <span key={`dots-${idx}`} className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500">
+      {paginationItems.map((num, idx) =>
+        num === "..." ? (
+          <span
+            key={`dots-${idx}`}
+            className="w-8 h-8 flex items-center justify-center text-gray-500"
+          >
             ...
           </span>
         ) : (
           <motion.button
-            whileHover={{ scale: 1.1 }}
             key={num}
+            whileHover={{ scale: 1.12 }}
             onClick={() => onPageClick(num)}
-            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md flex items-center justify-center font-medium text-xs sm:text-sm transition cursor-pointer ${
+            className={`w-8 h-8 rounded-sm flex items-center justify-center border text-sm font-bold transition-all ${
               num === currentPage
-                ? "bg-[#D9A556] text-white"
-                : "bg-white text-gray-700 shadow-sm hover:bg-[#D9A556] hover:text-white"
+                ? "bg-[#C58E47] text-white border-[#C58E47]"
+                : "border-gray-400 text-gray-500 hover:bg-[#C58E47] hover:text-white"
             }`}
           >
             {num}
           </motion.button>
-        )
-      ))}
+        ),
+      )}
 
       <motion.button
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: currentPage < lastPage ? 1.1 : 1 }}
         onClick={onNext}
         disabled={currentPage === lastPage}
-        className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-[#E7E4DF] flex items-center justify-center text-gray-700 hover:bg-[#D9A556] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        className="w-8 h-8 flex items-center justify-center rounded-sm border border-gray-400 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
       >
-        <ChevronRight size={14} className="sm:w-4 sm:h-4" />
+        <ChevronRight size={16} />
       </motion.button>
     </motion.div>
   );

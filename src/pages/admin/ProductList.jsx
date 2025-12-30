@@ -4,10 +4,34 @@ import { Search, Plus, Edit2, Trash2 } from "lucide-react";
 
 // --- DUMMY DATA ---
 const dummyProducts = [
-  { id: 1, name: 'Sofa Premium', material: 'Teak Wood', category: 'Living Room', dimensions: '200x85x80' },
-  { id: 2, name: 'Dining Table Set', material: 'Mahogany', category: 'Dining Room', dimensions: '180x75x80' },
-  { id: 3, name: 'Office Desk', material: 'MDF', category: 'Office', dimensions: '150x45x60' },
-  { id: 4, name: 'Lounge Chair', material: 'Synthetic Rattan', category: 'Outdoor', dimensions: '80x90x75' },
+  {
+    id: 1,
+    name: "Sofa Premium",
+    material: "Teak Wood",
+    category: "Living Room",
+    dimensions: "200x85x80",
+  },
+  {
+    id: 2,
+    name: "Dining Table Set",
+    material: "Mahogany",
+    category: "Dining Room",
+    dimensions: "180x75x80",
+  },
+  {
+    id: 3,
+    name: "Office Desk",
+    material: "MDF",
+    category: "Office",
+    dimensions: "150x45x60",
+  },
+  {
+    id: 4,
+    name: "Lounge Chair",
+    material: "Synthetic Rattan",
+    category: "Outdoor",
+    dimensions: "80x90x75",
+  },
 ];
 
 // --- KOMPONEN UTAMA ---
@@ -30,7 +54,7 @@ export default function ProductList({ activeMenuItem }) {
   const handleDelete = (id) => {
     if (window.confirm(`Are you sure you want to delete Product ID: ${id}?`)) {
       // Logika API deleteProduct(id) di sini
-      setProducts(products.filter(p => p.id !== id));
+      setProducts(products.filter((p) => p.id !== id));
       alert(`Product ${id} deleted (Simulated)`);
     }
   };
@@ -43,10 +67,9 @@ export default function ProductList({ activeMenuItem }) {
   return (
     <div className="flex-1 ml-[200px] p-8 bg-[#F4F2EE] min-h-screen">
       <div className="max-w-[1300px] mx-auto">
-        
         {/* Header dan Breadcrumb */}
         <h1 className="text-2xl font-bold text-[#3C2F26] mb-6">Products</h1>
-        
+
         {/* Aksi Bar: Search dan Add New */}
         <div className="flex justify-between items-center mb-6">
           <div className="relative w-96">
@@ -57,7 +80,10 @@ export default function ProductList({ activeMenuItem }) {
               onChange={handleSearch}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C58E47] shadow-sm"
             />
-            <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Search
+              size={20}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            />
           </div>
 
           <button
@@ -85,24 +111,36 @@ export default function ProductList({ activeMenuItem }) {
             <tbody className="bg-white divide-y divide-gray-100 text-sm">
               {loading ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-10 text-gray-500">Loading products...</td>
+                  <td colSpan="6" className="text-center py-10 text-gray-500">
+                    Loading products...
+                  </td>
                 </tr>
               ) : products.length > 0 ? (
                 products.map((product) => (
                   <tr key={product.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">{product.id}</td>
-                    <td className="px-6 py-4 font-medium text-gray-800">{product.name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600">{product.material}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                        <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">
-                            {product.category}
-                        </span>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">
+                      {product.id}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600">{product.dimensions}</td>
+                    <td className="px-6 py-4 font-medium text-gray-800">
+                      {product.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                      {product.material}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                      <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">
+                        {product.category}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                      {product.dimensions}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <div className="flex justify-center space-x-2">
                         <button
-                          onClick={() => navigate(`/admin/products/edit/${product.id}`)}
+                          onClick={() =>
+                            navigate(`/admin/products/edit/${product.id}`)
+                          }
                           className="text-[#3C2F26] hover:text-[#C58E47] p-1 rounded-full transition"
                           title="Edit"
                         >
@@ -121,17 +159,20 @@ export default function ProductList({ activeMenuItem }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="text-center py-10 text-gray-500">No products found.</td>
+                  <td colSpan="6" className="text-center py-10 text-gray-500">
+                    No products found.
+                  </td>
                 </tr>
               )}
             </tbody>
-          </table >
-          
+          </table>
+
           {/* Pagination Dummy */}
           <div className="p-4 border-t flex justify-end text-sm text-gray-600">
-            <span className="mr-4">Showing 1 to {products.length} of {products.length} entries</span>
+            <span className="mr-4">
+              Showing 1 to {products.length} of {products.length} entries
+            </span>
           </div>
-
         </div>
       </div>
     </div>

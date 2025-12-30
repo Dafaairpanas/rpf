@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Line } from 'react-chartjs-2';
+import React, { useState, useEffect, useMemo } from "react";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,11 +9,20 @@ import {
   Title,
   Tooltip,
   Legend,
-  Filler
-} from 'chart.js';
-import { motion } from 'framer-motion';
-import { BarChart3, Calendar, Loader2, RefreshCw, TrendingUp, MessageSquare, Home, TreePine } from 'lucide-react';
-import api from '@/api/axios';
+  Filler,
+} from "chart.js";
+import { motion } from "framer-motion";
+import {
+  BarChart3,
+  Calendar,
+  Loader2,
+  RefreshCw,
+  TrendingUp,
+  MessageSquare,
+  Home,
+  TreePine,
+} from "lucide-react";
+import api from "@/api/axios";
 
 // Register Chart.js components
 ChartJS.register(
@@ -24,47 +33,47 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
 );
 
 const MessageStatsChart = () => {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [statsData, setStatsData] = useState(null);
-  
+
   // Filter state
-  const [period, setPeriod] = useState('daily');
+  const [period, setPeriod] = useState("daily");
   const [startDate, setStartDate] = useState(() => {
     const date = new Date();
     date.setDate(date.getDate() - 30);
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   });
   const [endDate, setEndDate] = useState(() => {
-    return new Date().toISOString().split('T')[0];
+    return new Date().toISOString().split("T")[0];
   });
 
   // Fetch stats data
   const fetchStats = async () => {
     setLoading(true);
-    setError('');
-    
+    setError("");
+
     try {
-      const response = await api.get('/admin/contacts/stats', {
+      const response = await api.get("/admin/contacts/stats", {
         params: {
           period,
           start_date: startDate,
-          end_date: endDate
-        }
+          end_date: endDate,
+        },
       });
-      
+
       if (response.data.success) {
         setStatsData(response.data.data);
       } else {
-        setError('Failed to load statistics');
+        setError("Failed to load statistics");
       }
     } catch (err) {
-      console.error('Stats fetch error:', err);
-      setError('Failed to fetch message statistics');
+      console.error("Stats fetch error:", err);
+      setError("Failed to fetch message statistics");
     } finally {
       setLoading(false);
     }
@@ -87,172 +96,181 @@ const MessageStatsChart = () => {
     const byCategory = datasets.by_category || {};
 
     return {
-      labels: labels.map(label => {
+      labels: labels.map((label) => {
         // Format date labels based on period
         const date = new Date(label);
-        if (period === 'daily') {
-          return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
-        } else if (period === 'weekly') {
-          return `Week ${label.split('-W')[1] || label}`;
+        if (period === "daily") {
+          return date.toLocaleDateString("id-ID", {
+            day: "numeric",
+            month: "short",
+          });
+        } else if (period === "weekly") {
+          return `Week ${label.split("-W")[1] || label}`;
         } else {
-          return date.toLocaleDateString('id-ID', { month: 'short', year: '2-digit' });
+          return date.toLocaleDateString("id-ID", {
+            month: "short",
+            year: "2-digit",
+          });
         }
       }),
       datasets: [
         {
-          label: 'Total Messages',
+          label: "Total Messages",
           data: datasets.total || [],
-          borderColor: '#3B82F6',
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          borderColor: "#3B82F6",
+          backgroundColor: "rgba(59, 130, 246, 0.1)",
           fill: true,
           tension: 0.4,
           pointRadius: 4,
           pointHoverRadius: 6,
-          borderWidth: 2
+          borderWidth: 2,
         },
         {
-          label: 'Indoor',
-          data: byCategory['Indoor'] || [],
-          borderColor: '#C58E47',
-          backgroundColor: 'rgba(197, 142, 71, 0.1)',
+          label: "Indoor",
+          data: byCategory["Indoor"] || [],
+          borderColor: "#C58E47",
+          backgroundColor: "rgba(197, 142, 71, 0.1)",
           fill: true,
           tension: 0.4,
           pointRadius: 4,
           pointHoverRadius: 6,
-          borderWidth: 2
+          borderWidth: 2,
         },
         {
-          label: 'Outdoor',
-          data: byCategory['Outdoor'] || [],
-          borderColor: '#10B981',
-          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          label: "Outdoor",
+          data: byCategory["Outdoor"] || [],
+          borderColor: "#10B981",
+          backgroundColor: "rgba(16, 185, 129, 0.1)",
           fill: true,
           tension: 0.4,
           pointRadius: 4,
           pointHoverRadius: 6,
-          borderWidth: 2
+          borderWidth: 2,
         },
         {
-          label: 'No Product',
-          data: byCategory['No Product'] || [],
-          borderColor: '#9CA3AF',
-          backgroundColor: 'rgba(156, 163, 175, 0.1)',
+          label: "No Product",
+          data: byCategory["No Product"] || [],
+          borderColor: "#9CA3AF",
+          backgroundColor: "rgba(156, 163, 175, 0.1)",
           fill: true,
           tension: 0.4,
           pointRadius: 3,
           pointHoverRadius: 5,
           borderWidth: 1.5,
-          borderDash: [5, 5]
-        }
-      ].filter(dataset => dataset.data.length > 0) // Only show datasets with data
+          borderDash: [5, 5],
+        },
+      ].filter((dataset) => dataset.data.length > 0), // Only show datasets with data
     };
   }, [statsData, period]);
 
   // Chart options
-  const chartOptions = useMemo(() => ({
-    responsive: true,
-    maintainAspectRatio: false,
-    interaction: {
-      mode: 'index',
-      intersect: false,
-    },
-    plugins: {
-      legend: {
-        position: 'top',
-        align: 'end',
-        labels: {
-          boxWidth: 12,
-          boxHeight: 12,
-          borderRadius: 3,
-          useBorderRadius: true,
-          padding: 20,
-          font: {
+  const chartOptions = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: "index",
+        intersect: false,
+      },
+      plugins: {
+        legend: {
+          position: "top",
+          align: "end",
+          labels: {
+            boxWidth: 12,
+            boxHeight: 12,
+            borderRadius: 3,
+            useBorderRadius: true,
+            padding: 20,
+            font: {
+              size: 11,
+              weight: "600",
+              family: "'Inter', sans-serif",
+            },
+            color: "#3C2F26",
+          },
+        },
+        tooltip: {
+          backgroundColor: "#3C2F26",
+          titleFont: {
+            size: 12,
+            weight: "700",
+            family: "'Inter', sans-serif",
+          },
+          bodyFont: {
             size: 11,
-            weight: '600',
-            family: "'Inter', sans-serif"
+            family: "'Inter', sans-serif",
           },
-          color: '#3C2F26'
-        }
+          padding: 12,
+          cornerRadius: 8,
+          displayColors: true,
+          boxWidth: 8,
+          boxHeight: 8,
+          usePointStyle: true,
+        },
       },
-      tooltip: {
-        backgroundColor: '#3C2F26',
-        titleFont: {
-          size: 12,
-          weight: '700',
-          family: "'Inter', sans-serif"
-        },
-        bodyFont: {
-          size: 11,
-          family: "'Inter', sans-serif"
-        },
-        padding: 12,
-        cornerRadius: 8,
-        displayColors: true,
-        boxWidth: 8,
-        boxHeight: 8,
-        usePointStyle: true
-      }
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false
-        },
-        ticks: {
-          font: {
-            size: 10,
-            weight: '600'
+      scales: {
+        x: {
+          grid: {
+            display: false,
           },
-          color: '#9CA3AF'
-        }
+          ticks: {
+            font: {
+              size: 10,
+              weight: "600",
+            },
+            color: "#9CA3AF",
+          },
+        },
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: "rgba(156, 163, 175, 0.1)",
+          },
+          ticks: {
+            font: {
+              size: 10,
+              weight: "600",
+            },
+            color: "#9CA3AF",
+            stepSize: 1,
+          },
+        },
       },
-      y: {
-        beginAtZero: true,
-        grid: {
-          color: 'rgba(156, 163, 175, 0.1)'
-        },
-        ticks: {
-          font: {
-            size: 10,
-            weight: '600'
-          },
-          color: '#9CA3AF',
-          stepSize: 1
-        }
-      }
-    }
-  }), []);
+    }),
+    [],
+  );
 
   // Summary cards data
   const summaryCards = useMemo(() => {
     if (!statsData?.summary) return [];
-    
+
     const { summary } = statsData;
     return [
       {
-        label: 'Total Messages',
+        label: "Total Messages",
         value: summary.total_messages || 0,
         icon: MessageSquare,
-        color: 'bg-blue-500'
+        color: "bg-blue-500",
       },
       {
-        label: 'New',
+        label: "New",
         value: summary.by_status?.new || 0,
         icon: TrendingUp,
-        color: 'bg-amber-500'
+        color: "bg-amber-500",
       },
       {
-        label: 'Read',
+        label: "Read",
         value: summary.by_status?.read || 0,
         icon: RefreshCw,
-        color: 'bg-emerald-500'
+        color: "bg-emerald-500",
       },
       {
-        label: 'Replied',
+        label: "Replied",
         value: summary.by_status?.replied || 0,
         icon: MessageSquare,
-        color: 'bg-purple-500'
-      }
+        color: "bg-purple-500",
+      },
     ];
   }, [statsData]);
 
@@ -293,7 +311,10 @@ const MessageStatsChart = () => {
           {/* Date Range */}
           <div className="flex items-center gap-1 sm:gap-2 flex-wrap sm:flex-nowrap">
             <div className="relative">
-              <Calendar size={14} className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <Calendar
+                size={14}
+                className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+              />
               <input
                 type="date"
                 value={startDate}
@@ -303,7 +324,10 @@ const MessageStatsChart = () => {
             </div>
             <span className="text-gray-400 font-bold hidden sm:inline">—</span>
             <div className="relative">
-              <Calendar size={14} className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <Calendar
+                size={14}
+                className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+              />
               <input
                 type="date"
                 value={endDate}
@@ -340,12 +364,18 @@ const MessageStatsChart = () => {
               transition={{ delay: i * 0.05 }}
               className="bg-gray-50 rounded-2xl p-4 flex items-center gap-3"
             >
-              <div className={`w-10 h-10 ${card.color} rounded-xl flex items-center justify-center text-white`}>
+              <div
+                className={`w-10 h-10 ${card.color} rounded-xl flex items-center justify-center text-white`}
+              >
                 <card.icon size={18} />
               </div>
               <div>
-                <p className="text-2xl font-black text-[#3C2F26]">{card.value}</p>
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{card.label}</p>
+                <p className="text-2xl font-black text-[#3C2F26]">
+                  {card.value}
+                </p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                  {card.label}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -357,7 +387,10 @@ const MessageStatsChart = () => {
         {loading ? (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center space-y-3">
-              <Loader2 size={40} className="animate-spin text-[#3C2F26] mx-auto opacity-20" />
+              <Loader2
+                size={40}
+                className="animate-spin text-[#3C2F26] mx-auto opacity-20"
+              />
               <p className="text-[10px] font-black text-gray-300 uppercase tracking-[0.2em]">
                 Loading Analytics...
               </p>

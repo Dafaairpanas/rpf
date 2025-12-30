@@ -39,6 +39,27 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  /* Hero section mobile fix - ensure no gap */
+  .hero-full {
+    height: 100svh;
+    min-height: 100vh;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+
+  @media (max-width: 640px) {
+    .hero-full {
+      background-size: cover !important;
+      background-position: center center !important;
+    }
+  }
+
+  /* Smooth responsive transitions */
+  .smooth-responsive {
+    transition: all 0.3s ease-out;
+  }
 }
 
 @theme {
@@ -59,6 +80,7 @@
 
 body {
   font-family: "Poppins", sans-serif;
+  background-color: #f5f5f5;
 }
 
 h1,
@@ -103,6 +125,96 @@ h6 {
 }
 .w-std {
   width: 85rem;
+}
+
+/* ========================================
+   Long text handling - prevent overflow
+   ======================================== */
+.ck-content,
+[class*="prose"],
+.rich-text-content {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.ck-content p,
+[class*="prose"] p,
+.rich-text-content p {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ========================================
+   List styling (ol, ul) - fix numbering/bullets
+   ======================================== */
+.ck-content ul,
+[class*="prose"] ul,
+.rich-text-content ul {
+  list-style-type: disc !important;
+  padding-left: 2em !important;
+  margin: 1em 0 !important;
+}
+
+.ck-content ol,
+[class*="prose"] ol,
+.rich-text-content ol {
+  list-style-type: decimal !important;
+  padding-left: 2em !important;
+  margin: 1em 0 !important;
+}
+
+.ck-content ul li,
+[class*="prose"] ul li,
+.rich-text-content ul li {
+  list-style-type: disc !important;
+  display: list-item !important;
+  margin: 0.5em 0 !important;
+}
+
+.ck-content ol li,
+[class*="prose"] ol li,
+.rich-text-content ol li {
+  list-style-type: decimal !important;
+  display: list-item !important;
+  margin: 0.5em 0 !important;
+}
+
+/* Nested lists */
+.ck-content ul ul,
+[class*="prose"] ul ul,
+.rich-text-content ul ul {
+  list-style-type: circle !important;
+}
+
+.ck-content ul ul ul,
+[class*="prose"] ul ul ul,
+.rich-text-content ul ul ul {
+  list-style-type: square !important;
+}
+
+/* ========================================
+   Blockquote styling
+   ======================================== */
+.ck-content blockquote,
+[class*="prose"] blockquote,
+.rich-text-content blockquote {
+  border-left: 4px solid #3c2f26 !important;
+  padding-left: 1em !important;
+  margin: 1.5em 0 !important;
+  color: #6b7280 !important;
+  font-style: italic !important;
+  background: #f9fafb !important;
+  padding: 1em 1em 1em 1.5em !important;
+  border-radius: 0 8px 8px 0 !important;
+}
+
+.ck-content blockquote p,
+[class*="prose"] blockquote p,
+.rich-text-content blockquote p {
+  margin: 0 !important;
 }
 
 /* CKEditor Content Styles - for rendering saved content */
@@ -176,8 +288,26 @@ h6 {
 .ck-content figure.image,
 [class*="prose"] figure.image,
 .rich-text-content figure.image {
-  display: table;
-  margin: 1em auto;
+  display: block;
+  margin: 1em 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Figure with inline style width - respect the width */
+.ck-content figure.image[style*="width"],
+[class*="prose"] figure.image[style*="width"],
+.rich-text-content figure.image[style*="width"] {
+  display: block !important;
+}
+
+/* Image inside figure should fill the figure */
+.ck-content figure.image img,
+[class*="prose"] figure.image img,
+.rich-text-content figure.image img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .ck-content figure.image figcaption,
@@ -200,6 +330,109 @@ h6 {
 }
 
 /* Clear floats after content */
+.ck-content::after,
+[class*="prose"]::after,
+.rich-text-content::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* ========================================
+   CRITICAL: Support inline styles on images
+   These rules ensure that inline styles set by
+   the Image Editor modal are respected
+   ======================================== */
+
+/* Base figure styling - respect inline styles */
+.ck-content figure.image,
+[class*="prose"] figure.image,
+.rich-text-content figure.image,
+.ck-content figure,
+[class*="prose"] figure,
+.rich-text-content figure {
+  display: block;
+  margin: 1em 0;
+  clear: both;
+  box-sizing: border-box;
+}
+
+/* IMPORTANT: Let inline styles override defaults */
+.ck-content figure.image[style],
+[class*="prose"] figure.image[style],
+.rich-text-content figure.image[style],
+.ck-content figure[style],
+[class*="prose"] figure[style],
+.rich-text-content figure[style] {
+  /* Don't override - let inline styles work */
+}
+
+/* Ensure figure respects its width attribute */
+.ck-content figure.image[style*="width"],
+[class*="prose"] figure.image[style*="width"],
+.rich-text-content figure.image[style*="width"] {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Image inside figure - full width of container */
+.ck-content figure.image img,
+[class*="prose"] figure.image img,
+.rich-text-content figure.image img,
+.ck-content figure img,
+[class*="prose"] figure img,
+.rich-text-content figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Alignment classes (fallback) */
+.ck-content .image-style-align-left,
+[class*="prose"] .image-style-align-left {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+.ck-content .image-style-align-center,
+[class*="prose"] .image-style-align-center {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.ck-content .image-style-align-right,
+[class*="prose"] .image-style-align-right {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+/* Float/Text Wrap support - image floats and text wraps around */
+.ck-content figure.image[style*="float: left"],
+[class*="prose"] figure.image[style*="float: left"],
+.rich-text-content figure.image[style*="float: left"],
+.ck-content figure.image[style*="float:left"],
+[class*="prose"] figure.image[style*="float:left"],
+.rich-text-content figure.image[style*="float:left"] {
+  float: left !important;
+  margin-right: 1.5em !important;
+  margin-bottom: 1em !important;
+  margin-left: 0 !important;
+}
+
+.ck-content figure.image[style*="float: right"],
+[class*="prose"] figure.image[style*="float: right"],
+.rich-text-content figure.image[style*="float: right"],
+.ck-content figure.image[style*="float:right"],
+[class*="prose"] figure.image[style*="float:right"],
+.rich-text-content figure.image[style*="float:right"] {
+  float: right !important;
+  margin-left: 1.5em !important;
+  margin-bottom: 1em !important;
+  margin-right: 0 !important;
+}
+
+/* Clear float after content ends */
 .ck-content::after,
 [class*="prose"]::after,
 .rich-text-content::after {

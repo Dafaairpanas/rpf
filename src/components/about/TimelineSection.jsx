@@ -1,11 +1,11 @@
 import { motion as M } from "framer-motion";
-import { 
-  sectionHeadingVariant, 
-  timelineCardTopVariant, 
-  timelineCardBottomVariant, 
+import {
+  sectionHeadingVariant,
+  timelineCardTopVariant,
+  timelineCardBottomVariant,
   yearCircleVariant,
   timelineCardClass,
-  yearCircleClass 
+  yearCircleClass,
 } from "./variants";
 
 /**
@@ -14,10 +14,30 @@ import {
  */
 export default function TimelineSection({ t }) {
   const items = [
-    { year: t("timeline.0.year"), title: t("timeline.0.title"), desc: t("timeline.0.desc"), position: "top" },
-    { year: t("timeline.1.year"), title: t("timeline.1.title"), desc: t("timeline.1.desc"), position: "bottom" },
-    { year: t("timeline.2.year"), title: t("timeline.2.title"), desc: t("timeline.2.desc"), position: "top" },
-    { year: t("timeline.3.year"), title: t("timeline.3.title"), desc: t("timeline.3.desc"), position: "bottom" },
+    {
+      year: t("timeline.0.year"),
+      title: t("timeline.0.title"),
+      desc: t("timeline.0.desc"),
+      position: "top",
+    },
+    {
+      year: t("timeline.1.year"),
+      title: t("timeline.1.title"),
+      desc: t("timeline.1.desc"),
+      position: "bottom",
+    },
+    {
+      year: t("timeline.2.year"),
+      title: t("timeline.2.title"),
+      desc: t("timeline.2.desc"),
+      position: "top",
+    },
+    {
+      year: t("timeline.3.year"),
+      title: t("timeline.3.title"),
+      desc: t("timeline.3.desc"),
+      position: "bottom",
+    },
   ];
 
   return (
@@ -57,7 +77,9 @@ export default function TimelineSection({ t }) {
                       whileHover="whileHover"
                       className={`mb-40 w-full max-w-[300px] h-[120px] ${timelineCardClass}`}
                     >
-                      <h3 className="font-bold text-lg text-center">{item.title}</h3>
+                      <h3 className="font-bold text-lg text-center">
+                        {item.title}
+                      </h3>
                       <p className="text-sm mt-1 text-center">{item.desc}</p>
                     </M.div>
                     <div className="absolute top-[18px] w-[3px] h-[55px] bg-[#3a302b] translate-y-full" />
@@ -86,7 +108,9 @@ export default function TimelineSection({ t }) {
                       whileHover="whileHover"
                       className={`mt-36 w-full max-w-[300px] h-[120px] ${timelineCardClass}`}
                     >
-                      <h3 className="font-bold text-lg text-center">{item.title}</h3>
+                      <h3 className="font-bold text-lg text-center">
+                        {item.title}
+                      </h3>
                       <p className="text-sm mt-1 text-center">{item.desc}</p>
                     </M.div>
                   </>
@@ -123,7 +147,9 @@ function MobileTimeline({ items }) {
               {item.year}
             </M.div>
 
-            <div className={`flex ${i % 2 === 0 ? "justify-start" : "justify-end"}`}>
+            <div
+              className={`flex ${i % 2 === 0 ? "justify-start" : "justify-end"}`}
+            >
               <M.div
                 custom={i}
                 variants={{

@@ -1,15 +1,15 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import api from '@/api/axios';
+import { useState, useEffect, useCallback, useRef } from "react";
+import api from "@/api/axios";
 
 /**
  * useProducts - Custom hook for fetching products with pagination
  * Handles loading, error states, and prevents duplicate requests
  */
-export function useProducts({ 
-  page = 1, 
-  perPage = 8, 
-  categoryId = null, 
-  search = '' 
+export function useProducts({
+  page = 1,
+  perPage = 8,
+  categoryId = null,
+  search = "",
 }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ export function useProducts({
   const [pagination, setPagination] = useState({
     currentPage: 1,
     lastPage: 1,
-    total: 0
+    total: 0,
   });
 
   // Prevent duplicate fetches
@@ -35,41 +35,45 @@ export function useProducts({
 
     try {
       const params = { page, per_page: perPage };
-      if (categoryId && categoryId !== 'all') {
+      if (categoryId && categoryId !== "all") {
         params.category_id = categoryId;
       }
       if (search.trim()) {
         params.q = search.trim();
       }
 
-      const res = await api.get('/products', { 
+      const res = await api.get("/products", {
         params,
-        signal: abortControllerRef.current.signal
+        signal: abortControllerRef.current.signal,
       });
 
       if (res.data.success) {
         const result = res.data.data;
         const productList = Array.isArray(result) ? result : result.data || [];
-        
+
         setProducts(productList);
         setPagination({
           currentPage: result.current_page || 1,
           lastPage: result.last_page || 1,
-          total: result.total || productList.length
+          total: result.total || productList.length,
         });
       } else {
         setProducts([]);
-        setError(res.data.message || 'Failed to fetch products');
+        setError(res.data.message || "Failed to fetch products");
       }
     } catch (err) {
       // Ignore aborted/canceled requests (from typing fast, navigating away, etc)
-      if (err.name === 'AbortError' || err.name === 'CanceledError' || err.code === 'ERR_CANCELED') {
+      if (
+        err.name === "AbortError" ||
+        err.name === "CanceledError" ||
+        err.code === "ERR_CANCELED"
+      ) {
         // Request was intentionally canceled, don't set error
         return;
       }
-      console.error('Products fetch error:', err);
+      console.error("Products fetch error:", err);
       setProducts([]);
-      setError('Failed to load products');
+      setError("Failed to load products");
     } finally {
       setLoading(false);
     }
@@ -92,7 +96,7 @@ export function useProducts({
     loading,
     error,
     pagination,
-    refetch: fetchProducts
+    refetch: fetchProducts,
   };
 }
 
@@ -106,7 +110,7 @@ export function useProductDetail() {
 
   const fetchProduct = useCallback(async (productId) => {
     if (!productId) return;
-    
+
     setLoading(true);
     setError(null);
 
@@ -114,8 +118,8 @@ export function useProductDetail() {
       const res = await api.get(`/products/${productId}`);
       setProduct(res.data.data || res.data);
     } catch (err) {
-      console.error('Product detail error:', err);
-      setError('Failed to load product details');
+      console.error("Product detail error:", err);
+      setError("Failed to load product details");
     } finally {
       setLoading(false);
     }
@@ -131,6 +135,6 @@ export function useProductDetail() {
     loading,
     error,
     fetchProduct,
-    clearProduct
+    clearProduct,
   };
 }

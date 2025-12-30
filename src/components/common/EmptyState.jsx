@@ -1,13 +1,13 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Package, 
-  Newspaper, 
-  Heart, 
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  Package,
+  Newspaper,
+  Heart,
   Image as ImageIcon,
   Search,
-  Inbox
-} from 'lucide-react';
+  Inbox,
+} from "lucide-react";
 
 // Icon mapping for different content types
 const ICON_MAP = {
@@ -16,23 +16,23 @@ const ICON_MAP = {
   csr: Heart,
   images: ImageIcon,
   search: Search,
-  default: Inbox
+  default: Inbox,
 };
 
 /**
  * EmptyState Component
  * Displays a friendly empty state with icon and message
- * 
+ *
  * @param {string} type - Type of content (products, news, csr, images, search)
  * @param {string} title - Main title text
  * @param {string} description - Optional description text
  * @param {string} className - Additional CSS classes
  */
-const EmptyState = ({ 
-  type = 'default',
-  title = 'Tidak ada data',
-  description = '',
-  className = ''
+const EmptyState = ({
+  type = "default",
+  title = "Tidak ada data",
+  description = "",
+  className = "",
 }) => {
   const IconComponent = ICON_MAP[type] || ICON_MAP.default;
 
@@ -46,9 +46,9 @@ const EmptyState = ({
       {/* Icon Container */}
       <div className="relative mb-6">
         <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#F4F2EE] to-[#E8E4DC] flex items-center justify-center shadow-inner">
-          <IconComponent 
-            size={40} 
-            className="text-[#C58E47] opacity-80" 
+          <IconComponent
+            size={40}
+            className="text-[#C58E47] opacity-80"
             strokeWidth={1.5}
           />
         </div>

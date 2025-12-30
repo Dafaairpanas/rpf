@@ -30,11 +30,11 @@ export default function DetailNews() {
       const response = await getNewsById(id);
       if (response.data.success) {
         setNews(response.data.data);
-        
+
         // Fetch adjacent News for navigation titles
         const prevId = parseInt(id) - 1;
         const nextId = parseInt(id) + 1;
-        
+
         try {
           if (prevId >= 1) {
             const prevResponse = await getNewsById(prevId);
@@ -49,7 +49,7 @@ export default function DetailNews() {
         } catch {
           setPrevNews(null);
         }
-        
+
         try {
           const nextResponse = await getNewsById(nextId);
           if (nextResponse.data.success) {
@@ -61,11 +61,11 @@ export default function DetailNews() {
           setNextNews(null);
         }
       } else {
-        setError('News not found');
+        setError("News not found");
       }
     } catch (err) {
-      console.error('Error fetching News detail:', err);
-      setError('Failed to load News details');
+      console.error("Error fetching News detail:", err);
+      setError("Failed to load News details");
     } finally {
       setLoading(false);
     }
@@ -73,11 +73,11 @@ export default function DetailNews() {
 
   // Format date
   const formatDate = (dateString) => {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString('id-ID', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    if (!dateString) return "";
+    return new Date(dateString).toLocaleDateString("id-ID", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -123,10 +123,12 @@ export default function DetailNews() {
 
   // helper: extract initials
   const getInitials = (name) => {
-    if (!name) return 'A';
-    const parts = name.split(' ');
+    if (!name) return "A";
+    const parts = name.split(" ");
     if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
-    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+    return (
+      parts[0].charAt(0) + parts[parts.length - 1].charAt(0)
+    ).toUpperCase();
   };
 
   // Share buttons component
@@ -147,7 +149,16 @@ export default function DetailNews() {
       aria-label={item.label}
     >
       {index === 0 && (
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M3 12a4 4 0 014-4h4" />
           <path d="M17 16a4 4 0 01-4 4h-4" />
           <path d="M8 12h8" />
@@ -185,7 +196,7 @@ export default function DetailNews() {
         <div className="flex flex-col justify-center items-center min-h-screen">
           <h2 className="text-2xl font-bold text-red-600 mb-4">{error}</h2>
           <button
-            onClick={() => navigate('/News')}
+            onClick={() => navigate("/News")}
             className="px-6 py-3 bg-[#3C2F26] text-white rounded-lg hover:bg-[#52453B] transition"
           >
             Kembali ke Daftar News
@@ -220,11 +231,15 @@ export default function DetailNews() {
                 transition={{ delay: 0.4, duration: 0.6 }}
               >
                 <div className="w-10 h-10 bg-[#3C2F26] text-white rounded-xl flex items-center justify-center font-bold shadow-sm">
-                  {getInitials(news.creator?.name || 'Administrator')}
+                  {getInitials(news.creator?.name || "Administrator")}
                 </div>
                 <div>
-                  <div className="font-medium text-[#28221F]">{news.creator?.name || 'Administrator'}</div>
-                  <div className="text-sm opacity-70">{formatDate(news.created_at)}</div>
+                  <div className="font-medium text-[#28221F]">
+                    {news.creator?.name || "Administrator"}
+                  </div>
+                  <div className="text-sm opacity-70">
+                    {formatDate(news.created_at)}
+                  </div>
                 </div>
               </motion.div>
             </motion.div>
@@ -249,7 +264,8 @@ export default function DetailNews() {
               <div
                 className="ck-content"
                 dangerouslySetInnerHTML={{
-                  __html: news.content?.content || '<p>Tidak ada konten tersedia</p>'
+                  __html:
+                    news.content?.content || "<p>Tidak ada konten tersedia</p>",
                 }}
               />
             </motion.section>
@@ -279,7 +295,9 @@ export default function DetailNews() {
                       </div>
                     </button>
                   </motion.div>
-                ) : <div className="flex-1" />}
+                ) : (
+                  <div className="flex-1" />
+                )}
 
                 {/* Share - Center */}
                 <div className="flex-1 flex flex-col items-center">
@@ -312,7 +330,9 @@ export default function DetailNews() {
                       />
                     </button>
                   </motion.div>
-                ) : <div className="flex-1" />}
+                ) : (
+                  <div className="flex-1" />
+                )}
               </div>
 
               {/* Mobile Layout: Share + Navigation below */}

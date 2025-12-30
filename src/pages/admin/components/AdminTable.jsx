@@ -1,27 +1,27 @@
-import React from 'react';
-import { Search, Edit, Trash2, Plus, Eye, MoreVertical } from 'lucide-react';
+import React from "react";
+import { Search, Edit, Trash2, Plus, Eye, MoreVertical } from "lucide-react";
 
 /**
  * AdminTable component - FULLY RESPONSIVE
  * Mobile: Card-based layout
  * Desktop: Traditional table layout
  */
-const AdminTable = React.memo(function AdminTable({ 
+const AdminTable = React.memo(function AdminTable({
   title,
   subtitle,
   icon,
-  data, 
-  columns, 
-  onEdit, 
+  data,
+  columns,
+  onEdit,
   onDelete,
   onView,
   onAdd,
   addButtonText,
-  searchTerm, 
+  searchTerm,
   onSearchChange,
   loading,
   filters = null,
-  titleFilter = null
+  titleFilter = null,
 }) {
   const hasActions = onEdit || onDelete || onView;
 
@@ -44,8 +44,10 @@ const AdminTable = React.memo(function AdminTable({
   );
 
   // Action Buttons Component
-  const ActionButtons = ({ item, variant = 'row' }) => (
-    <div className={`flex items-center justify-end ${variant === 'card' ? 'gap-2' : 'gap-1'}`}>
+  const ActionButtons = ({ item, variant = "row" }) => (
+    <div
+      className={`flex items-center justify-end ${variant === "card" ? "gap-2" : "gap-1"}`}
+    >
       {onView && (
         <button
           onClick={() => onView(item)}
@@ -78,18 +80,23 @@ const AdminTable = React.memo(function AdminTable({
 
   // Mobile Card View
   const MobileCardItem = ({ item, idx }) => (
-    <div 
+    <div
       key={item.id || idx}
       className="bg-white rounded-xl border border-gray-100 p-4 space-y-3 shadow-sm"
     >
       {/* Card Content - Render all columns */}
       <div className="space-y-2">
         {columns.map((col, colIdx) => (
-          <div key={col.key} className={colIdx === 0 ? '' : 'flex justify-between items-start gap-2'}>
+          <div
+            key={col.key}
+            className={
+              colIdx === 0 ? "" : "flex justify-between items-start gap-2"
+            }
+          >
             {colIdx === 0 ? (
               // First column - primary content, larger
               <div className="font-semibold text-[#3C2F26]">
-                {col.render ? col.render(item) : (item[col.key] || '-')}
+                {col.render ? col.render(item) : item[col.key] || "-"}
               </div>
             ) : (
               // Other columns - label: value format
@@ -98,7 +105,7 @@ const AdminTable = React.memo(function AdminTable({
                   {col.label}
                 </span>
                 <div className="text-right text-sm text-[#3C2F26]">
-                  {col.render ? col.render(item) : (item[col.key] || '-')}
+                  {col.render ? col.render(item) : item[col.key] || "-"}
                 </div>
               </>
             )}
@@ -120,7 +127,7 @@ const AdminTable = React.memo(function AdminTable({
     <tr key={item.id || idx} className="hover:bg-gray-50/50 transition">
       {columns.map((col) => (
         <td key={col.key} className="px-4 py-4 text-[#3C2F26]">
-          {col.render ? col.render(item) : (item[col.key] || '-')}
+          {col.render ? col.render(item) : item[col.key] || "-"}
         </td>
       ))}
       {hasActions && (
@@ -138,10 +145,20 @@ const AdminTable = React.memo(function AdminTable({
         {/* Title Row - Title + Add Button */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            {icon && <div className="p-2 bg-white rounded-xl shadow-sm shrink-0">{icon}</div>}
+            {icon && (
+              <div className="p-2 bg-white rounded-xl shadow-sm shrink-0">
+                {icon}
+              </div>
+            )}
             <div className="min-w-0">
-              <h1 className="text-lg sm:text-xl font-bold text-[#3C2F26] truncate">{title}</h1>
-              {subtitle && <p className="text-[10px] sm:text-xs text-gray-400 truncate">{subtitle}</p>}
+              <h1 className="text-lg sm:text-xl font-bold text-[#3C2F26] truncate">
+                {title}
+              </h1>
+              {subtitle && (
+                <p className="text-[10px] sm:text-xs text-gray-400 truncate">
+                  {subtitle}
+                </p>
+              )}
             </div>
           </div>
           {onAdd && (
@@ -149,12 +166,15 @@ const AdminTable = React.memo(function AdminTable({
               onClick={onAdd}
               className="min-h-[40px] sm:min-h-[44px] flex items-center justify-center bg-[#3C2F26] text-white px-3 sm:px-4 py-2 rounded-xl shadow hover:bg-[#2a1f18] transition active:scale-95 text-xs sm:text-sm font-medium cursor-pointer shrink-0"
             >
-              <Plus size={16} className="sm:mr-1.5" /> 
-              <span className="inline">{addButtonText || `Add ${title.endsWith('s') ? title.slice(0, -1) : title}`}</span>
+              <Plus size={16} className="sm:mr-1.5" />
+              <span className="inline">
+                {addButtonText ||
+                  `Add ${title.endsWith("s") ? title.slice(0, -1) : title}`}
+              </span>
             </button>
           )}
         </div>
-        
+
         {/* Title Filter - Horizontal Scroll on Mobile */}
         {titleFilter && (
           <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 no-scrollbar">
@@ -172,9 +192,12 @@ const AdminTable = React.memo(function AdminTable({
           <div className="flex flex-col gap-2">
             {onSearchChange !== undefined && (
               <div className="relative w-full">
-                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input 
-                  type="text" 
+                <Search
+                  size={16}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                />
+                <input
+                  type="text"
                   placeholder={`Search ${title.toLowerCase()}...`}
                   value={searchTerm}
                   onChange={(e) => onSearchChange(e.target.value)}
@@ -182,7 +205,11 @@ const AdminTable = React.memo(function AdminTable({
                 />
               </div>
             )}
-            {filters && <div className="w-full flex items-center gap-2 flex-wrap">{filters}</div>}
+            {filters && (
+              <div className="w-full flex items-center gap-2 flex-wrap">
+                {filters}
+              </div>
+            )}
           </div>
         </div>
 
@@ -206,7 +233,10 @@ const AdminTable = React.memo(function AdminTable({
                 <thead className="bg-gray-100 text-gray-700 font-bold uppercase tracking-wider text-[10px]">
                   <tr>
                     {columns.map((col) => (
-                      <th key={col.key} className="px-4 py-4 text-left whitespace-nowrap">
+                      <th
+                        key={col.key}
+                        className="px-4 py-4 text-left whitespace-nowrap"
+                      >
                         {col.label}
                       </th>
                     ))}
@@ -217,7 +247,11 @@ const AdminTable = React.memo(function AdminTable({
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {data.map((item, idx) => (
-                    <DesktopTableRow key={item.id || idx} item={item} idx={idx} />
+                    <DesktopTableRow
+                      key={item.id || idx}
+                      item={item}
+                      idx={idx}
+                    />
                   ))}
                 </tbody>
               </table>

@@ -25,7 +25,9 @@ const Brands = React.lazy(() => import("./pages/admin/views/Brands"));
 const Products = React.lazy(() => import("./pages/admin/views/Products"));
 const Users = React.lazy(() => import("./pages/admin/views/Users"));
 const Roles = React.lazy(() => import("./pages/admin/views/Roles"));
-const Certifications = React.lazy(() => import("./pages/admin/views/Certifications"));
+const Certifications = React.lazy(
+  () => import("./pages/admin/views/Certifications"),
+);
 const Csr = React.lazy(() => import("./pages/admin/views/Csr"));
 const CsrForm = React.lazy(() => import("./pages/admin/CsrForm.jsx"));
 const Banners = React.lazy(() => import("./pages/admin/views/Banners"));
@@ -41,15 +43,17 @@ const AdminLoadingFallback = () => (
   <div className="min-h-screen bg-[#F4F2EE] flex items-center justify-center">
     <div className="text-center space-y-3">
       <div className="w-10 h-10 border-3 border-[#3C2F26]/20 border-t-[#3C2F26] rounded-full animate-spin mx-auto" />
-      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Loading...</p>
+      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+        Loading...
+      </p>
     </div>
   </div>
 );
 
-
 function App() {
   const location = useLocation();
-  const isAdminPage = location.pathname.startsWith("/admin") || location.pathname === "/login";
+  const isAdminPage =
+    location.pathname.startsWith("/admin") || location.pathname === "/login";
 
   return (
     <>
@@ -59,26 +63,38 @@ function App() {
         <div className="flex-grow">
           <Routes>
             {/* Login Route - Lazy loaded with Suspense */}
-            <Route path="/login" element={
-              <Suspense fallback={<AdminLoadingFallback />}>
-                <Login />
-              </Suspense>
-            } />
+            <Route
+              path="/login"
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <Login />
+                </Suspense>
+              }
+            />
 
             {/* Admin Routes - Protected & Lazy loaded */}
-            <Route path="/admin" element={
-              <Suspense fallback={<AdminLoadingFallback />}>
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              </Suspense>
-            }>
+            <Route
+              path="/admin"
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
               <Route index element={<Dashboard />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="brands" element={<Brands />} />
               <Route path="products" element={<Products />} />
-              <Route path="products/create" element={<ProductForm isOpen={true} />} />
-              <Route path="products/:id/edit" element={<ProductForm isOpen={true} />} />
+              <Route
+                path="products/create"
+                element={<ProductForm isOpen={true} />}
+              />
+              <Route
+                path="products/:id/edit"
+                element={<ProductForm isOpen={true} />}
+              />
 
               <Route path="users" element={<Users />} />
               <Route path="roles" element={<Roles />} />

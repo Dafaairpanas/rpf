@@ -7,35 +7,35 @@ import api from "./axios";
 
 // Login - POST /login
 export const login = async (credentials) => {
-  const response = await api.post('/login', credentials);
+  const response = await api.post("/login", credentials);
   return response.data;
 };
 
 // Logout - POST /logout
 export const logout = async () => {
   try {
-    await api.post('/logout');
+    await api.post("/logout");
   } finally {
     // Always clear local storage, even if API call fails
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   }
 };
 
 // Get Current User - GET /me
 export const getMe = async () => {
-  const response = await api.get('/me');
+  const response = await api.get("/me");
   return response.data;
 };
 
 // Helper to check if user is authenticated
 export const isAuthenticated = () => {
-  return !!localStorage.getItem('token');
+  return !!localStorage.getItem("token");
 };
 
 // Helper to get stored user
 export const getStoredUser = () => {
-  const user = localStorage.getItem('user');
+  const user = localStorage.getItem("user");
   return user ? JSON.parse(user) : null;
 };
 
@@ -46,4 +46,4 @@ export const hasRole = (roleName) => {
 };
 
 // Helper to check if user is Super Admin
-export const isSuperAdmin = () => hasRole('Super Admin');
+export const isSuperAdmin = () => hasRole("Super Admin");

@@ -17,7 +17,8 @@ const SuccessState = ({ onReset, t }) => (
       {t("form.success.title") || "Terima Kasih!"}
     </h2>
     <p className="text-gray-600 mb-6 px-4">
-      {t("form.success.message") || "Pesan Anda telah berhasil dikirim. Kami akan segera menghubungi Anda."}
+      {t("form.success.message") ||
+        "Pesan Anda telah berhasil dikirim. Kami akan segera menghubungi Anda."}
     </p>
     <button
       onClick={onReset}
@@ -41,9 +42,19 @@ const ErrorAlert = ({ message }) => (
 /**
  * InputField - Reusable form field
  */
-const InputField = ({ label, field, type = "text", placeholder, isTextarea, value, onChange, error, required = true }) => {
+const InputField = ({
+  label,
+  field,
+  type = "text",
+  placeholder,
+  isTextarea,
+  value,
+  onChange,
+  error,
+  required = true,
+}) => {
   const inputClasses = `w-full p-3 rounded-md bg-gray-100 text-gray-800 focus:ring-2 focus:ring-[#C6934B] focus:bg-white outline-none transition-all placeholder:text-gray-400 ${
-    error ? 'ring-2 ring-red-400 bg-red-50' : ''
+    error ? "ring-2 ring-red-400 bg-red-50" : ""
   }`;
 
   return (
@@ -68,7 +79,7 @@ const InputField = ({ label, field, type = "text", placeholder, isTextarea, valu
           placeholder={placeholder}
         />
       )}
-      
+
       {error && (
         <p className="text-red-500 text-[10px] mt-1 pl-1 font-bold animate-pulse">
           {error}
@@ -82,13 +93,13 @@ const InputField = ({ label, field, type = "text", placeholder, isTextarea, valu
 
 const PopupForm = () => {
   const { t } = useTranslation("contact");
-  
+
   // -- State --
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    message: ""
+    message: "",
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -97,9 +108,9 @@ const PopupForm = () => {
 
   // -- Handlers --
   const handleChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: null }));
+      setErrors((prev) => ({ ...prev, [field]: null }));
     }
   };
 
@@ -110,17 +121,20 @@ const PopupForm = () => {
     if (!name.trim()) {
       newErrors.name = t("form.validation.nameRequired") || "Nama wajib diisi";
     }
-    
+
     if (!email.trim()) {
-      newErrors.email = t("form.validation.emailRequired") || "Email wajib diisi";
+      newErrors.email =
+        t("form.validation.emailRequired") || "Email wajib diisi";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = t("form.validation.emailInvalid") || "Email tidak valid";
+      newErrors.email =
+        t("form.validation.emailInvalid") || "Email tidak valid";
     }
-    
+
     if (!message.trim()) {
-      newErrors.message = t("form.validation.messageRequired") || "Pesan wajib diisi";
+      newErrors.message =
+        t("form.validation.messageRequired") || "Pesan wajib diisi";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -154,10 +168,30 @@ const PopupForm = () => {
   }
 
   const FIELDS = [
-    { label: t("form.labels.fullName"), field: "name", placeholder: t("form.placeholders.fullName") },
-    { label: t("form.labels.email"), field: "email", type: "email", placeholder: t("form.placeholders.email") },
-    { label: t("form.labels.phone"), field: "phone", type: "tel", placeholder: t("form.placeholders.phone"), required: false },
-    { label: t("form.labels.message"), field: "message", isTextarea: true, placeholder: t("form.placeholders.message") }
+    {
+      label: t("form.labels.fullName"),
+      field: "name",
+      placeholder: t("form.placeholders.fullName"),
+    },
+    {
+      label: t("form.labels.email"),
+      field: "email",
+      type: "email",
+      placeholder: t("form.placeholders.email"),
+    },
+    {
+      label: t("form.labels.phone"),
+      field: "phone",
+      type: "tel",
+      placeholder: t("form.placeholders.phone"),
+      required: false,
+    },
+    {
+      label: t("form.labels.message"),
+      field: "message",
+      isTextarea: true,
+      placeholder: t("form.placeholders.message"),
+    },
   ];
 
   return (
@@ -196,4 +230,3 @@ const PopupForm = () => {
 };
 
 export default PopupForm;
-

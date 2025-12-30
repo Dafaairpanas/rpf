@@ -68,8 +68,8 @@ import rochesterDiningTable from "./products/rochester dining table.png";
 import heroabout from "./hero/heroabout.png";
 import herowhyus from "./hero/herowhyus.png";
 import herocareers from "./hero/herocareerss.png";
-import herocsr from "./hero/herocsr.png"; 
-import herocollections from "./hero/herocollections.png"; 
+import herocsr from "./hero/herocsr.png";
+import herocollections from "./hero/herocollections.png";
 import home1 from "./hero/home1.png";
 import home2 from "./hero/home2.png";
 import home3 from "./hero/home3.png";
@@ -108,7 +108,7 @@ export const IMAGES = {
  * ============ CENTRALIZED HERO BACKGROUNDS ============
  * Ubah background hero section untuk setiap halaman di sini.
  * Semua halaman akan membaca konfigurasi ini.
- * 
+ *
  * Pilihan gambar yang tersedia:
  * - bg1 (default)
  * - csrJpeg

@@ -1,55 +1,63 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Loader2, Lock, Mail, Eye, EyeOff, LayoutDashboard } from 'lucide-react';
-import { motion } from 'framer-motion';
-import api from '../../api/axios'; // Pastikan path import benar
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Loader2,
+  Lock,
+  Mail,
+  Eye,
+  EyeOff,
+  LayoutDashboard,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import api from "../../api/axios"; // Pastikan path import benar
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     // Clear error saat user mengetik
-    if (error) setError('');
+    if (error) setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       // Panggil endpoint login
-      const response = await api.post('/login', formData);
-      
+      const response = await api.post("/login", formData);
+
       if (response.data.success) {
         // Simpan token (API returns 'token', fallback to 'access_token' for compatibility)
-        const token = response.data.data.token || response.data.data.access_token;
+        const token =
+          response.data.data.token || response.data.data.access_token;
         const user = response.data.data.user;
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
-        
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
         // Redirect ke dashboard
-        navigate('/admin/dashboard');
+        navigate("/admin/dashboard");
       } else {
-        setError(response.data.message || 'Login gagal');
+        setError(response.data.message || "Login gagal");
       }
     } catch (err) {
-      console.error('Login error:', err);
+      console.error("Login error:", err);
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
-        setError('Terjadi kesalahan saat login. Cek koneksi Anda.');
+        setError("Terjadi kesalahan saat login. Cek koneksi Anda.");
       }
     } finally {
       setLoading(false);
@@ -59,7 +67,7 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-[#F4F2EE] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -71,10 +79,14 @@ const Login = () => {
               <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
                 <LayoutDashboard className="text-white" size={32} />
               </div>
-              <h1 className="text-2xl font-bold text-white mb-2">Admin Portal</h1>
-              <p className="text-white/70 text-sm">Masuk untuk mengelola website RPF</p>
+              <h1 className="text-2xl font-bold text-white mb-2">
+                Admin Portal
+              </h1>
+              <p className="text-white/70 text-sm">
+                Masuk untuk mengelola website RPF
+              </p>
             </div>
-            
+
             {/* Background Pattern */}
             <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
               <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
@@ -86,9 +98,9 @@ const Login = () => {
           <div className="p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
+                  animate={{ opacity: 1, height: "auto" }}
                   className="bg-red-50 text-red-600 text-sm p-4 rounded-lg flex items-start gap-3 border border-red-100"
                 >
                   <div className="mt-0.5">⚠️</div>
@@ -97,7 +109,9 @@ const Login = () => {
               )}
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 block">Email Address</label>
+                <label className="text-sm font-medium text-gray-700 block">
+                  Email Address
+                </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Mail className="h-5 w-5 text-gray-400" />
@@ -115,7 +129,9 @@ const Login = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 block">Password</label>
+                <label className="text-sm font-medium text-gray-700 block">
+                  Password
+                </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Lock className="h-5 w-5 text-gray-400" />
@@ -150,12 +166,12 @@ const Login = () => {
                     Sedang Masuk...
                   </>
                 ) : (
-                  'Masuk ke Dashboard'
+                  "Masuk ke Dashboard"
                 )}
               </button>
             </form>
           </div>
-          
+
           <div className="bg-gray-50 px-8 py-4 text-center">
             <p className="text-xs text-gray-500">
               &copy; {new Date().getFullYear()} Rajawali Perkasa Furniture Admin

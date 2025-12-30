@@ -110,7 +110,10 @@ function Footer() {
                       className="w-6 h-8 mt-1 mr-1"
                     />
                   </div>
-                  <a href="https://maps.app.goo.gl/MyN61hxPEgB3f3FBA" className="leading-relaxed whitespace-pre-line hover:text-[#C6934B] transition-colors duration-200">
+                  <a
+                    href="https://maps.app.goo.gl/MyN61hxPEgB3f3FBA"
+                    className="leading-relaxed whitespace-pre-line hover:text-[#C6934B] transition-colors duration-200"
+                  >
                     {t("contact.address")}
                   </a>
                 </li>

@@ -4,7 +4,7 @@ import { IMAGES, HERO_BACKGROUNDS } from "@/assets/assets";
 import { useTranslation } from "react-i18next";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Grid, Pagination, Navigation, Autoplay } from "swiper/modules";
-import { API_URL, getImageUrl } from '@/config';
+import { API_URL, getImageUrl } from "@/config";
 
 // Import Swiper styles
 import "swiper/css";
@@ -38,7 +38,11 @@ const itemFadeInVariant = {
 const heroVariants = {
   section: {
     initial: { opacity: 0, scale: 1.1 },
-    animate: { opacity: 1, scale: 1, transition: { duration: 1.2, ease: "easeOut" } },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 1.2, ease: "easeOut" },
+    },
   },
   overlay: {
     initial: { opacity: 0 },
@@ -135,7 +139,9 @@ function WhyUS() {
       const result = await response.json();
       if (result.success) {
         // Handle both simple array and paginated response
-        const brandsData = Array.isArray(result.data) ? result.data : result.data.data;
+        const brandsData = Array.isArray(result.data)
+          ? result.data
+          : result.data.data;
         setBrands(brandsData || []);
       }
     } catch (err) {
@@ -151,7 +157,9 @@ function WhyUS() {
       const result = await response.json();
       if (result.success) {
         // Handle both simple array and paginated response
-        const certsData = Array.isArray(result.data) ? result.data : result.data.data;
+        const certsData = Array.isArray(result.data)
+          ? result.data
+          : result.data.data;
         setCertifications(certsData || []);
       }
     } catch (err) {
@@ -167,15 +175,21 @@ function WhyUS() {
       {/* SECTION: HERO */}
       <motion.section
         {...heroVariants.section}
-        className="relative w-full min-h-[85vh] sm:min-h-[95vh] md:min-h-[100vh] bg-cover bg-center flex items-center justify-center text-center"
-        style={{ backgroundImage: `url(${HERO_BACKGROUNDS.whyus})` }}
+        className="relative w-full hero-full bg-cover bg-center flex items-center justify-center text-center"
+        style={{
+          backgroundImage: `url(${HERO_BACKGROUNDS.whyus})`,
+          backgroundSize: "cover",
+        }}
       >
-        <motion.div {...heroVariants.overlay} className="absolute inset-0 bg-black/40" />
+        <motion.div
+          {...heroVariants.overlay}
+          className="absolute inset-0 bg-black/40"
+        />
 
-        <div className="relative z-10 text-center px-4 sm:px-6 w-full max-w-4xl mx-auto flex flex-col items-center justify-center">
-          <motion.h1 
+        <div className="relative z-10 text-center px-4 sm:px-6 w-full max-w-4xl mx-auto flex flex-col items-center justify-center mt-16 sm:mt-0 smooth-responsive">
+          <motion.h1
             {...heroVariants.title}
-            className="text-white font-montserrat font-extrabold text-5xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md"
+            className="text-white font-montserrat font-extrabold text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md smooth-responsive"
           >
             {t("whyus.hero.line1")} {t("whyus.hero.line2")}{" "}
             <span className="text-[#e8ddc7]">
@@ -183,9 +197,9 @@ function WhyUS() {
             </span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             {...heroVariants.subtitle}
-            className="text-gray-200 text-lg md:text-xl mt-6 font-poppins drop-shadow max-w-xl mx-auto"
+            className="text-gray-200 text-sm sm:text-lg md:text-xl mt-4 sm:mt-6 font-poppins drop-shadow max-w-xl mx-auto"
           >
             {t("whyus.hero.subtitle")}
           </motion.p>
@@ -242,12 +256,15 @@ function WhyUS() {
                         src={getImageUrl(item.image_url)}
                         alt={item.name}
                         className="w-full max-h-16 object-contain opacity-80 hover:opacity-100 transition-opacity"
-                        onError={(e) => { e.target.src = "https://via.placeholder.com/100?text=Error"; }}
+                        onError={(e) => {
+                          e.target.src =
+                            "https://via.placeholder.com/100?text=Error";
+                        }}
                       />
                     </motion.div>
                   ))}
                 </div>
-                
+
                 {/* Tablet+: Swiper */}
                 <div className="hidden sm:block">
                   <Swiper
@@ -259,7 +276,11 @@ function WhyUS() {
                     navigation={true}
                     autoplay={{ delay: 3000, disableOnInteraction: false }}
                     breakpoints={{
-                      1024: { slidesPerView: 3, grid: { rows: 2, fill: "row" }, spaceBetween: 30 },
+                      1024: {
+                        slidesPerView: 3,
+                        grid: { rows: 2, fill: "row" },
+                        spaceBetween: 30,
+                      },
                     }}
                     className="brands-swiper !pb-12"
                   >
@@ -273,7 +294,10 @@ function WhyUS() {
                             src={getImageUrl(item.image_url)}
                             alt={item.name}
                             className="w-full max-h-24 object-contain opacity-80 transition-opacity duration-300 hover:opacity-100"
-                            onError={(e) => { e.target.src = "https://via.placeholder.com/100?text=Error"; }}
+                            onError={(e) => {
+                              e.target.src =
+                                "https://via.placeholder.com/100?text=Error";
+                            }}
                           />
                         </motion.div>
                       </SwiperSlide>
@@ -351,8 +375,8 @@ function WhyUS() {
             </div>
           ) : (
             <>
-              {/* Mobile: Simple Grid (show all) */}
-              <div className="grid grid-cols-2 gap-3 sm:hidden px-2">
+              {/* Mobile: Single Column Grid (show all) */}
+              <div className="grid grid-cols-1 gap-4 sm:hidden px-4">
                 {certifications.map((cert) => (
                   <motion.div
                     key={cert.id}
@@ -360,18 +384,21 @@ function WhyUS() {
                     initial="initial"
                     whileInView="whileInView"
                     viewport={{ once: true }}
-                    className="flex items-center justify-center h-20 rounded-xl shadow-sm bg-gray-50/50 p-2"
+                    className="bg-white rounded-xl shadow-md flex items-center justify-center h-24 p-4 transition-all duration-300 hover:shadow-xl"
                   >
                     <img
                       src={getImageUrl(cert.image_url)}
                       alt={cert.name}
-                      className="max-h-12 object-contain opacity-80 hover:opacity-100 transition-opacity"
-                      onError={(e) => { e.target.src = "https://via.placeholder.com/100?text=Error"; }}
+                      className="w-full max-h-16 object-contain opacity-80 hover:opacity-100 transition-opacity"
+                      onError={(e) => {
+                        e.target.src =
+                          "https://via.placeholder.com/100?text=Error";
+                      }}
                     />
                   </motion.div>
                 ))}
               </div>
-              
+
               {/* Tablet+: Swiper */}
               <div className="hidden sm:block">
                 <Swiper
@@ -396,7 +423,10 @@ function WhyUS() {
                           src={getImageUrl(cert.image_url)}
                           alt={cert.name}
                           className="p-5 max-h-40 object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
-                          onError={(e) => { e.target.src = "https://via.placeholder.com/100?text=Error"; }}
+                          onError={(e) => {
+                            e.target.src =
+                              "https://via.placeholder.com/100?text=Error";
+                          }}
                         />
                       </motion.div>
                     </SwiperSlide>

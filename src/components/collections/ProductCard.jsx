@@ -1,6 +1,6 @@
-import React, { memo, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { getProductImages } from '@/utils/imageHelpers';
+import React, { memo, useMemo } from "react";
+import { motion } from "framer-motion";
+import { getProductImages } from "@/utils/imageHelpers";
 
 /**
  * ProductCard - Single product display card for grid

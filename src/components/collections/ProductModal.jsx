@@ -1,26 +1,25 @@
-import React, { useState, useMemo, useCallback, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronLeft, X, Loader } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { getProductImages } from '@/utils/imageHelpers';
+import React, { useState, useMemo, useCallback, memo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronRight, ChevronLeft, X, Loader } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { getProductImages } from "@/utils/imageHelpers";
 
 /**
  * ProductModal - Responsive product details modal
  * Mobile: Stacked layout, scrollable content
  * Desktop: Side-by-side layout
  */
-const ProductModal = memo(function ProductModal({ 
-  product, 
-  loading, 
-  onClose 
-}) {
+const ProductModal = memo(function ProductModal({ product, loading, onClose }) {
   const navigate = useNavigate();
   const [imageIndex, setImageIndex] = useState(0);
 
   // Extract specific image groups
-  const { productImages, coverImages, teakImages } = useMemo(() => 
-    product ? getProductImages(product) : { productImages: [], coverImages: [], teakImages: [] },
-    [product]
+  const { productImages, coverImages, teakImages } = useMemo(
+    () =>
+      product
+        ? getProductImages(product)
+        : { productImages: [], coverImages: [], teakImages: [] },
+    [product],
   );
 
   const galleryImages = useMemo(() => {
@@ -38,14 +37,17 @@ const ProductModal = memo(function ProductModal({
   }, [galleryImages.length]);
 
   const prevImage = useCallback(() => {
-    setImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+    setImageIndex(
+      (prev) => (prev - 1 + galleryImages.length) % galleryImages.length,
+    );
   }, [galleryImages.length]);
 
   const selectImage = useCallback((idx) => {
     setImageIndex(idx);
     // Scroll to top of main image for better mobile UX
-    const mainImgContainer = document.getElementById('modal-main-image');
-    if (mainImgContainer) mainImgContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const mainImgContainer = document.getElementById("modal-main-image");
+    if (mainImgContainer)
+      mainImgContainer.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
   const handleOrderClick = useCallback(() => {
@@ -55,9 +57,12 @@ const ProductModal = memo(function ProductModal({
     window.scrollTo(0, 0);
   }, [navigate, product?.id]);
 
-  const handleBackdropClick = useCallback((e) => {
-    if (e.target === e.currentTarget) onClose();
-  }, [onClose]);
+  const handleBackdropClick = useCallback(
+    (e) => {
+      if (e.target === e.currentTarget) onClose();
+    },
+    [onClose],
+  );
 
   // Reset image index when product changes
   React.useEffect(() => {
@@ -93,14 +98,17 @@ const ProductModal = memo(function ProductModal({
 
           {loading ? (
             <div className="flex items-center justify-center h-[50vh] sm:h-[60vh]">
-              <Loader size={32} className="sm:w-10 sm:h-10 text-[#C58E47] animate-spin" />
+              <Loader
+                size={32}
+                className="sm:w-10 sm:h-10 text-[#C58E47] animate-spin"
+              />
             </div>
           ) : (
             <div className="flex flex-col md:flex-row h-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto md:overflow-hidden">
               {/* LEFT COLUMN - Main Image + Thumbnails */}
               <div className="w-full md:w-1/2 flex flex-col p-4 sm:p-6 md:p-8 bg-white md:border-r border-[#E5DCC7]">
                 {/* Main Image */}
-                <div 
+                <div
                   id="modal-main-image"
                   className="relative flex items-center justify-center bg-gray-50 rounded-xl sm:rounded-2xl mb-3 sm:mb-4 overflow-hidden h-[200px] sm:h-[250px] md:h-[300px]"
                 >
@@ -114,7 +122,7 @@ const ProductModal = memo(function ProductModal({
                     className="max-w-full max-h-full object-contain"
                     onError={(e) => (e.target.src = "/placeholder.png")}
                   />
-                  
+
                   {galleryImages.length > 1 && (
                     <div className="absolute inset-x-1 sm:inset-x-2 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none">
                       <motion.button
@@ -122,14 +130,20 @@ const ProductModal = memo(function ProductModal({
                         onClick={prevImage}
                         className="pointer-events-auto bg-white/90 hover:bg-white p-1.5 sm:p-2 rounded-full shadow-md transition cursor-pointer"
                       >
-                        <ChevronLeft size={16} className="sm:w-[18px] sm:h-[18px] text-[#3C2F26]" />
+                        <ChevronLeft
+                          size={16}
+                          className="sm:w-[18px] sm:h-[18px] text-[#3C2F26]"
+                        />
                       </motion.button>
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         onClick={nextImage}
                         className="pointer-events-auto bg-white/90 hover:bg-white p-1.5 sm:p-2 rounded-full shadow-md transition cursor-pointer"
                       >
-                        <ChevronRight size={16} className="sm:w-[18px] sm:h-[18px] text-[#3C2F26]" />
+                        <ChevronRight
+                          size={16}
+                          className="sm:w-[18px] sm:h-[18px] text-[#3C2F26]"
+                        />
                       </motion.button>
                     </div>
                   )}
@@ -149,14 +163,14 @@ const ProductModal = memo(function ProductModal({
                           whileHover={{ scale: 1.05 }}
                           onClick={() => selectImage(idx)}
                           className={`w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
-                            idx === imageIndex 
-                              ? 'border-[#C58E47] shadow-md' 
-                              : 'border-gray-200 hover:border-gray-300'
+                            idx === imageIndex
+                              ? "border-[#C58E47] shadow-md"
+                              : "border-gray-200 hover:border-gray-300"
                           }`}
                         >
-                          <img 
-                            src={img} 
-                            alt={`Gallery ${idx+1}`} 
+                          <img
+                            src={img}
+                            alt={`Gallery ${idx + 1}`}
                             className="w-full h-full object-cover"
                             loading="lazy"
                           />
@@ -173,15 +187,15 @@ const ProductModal = memo(function ProductModal({
                               whileHover={{ scale: 1.1 }}
                               onClick={() => selectImage(teakStartIndex + idx)}
                               className={`w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl border-2 overflow-hidden shadow-md transition-all cursor-pointer ${
-                                (teakStartIndex + idx) === imageIndex 
-                                  ? 'border-[#C58E47]' 
-                                  : 'border-white hover:border-gray-300'
+                                teakStartIndex + idx === imageIndex
+                                  ? "border-[#C58E47]"
+                                  : "border-white hover:border-gray-300"
                               }`}
                               title="Wood Texture"
                             >
-                              <img 
-                                src={img} 
-                                alt="Wood Texture" 
+                              <img
+                                src={img}
+                                alt="Wood Texture"
                                 className="w-full h-full object-cover"
                                 loading="lazy"
                               />
@@ -222,14 +236,17 @@ const ProductModal = memo(function ProductModal({
                       {[
                         { label: "Width", val: product.dimension?.width },
                         { label: "Height", val: product.dimension?.height },
-                        { label: "Depth", val: product.dimension?.depth }
+                        { label: "Depth", val: product.dimension?.depth },
                       ].map((dim, i) => (
                         <div key={i} className="flex flex-col">
                           <span className="text-[9px] sm:text-[10px] text-gray-500 uppercase tracking-tighter mb-0.5 sm:mb-1 font-bold">
                             {dim.label}
                           </span>
                           <span className="text-sm sm:text-base font-extrabold text-[#3C2F26]">
-                            {dim.val ?? "-"} <small className="text-[9px] sm:text-[10px] font-normal">cm</small>
+                            {dim.val ?? "-"}{" "}
+                            <small className="text-[9px] sm:text-[10px] font-normal">
+                              cm
+                            </small>
                           </span>
                         </div>
                       ))}
@@ -250,12 +267,14 @@ const ProductModal = memo(function ProductModal({
                             whileHover={{ scale: 1.1, y: -2 }}
                             onClick={() => selectImage(coverStartIndex + idx)}
                             className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 overflow-hidden shadow-sm bg-white cursor-pointer ${
-                              (coverStartIndex + idx) === imageIndex ? 'border-[#C58E47]' : 'border-white'
+                              coverStartIndex + idx === imageIndex
+                                ? "border-[#C58E47]"
+                                : "border-white"
                             }`}
                           >
-                            <img 
-                              src={img} 
-                              alt={`Cover ${idx+1}`} 
+                            <img
+                              src={img}
+                              alt={`Cover ${idx + 1}`}
                               className="w-full h-full object-cover"
                               loading="lazy"
                             />
@@ -282,7 +301,10 @@ const ProductModal = memo(function ProductModal({
                     className="w-full bg-[#C58E47] hover:bg-[#B8793A] text-white font-bold text-sm sm:text-base py-2.5 sm:py-3 rounded-xl sm:rounded-2xl transition-all shadow-xl shadow-[#C58E47]/20 flex items-center justify-center gap-2 sm:gap-3 cursor-pointer"
                   >
                     Order Now
-                    <ChevronRight size={16} className="sm:w-[18px] sm:h-[18px]" />
+                    <ChevronRight
+                      size={16}
+                      className="sm:w-[18px] sm:h-[18px]"
+                    />
                   </motion.button>
                 </div>
               </div>

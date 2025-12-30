@@ -1,18 +1,18 @@
-import React from 'react';
-import { X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from "react";
+import { X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 /**
  * AdminModal component - FULLY RESPONSIVE
  * Mobile: Full screen / near full screen
  * Desktop: Centered modal with max-width
  */
-const AdminModal = React.memo(function AdminModal({ 
-  isOpen, 
-  onClose, 
-  title, 
+const AdminModal = React.memo(function AdminModal({
+  isOpen,
+  onClose,
+  title,
   children,
-  maxWidth = "max-w-2xl"
+  maxWidth = "max-w-2xl",
 }) {
   return (
     <AnimatePresence>
@@ -26,7 +26,7 @@ const AdminModal = React.memo(function AdminModal({
             onClick={onClose}
             className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm cursor-pointer"
           />
-          
+
           {/* Modal Container */}
           <div className="fixed inset-0 z-[61] flex items-end md:items-center justify-center p-0 md:p-4 pointer-events-none">
             <motion.div
@@ -46,9 +46,11 @@ const AdminModal = React.memo(function AdminModal({
             >
               {/* Header */}
               <div className="bg-[#3C2F26] text-white p-4 flex justify-between items-center sticky top-0 z-10">
-                <h2 className="text-base md:text-lg font-bold truncate pr-4">{title}</h2>
-                <button 
-                  onClick={onClose} 
+                <h2 className="text-base md:text-lg font-bold truncate pr-4">
+                  {title}
+                </h2>
+                <button
+                  onClick={onClose}
                   className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-white/20 rounded-xl transition active:scale-95 shrink-0 cursor-pointer"
                   aria-label="Close modal"
                 >

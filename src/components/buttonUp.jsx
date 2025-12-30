@@ -68,7 +68,7 @@ function ButtonUp() {
             >
               ×
             </button>
-            <PopupForm  />
+            <PopupForm />
           </div>
         </div>
       )}

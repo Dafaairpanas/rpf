@@ -29,7 +29,11 @@ const sectionFadeInVariant = {
 const heroVariants = {
   section: {
     initial: { opacity: 0, scale: 1.1 },
-    animate: { opacity: 1, scale: 1, transition: { duration: 1.2, ease: "easeOut" } },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 1.2, ease: "easeOut" },
+    },
   },
   overlay: {
     initial: { opacity: 0 },
@@ -69,7 +73,7 @@ function CSR() {
     current_page: 1,
     last_page: 1,
     per_page: 6,
-    total: 0
+    total: 0,
   });
 
   // ========== FETCH CSR DATA ==========
@@ -91,7 +95,7 @@ function CSR() {
             current_page: 1,
             last_page: 1,
             per_page: result.length,
-            total: result.length
+            total: result.length,
           });
         } else {
           // Fallback for old paginated response
@@ -100,12 +104,12 @@ function CSR() {
             current_page: result.current_page,
             last_page: result.last_page,
             per_page: result.per_page,
-            total: result.total
+            total: result.total,
           });
         }
       }
     } catch (error) {
-      console.error('Error fetching CSRs:', error);
+      console.error("Error fetching CSRs:", error);
     } finally {
       setLoading(false);
     }
@@ -136,10 +140,10 @@ function CSR() {
   // Format tanggal
   const formatDate = (dateString) => {
     if (!dateString) return t("card.date");
-    return new Date(dateString).toLocaleDateString('id-ID', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("id-ID", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -148,7 +152,7 @@ function CSR() {
       {/* SECTION: HERO */}
       <motion.section
         {...heroVariants.section}
-        className="relative w-full h-[100vh] bg-cover bg-center flex items-center justify-center text-center"
+        className="relative w-full hero-full bg-cover bg-center flex items-center justify-center text-center"
         style={{ backgroundImage: `url(${HERO_BACKGROUNDS.csr})` }}
       >
         <motion.div
@@ -156,19 +160,19 @@ function CSR() {
           className="absolute inset-0 bg-black/40"
         />
 
-        <div className="relative z-10 text-center px-6 max-w-4xl">
-          <motion.h1 
+        <div className="relative z-10 text-center px-6 max-w-4xl mt-16 sm:mt-0 smooth-responsive">
+          <motion.h1
             {...heroVariants.title}
-            className="text-white font-montserrat font-extrabold text-5xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md"
+            className="text-white font-montserrat font-extrabold text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md smooth-responsive"
           >
             {t("hero.title1")}{" "}
             <span className="text-[#DFD7BF]">{t("hero.highlight")}</span>{" "}
             <span>{t("hero.title2")}</span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             {...heroVariants.subtitle}
-            className="text-gray-200 text-lg md:text-xl mt-6 drop-shadow font-poppins"
+            className="text-gray-200 text-sm sm:text-lg md:text-xl mt-4 sm:mt-6 drop-shadow font-poppins"
           >
             {t("hero.subtitle")}
           </motion.p>
@@ -205,7 +209,11 @@ function CSR() {
           <div className="flex flex-wrap justify-center gap-6 md:gap-10">
             {csrs.length > 0 ? (
               csrs.map((csr, index) => (
-                <Link to={`/csr/${csr.id}`} key={csr.id} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-27px)] max-w-[400px]">
+                <Link
+                  to={`/csr/${csr.id}`}
+                  key={csr.id}
+                  className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-27px)] max-w-[400px]"
+                >
                   <motion.div
                     variants={cardItemVariant}
                     viewport={{ once: true }}
@@ -235,23 +243,23 @@ function CSR() {
                           className="w-full h-full object-cover"
                           alt={csr.title}
                           onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
+                            e.target.style.display = "none";
+                            e.target.nextSibling.style.display = "flex";
                           }}
                         />
                       ) : (
                         <div className="flex flex-col items-center justify-center text-gray-500 px-6 text-center">
-                          <svg 
-                            className="w-16 h-16 mb-3 text-gray-400" 
-                            fill="none" 
-                            stroke="currentColor" 
+                          <svg
+                            className="w-16 h-16 mb-3 text-gray-400"
+                            fill="none"
+                            stroke="currentColor"
                             viewBox="0 0 24 24"
                           >
-                            <path 
-                              strokeLinecap="round" 
-                              strokeLinejoin="round" 
-                              strokeWidth={1.5} 
-                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" 
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                             />
                           </svg>
                           <p className="font-medium">{t("empty.noImage")}</p>
@@ -296,8 +304,18 @@ function CSR() {
                 <div className="flex flex-col items-center justify-center py-16 sm:py-20 px-6">
                   <div className="relative mb-6">
                     <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#F4F2EE] to-[#E8E4DC] flex items-center justify-center shadow-inner">
-                      <svg className="w-10 h-10 text-[#C58E47] opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                      <svg
+                        className="w-10 h-10 text-[#C58E47] opacity-80"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                        />
                       </svg>
                     </div>
                     <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#C58E47]/20 animate-[spin_20s_linear_infinite]" />
@@ -317,61 +335,51 @@ function CSR() {
         {/* PAGINATION */}
         {!loading && pagination.last_page > 1 && (
           <motion.div
-            {...sectionFadeInVariant}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="mt-16 flex justify-center gap-2"
+            className="flex items-center justify-center gap-3 mt-12 p-10 pb-20"
           >
             <motion.button
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: currentPage > 1 ? 1.1 : 1 }}
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
-              className="
-                w-8 h-8 rounded-md bg-[#E7E4DF]
-                flex items-center justify-center text-gray-700
-                hover:bg-[#D9A556] hover:text-white transition
-                disabled:opacity-50 disabled:cursor-not-allowed
-              "
-              aria-label={t("content.pagination.previous")}
+              className="w-8 h-8 flex items-center justify-center rounded-sm border border-gray-400 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
             >
               <ChevronLeft size={16} />
             </motion.button>
 
-            {getPaginationItems().map((num, idx) => (
-              num === '...' ? (
-                <span key={`dots-${idx}`} className="w-8 h-8 flex items-center justify-center text-gray-500">
+            {getPaginationItems().map((num, idx) =>
+              num === "..." ? (
+                <span
+                  key={`dots-${idx}`}
+                  className="w-8 h-8 flex items-center justify-center text-gray-500"
+                >
                   ...
                 </span>
               ) : (
                 <motion.button
-                  whileHover={{ scale: 1.1 }}
                   key={num}
+                  whileHover={{ scale: 1.12 }}
                   onClick={() => handlePageClick(num)}
-                  className={`
-                    w-8 h-8 rounded-md flex items-center justify-center font-medium
-                    transition
-                    ${
-                      num === currentPage
-                        ? "bg-[#D9A556] text-white"
-                        : "bg-white text-gray-700 shadow-sm hover:bg-[#D9A556] hover:text-white"
-                    }
-                  `}
+                  className={`w-8 h-8 rounded-sm flex items-center justify-center border text-sm font-bold transition-all ${
+                    num === currentPage
+                      ? "bg-[#C58E47] text-white border-[#C58E47]"
+                      : "border-gray-400 text-gray-500 hover:bg-[#C58E47] hover:text-white"
+                  }`}
                 >
                   {num}
                 </motion.button>
-              )
-            ))}
+              ),
+            )}
 
             <motion.button
-              whileHover={{ scale: 1.1 }}
+              whileHover={{
+                scale: currentPage < pagination.last_page ? 1.1 : 1,
+              }}
               onClick={handleNextPage}
               disabled={currentPage === pagination.last_page}
-              className="
-                w-8 h-8 rounded-md bg-[#E7E4DF]
-                flex items-center justify-center text-gray-700
-                hover:bg-[#D9A556] hover:text-white transition
-                disabled:opacity-50 disabled:cursor-not-allowed
-              "
-              aria-label={t("content.pagination.next")}
+              className="w-8 h-8 flex items-center justify-center rounded-sm border border-gray-400 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
             >
               <ChevronRight size={16} />
             </motion.button>
