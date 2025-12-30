@@ -36,11 +36,11 @@ const heroVariants = {
   },
 };
 
-// Background slideshow animation
+// Background slideshow animation - optimized for faster initial load
 const bgSlideVariants = {
   initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.8, ease: "easeInOut" } },
-  exit: { opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } },
+  animate: { opacity: 1, transition: { duration: 0.5, ease: "easeOut" } },
+  exit: { opacity: 0, transition: { duration: 0.5, ease: "easeIn" } },
 };
 
 const cardContainer = {
@@ -87,9 +87,27 @@ function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [activeBgIndex, setActiveBgIndex] = useState(0);
+  const [imagesPreloaded, setImagesPreloaded] = useState(false);
 
   // Background slideshow effect
   const heroImages = HERO_BACKGROUNDS.home;
+  
+  // Preload all hero images for smoother transitions
+  useEffect(() => {
+    if (!Array.isArray(heroImages)) return;
+    
+    const preloadImages = heroImages.map((src) => {
+      const img = new Image();
+      img.src = src;
+      return img;
+    });
+    
+    // Mark as preloaded when first image loads (for faster initial display)
+    if (preloadImages[0]) {
+      preloadImages[0].onload = () => setImagesPreloaded(true);
+    }
+  }, [heroImages]);
+  
   useEffect(() => {
     if (!Array.isArray(heroImages) || heroImages.length <= 1) return;
 
@@ -167,12 +185,18 @@ function Home() {
         {...heroVariants.section}
         className="relative w-full hero-full flex items-center overflow-hidden"
       >
-        {/* Slideshow Background */}
+        {/* Static first background (always visible for instant load) */}
+        <div
+          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${heroImages?.[0] || currentBgImage})` }}
+        />
+        
+        {/* Slideshow Background (fades on top) */}
         <AnimatePresence mode="sync">
           <motion.div
             key={activeBgIndex}
             variants={bgSlideVariants}
-            initial="initial"
+            initial={activeBgIndex === 0 ? "animate" : "initial"}
             animate="animate"
             exit="exit"
             className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
@@ -289,13 +313,13 @@ function Home() {
                 100% { transform: translateX(-10%); }
               }
               .carousel-track {
-                animation: scrollCarousel 12s linear infinite;
+                animation: scrollCarousel 10s linear infinite;
               }
               .carousel-track:hover {
                 animation-play-state: paused;
               }
             `}
-          </style>
+          </style>  
 
           {/* Centered wrapper */}
           <div className="flex justify-center w-full">

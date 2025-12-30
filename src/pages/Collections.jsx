@@ -223,7 +223,7 @@ export default function Collections() {
           {...heroVariants.overlay}
           className="absolute inset-0 bg-black/40"
         />
-        <div className="relative z-10 text-center px-6 w-std h-full mx-auto mt-16 sm:mt-0 smooth-responsive">
+        <div className="relative z-10 text-center px-6 w-std mx-auto flex flex-col items-center justify-center h-full smooth-responsive">
           <motion.h1
             {...heroVariants.title}
             className="font-montserrat text-white font-extrabold text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md smooth-responsive"
