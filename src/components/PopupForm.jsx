@@ -9,20 +9,20 @@ import { Loader, CheckCircle, AlertCircle } from "lucide-react";
  * SuccessState - Tampilan saat form berhasil dikirim
  */
 const SuccessState = ({ onReset, t }) => (
-  <div className="flex flex-col items-center justify-center py-10 text-center animate-in fade-in zoom-in duration-300">
-    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4 shadow-sm">
-      <CheckCircle className="text-green-600" size={32} />
+  <div className="flex flex-col items-center justify-center py-6 text-center animate-in fade-in zoom-in duration-300">
+    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-3 shadow-sm">
+      <CheckCircle className="text-green-600" size={24} />
     </div>
-    <h2 className="text-2xl font-bold text-[#332C26] mb-2">
+    <h2 className="text-lg font-bold text-[#332C26] mb-1">
       {t("form.success.title") || "Terima Kasih!"}
     </h2>
-    <p className="text-gray-600 mb-6 px-4">
+    <p className="text-gray-600 mb-4 px-2 text-sm">
       {t("form.success.message") ||
         "Pesan Anda telah berhasil dikirim. Kami akan segera menghubungi Anda."}
     </p>
     <button
       onClick={onReset}
-      className="px-6 py-2.5 bg-[#C6934B] text-white rounded-lg hover:bg-[#b88240] transition shadow-md active:scale-95 cursor-pointer font-bold"
+      className="px-5 py-2 bg-[#C6934B] text-white rounded-lg hover:bg-[#b88240] transition shadow-md active:scale-95 cursor-pointer font-bold text-sm"
     >
       {t("form.success.button") || "Kirim Pesan Lain"}
     </button>
@@ -33,8 +33,8 @@ const SuccessState = ({ onReset, t }) => (
  * ErrorAlert - Komponen peringatan error API
  */
 const ErrorAlert = ({ message }) => (
-  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-600 text-sm animate-in slide-in-from-top-2 duration-300">
-    <AlertCircle size={16} />
+  <div className="mb-3 p-2 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-600 text-xs animate-in slide-in-from-top-2 duration-300">
+    <AlertCircle size={14} />
     {message}
   </div>
 );
@@ -53,13 +53,12 @@ const InputField = ({
   error,
   required = true,
 }) => {
-  const inputClasses = `w-full p-3 rounded-md bg-gray-100 text-gray-800 focus:ring-2 focus:ring-[#C6934B] focus:bg-white outline-none transition-all placeholder:text-gray-400 ${
-    error ? "ring-2 ring-red-400 bg-red-50" : ""
-  }`;
+  const inputClasses = `w-full p-5 sm:p-4 rounded-md bg-gray-100 text-gray-800 text-sm focus:ring-2 focus:ring-[#C6934B] focus:bg-white outline-none transition-all placeholder:text-gray-400 ${error ? "ring-2 ring-red-400 bg-red-50" : ""
+    }`;
 
   return (
-    <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-1 pl-1 uppercase tracking-tight opacity-70">
+    <div className="mb-2.5">
+      <label className="block text-gray-700 text-xs font-bold mb-0.5 pl-1 uppercase tracking-tight opacity-70">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
 
@@ -67,7 +66,7 @@ const InputField = ({
         <textarea
           value={value}
           onChange={(e) => onChange(field, e.target.value)}
-          className={`${inputClasses} h-28 resize-none`}
+          className={`${inputClasses} h-16 sm:h-20 resize-none`}
           placeholder={placeholder}
         />
       ) : (
@@ -81,7 +80,7 @@ const InputField = ({
       )}
 
       {error && (
-        <p className="text-red-500 text-[10px] mt-1 pl-1 font-bold animate-pulse">
+        <p className="text-red-500 text-[10px] mt-0.5 pl-1 font-bold animate-pulse">
           {error}
         </p>
       )}
@@ -196,7 +195,7 @@ const PopupForm = () => {
 
   return (
     <div className="w-full">
-      <h2 className="text-2xl font-bold mb-6 text-[#332C26] flex items-center gap-2">
+      <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#332C26] flex items-center gap-2">
         {t("form.title")}
       </h2>
 
@@ -216,10 +215,10 @@ const PopupForm = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#C6934B] text-white font-bold py-3.5 rounded-lg mt-3 shadow-md hover:bg-[#28221F] disabled:bg-gray-400 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
+          className="w-full bg-[#C6934B] text-white font-bold py-2.5 sm:py-3 rounded-lg mt-2 shadow-md hover:bg-[#28221F] disabled:bg-gray-400 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] text-sm sm:text-base"
         >
           {loading ? (
-            <Loader className="animate-spin" size={20} />
+            <Loader className="animate-spin" size={18} />
           ) : (
             t("form.button")
           )}

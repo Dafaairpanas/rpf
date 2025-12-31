@@ -39,7 +39,7 @@ export function useProducts({
         params.category_id = categoryId;
       }
       if (search.trim()) {
-        params.q = search.trim();
+        params.q = search.trim().toLowerCase();
       }
 
       const res = await api.get("/products", {

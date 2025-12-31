@@ -41,7 +41,7 @@ export default function TimelineSection({ t }) {
   ];
 
   return (
-    <section className="w-full bg-[#1a1512] py-8 sm:py-10 text-white lg:min-h-[87vh]">
+    <section className="w-full bg-[#1a1512] py-8 sm:py-10 text-white h-[44rem] ">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <M.h2
           {...sectionHeadingVariant}
@@ -165,9 +165,8 @@ function MobileTimeline({ items }) {
                 whileInView="whileInView"
                 whileHover="whileHover"
                 viewport={{ once: true }}
-                className={`w-[42%] bg-[#1f1a17] border border-[#B57137] rounded-xl p-4 sm:p-6 shadow-lg flex flex-col items-center ${
-                  i % 2 === 0 ? "mr-auto" : "ml-auto"
-                }`}
+                className={`w-[42%] bg-[#1f1a17] border border-[#B57137] rounded-xl p-4 sm:p-6 shadow-lg flex flex-col items-center ${i % 2 === 0 ? "mr-auto" : "ml-auto"
+                  }`}
               >
                 <h3 className="font-bold text-xs sm:text-sm text-white text-center">
                   {item.title}

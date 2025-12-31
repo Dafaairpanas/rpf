@@ -182,11 +182,11 @@ function CSR() {
       {/* --- */}
 
       {/* SECTION: CONTENT (CSR LIST) */}
-      <div className="w-full bg-[#F1EEE7] py-20 px-6">
+      <div className="w-full bg-[#F1EEE7] py-10 px-6">
         {/* HEADING */}
         <motion.div {...sectionFadeInVariant} className="text-center mb-16">
           <h1
-            className="text-4xl font-bold text-[#28221F]"
+            className="text-2xl sm:text-4xl font-bold text-[#28221F]"
             dangerouslySetInnerHTML={{
               __html: t("content.title", {
                 interpolation: { escapeValue: false },
@@ -338,7 +338,7 @@ function CSR() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="flex items-center justify-center gap-3 mt-12 p-10 pb-20"
+            className="flex items-center justify-center gap-3 mt-12  "
           >
             <motion.button
               whileHover={{ scale: currentPage > 1 ? 1.1 : 1 }}

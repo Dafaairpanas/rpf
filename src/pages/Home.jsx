@@ -210,7 +210,7 @@ function Home() {
         />
 
         <div className="relative z-10 w-std mx-auto px-6 h-full flex items-center mt-16 sm:mt-0 smooth-responsive">
-          <div className="max-w-4xl text-left">
+          <div className="max-w-6xl text-left">
             <motion.h1
               {...heroVariants.title}
               className="font-montserrat font-extrabold text-white text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md smooth-responsive"

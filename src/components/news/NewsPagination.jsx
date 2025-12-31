@@ -20,7 +20,7 @@ const NewsPagination = memo(function NewsPagination({
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="flex items-center justify-center gap-3 mt-12 p-10 pb-20"
+      className="flex items-center justify-center gap-3 mt-12"
     >
       <motion.button
         whileHover={{ scale: currentPage > 1 ? 1.1 : 1 }}

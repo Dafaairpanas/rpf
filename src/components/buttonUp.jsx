@@ -57,20 +57,28 @@ function ButtonUp() {
         )}
       </div>
 
-      {/* Popup Form (Kode tidak berubah) */}
+      {/* Popup Form - positioned above floating buttons */}
       {openForm && (
-        <div className="fixed inset-0 bg-black/50 flex justify-end items-end z-[10] p-4">
-          <div className="bg-white rounded-2xl w-full max-w-[26rem] p-6 relative shadow-2xl mb-[5rem]">
-            {/* Close */}
-            <button
-              onClick={() => setOpenForm(false)}
-              className="absolute top-3 right-3 text-gray-600 hover:text-black text-2xl cursor-pointer"
-            >
-              ×
-            </button>
-            <PopupForm />
+        <>
+          {/* Backdrop - click to close */}
+          <div
+            className="fixed inset-0 bg-black/40 z-[9998] backdrop-blur-[2px]"
+            onClick={() => setOpenForm(false)}
+          />
+          {/* Form container - responsive sizing */}
+          <div className="fixed bottom-24 right-3 z-[9999] w-[90vw] xs:w-[85vw] sm:w-[380px] md:w-[400px] lg:w-[420px] max-w-[420px]">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5 relative shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+              {/* Close */}
+              <button
+                onClick={() => setOpenForm(false)}
+                className="absolute top-2 right-2 w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center text-gray-400 hover:text-black hover:bg-gray-100 rounded-full text-base sm:text-lg cursor-pointer transition-colors"
+              >
+                ×
+              </button>
+              <PopupForm />
+            </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

@@ -243,7 +243,7 @@ export default function Collections() {
       </motion.section>
 
       {/* BANNER CAROUSEL */}
-      <div className="w-full bg-[#F4F2EE] pt-20 px-0 sm:px-6 md:px-16">
+      <div className="w-full bg-[#F4F2EE] pt-0 sm:pt-10 px-0 sm:px-6 md:px-16">
         <motion.div {...fadeInTop} className="max-w-7xl mx-auto relative">
           <BannerCarousel
             banners={banners}
@@ -257,10 +257,10 @@ export default function Collections() {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="w-full bg-[#F4F2EE] px-4 sm:px-6 md:px-16 py-10">
+      <div className="w-full bg-[#F4F2EE] px-4 sm:px-6 md:px-16 sm:py-10">
         <motion.h2
           {...fadeInTop}
-          className="mb-10 text-center text-2xl sm:text-3xl md:text-5xl font-bold text-[#28221F]"
+          className="mb-5 sm:mb-10 text-center text-2xl sm:text-3xl md:text-5xl font-bold text-[#28221F]"
         >
           {t("collections.main.title")}{" "}
           <span className="text-[#C58E47]">
@@ -272,17 +272,16 @@ export default function Collections() {
         {/* FILTERS & SEARCH */}
         <motion.div
           {...fadeInTop}
-          className="mt-10 flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-6 mx-auto w-full max-w-[70rem]  "
+          className="mt-0 sm:mt-6 sm:mt-10 flex flex-col lg:flex-row items-center justify-between gap-3 sm:gap-4 lg:gap-6 mx-auto w-full max-w-[70rem] px-2 sm:px-0"
         >
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 justify-center">
             <motion.button
               whileHover={{ scale: 1.08 }}
               onClick={() => handleFilterChange("all")}
-              className={`px-5 py-2 rounded-xl font-semibold shadow-md transition-all text-sm cursor-pointer ${
-                activeFilter === "all"
-                  ? "bg-[#3C2F26] text-white"
-                  : "bg-white border border-[#A6A099] text-[#28221F]"
-              }`}
+              className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl font-semibold shadow-md transition-all text-xs sm:text-sm cursor-pointer ${activeFilter === "all"
+                ? "bg-[#3C2F26] text-white"
+                : "bg-white border border-[#A6A099] text-[#28221F]"
+                }`}
             >
               {t("collections.filters.all")}
             </motion.button>
@@ -291,11 +290,10 @@ export default function Collections() {
                 key={cat.id}
                 whileHover={{ scale: 1.08 }}
                 onClick={() => handleFilterChange(cat.id)}
-                className={`px-5 py-2 rounded-xl font-semibold shadow-sm transition-all text-sm cursor-pointer ${
-                  activeFilter === cat.id
-                    ? "bg-[#3C2F26] text-white"
-                    : "bg-white border border-[#A6A099] text-[#28221F]"
-                }`}
+                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl font-semibold shadow-sm transition-all text-xs sm:text-sm cursor-pointer ${activeFilter === cat.id
+                  ? "bg-[#3C2F26] text-white"
+                  : "bg-white border border-[#A6A099] text-[#28221F]"
+                  }`}
               >
                 {t(cat.labelKey)}
               </motion.button>
@@ -306,7 +304,7 @@ export default function Collections() {
             placeholder={t("collections.filters.searchPlaceholder")}
             value={searchTerm}
             onChange={handleSearchChange}
-            className="w-75 sm:w-full lg:w-72 px-4 py-2 border border-[#3C2F26] rounded-xl bg-transparent focus:outline-none focus:ring-2 focus:ring-[#C58E47] transition-all text-sm"
+            className="w-full sm:w-auto lg:w-72 px-3 sm:px-4 py-1.5 sm:py-2 border border-[#3C2F26] rounded-lg sm:rounded-xl bg-transparent focus:outline-none focus:ring-2 focus:ring-[#C58E47] transition-all text-xs sm:text-sm"
           />
         </motion.div>
 
@@ -319,7 +317,7 @@ export default function Collections() {
           <>
             <div
               id="products-grid"
-              className="w-[80%] mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 md:gap-7 mt-10"
+              className="w-full max-w-[70rem] mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-5 md:gap-7 mt-6 sm:mt-10 px-2 sm:px-0"
             >
               {products.length > 0 ? (
                 products.map((product) => (
@@ -390,11 +388,10 @@ export default function Collections() {
                         key={num}
                         whileHover={{ scale: 1.12 }}
                         onClick={() => handlePageChange(num)}
-                        className={`w-8 h-8 rounded-sm flex items-center justify-center border text-sm font-bold transition-all ${
-                          num === currentPage
-                            ? "bg-[#C58E47] text-white border-[#C58E47]"
-                            : "border-gray-400 text-gray-500 hover:bg-[#C58E47] hover:text-white"
-                        }`}
+                        className={`w-8 h-8 rounded-sm flex items-center justify-center border text-sm font-bold transition-all ${num === currentPage
+                          ? "bg-[#C58E47] text-white border-[#C58E47]"
+                          : "border-gray-400 text-gray-500 hover:bg-[#C58E47] hover:text-white"
+                          }`}
                       >
                         {num}
                       </motion.button>
