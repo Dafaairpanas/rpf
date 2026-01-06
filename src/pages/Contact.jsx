@@ -12,6 +12,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { submitContactForm } from "@/api/contact.api";
 import api from "@/api/axios";
+import SEO from "@/components/SEO";
 
 // --- ANIMATION VARIANTS ---
 // Varian Container untuk mengatur stagger effect pada komponen anak-anak
@@ -107,6 +108,8 @@ const ContactUs = () => {
     email: "",
     phone: "",
     message: "",
+    website: "", // Honeypot
+    fax: "", // Honeypot
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -164,6 +167,12 @@ const ContactUs = () => {
 
     if (!validateForm()) return;
 
+    // Check Honeypot
+    if (formData.website || formData.fax) {
+      console.warn("Bot detected.");
+      return;
+    }
+
     setLoading(true);
     try {
       // Include product_id if from "Order Now" flow
@@ -174,7 +183,14 @@ const ContactUs = () => {
       const response = await submitContactForm(submitData);
       if (response.data.success) {
         setShowSuccess(true);
-        setFormData({ name: "", email: "", phone: "", message: "" });
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+          website: "",
+          fax: "",
+        });
         // Auto close success modal after 3 seconds
         setTimeout(() => setShowSuccess(false), 3000);
       } else {
@@ -182,7 +198,11 @@ const ContactUs = () => {
       }
     } catch (err) {
       console.error("Contact form error:", err);
-      setSubmitError(err.response?.data?.message || t("messages.error"));
+      if (err.response?.status === 429) {
+        setSubmitError("Mohon tunggu sebentar sebelum mengirim pesan lagi.");
+      } else {
+        setSubmitError(err.response?.data?.message || t("messages.error"));
+      }
     } finally {
       setLoading(false);
     }
@@ -199,6 +219,10 @@ const ContactUs = () => {
 
   return (
     <div className="min-h-screen bg-[#F8F8F8] py-6 sm:py-8 px-3 sm:px-4 md:px-6 lg:px-8 font-poppins mt-16 sm:mt-20 md:mt-24">
+      <SEO
+        title="Contact Us"
+        description="Get in touch with Rajawali Perkasa Furniture for inquiries about our teak wood furniture collections."
+      />
       {/* Success Modal */}
       <AnimatePresence>
         {showSuccess && (
@@ -276,6 +300,25 @@ const ContactUs = () => {
           )}
 
           <form onSubmit={handleSubmit} className="sm:mt-4">
+            {/* Honeypot Fields - Hidden */}
+            <div className="absolute opacity-0 -z-10 h-0 w-0 overflow-hidden">
+              <input
+                type="text"
+                name="website"
+                value={formData.website}
+                onChange={(e) => handleChange("website", e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+              <input
+                type="text"
+                name="fax"
+                value={formData.fax}
+                onChange={(e) => handleChange("fax", e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
             <InputField
               label={t("form.labels.fullName")}
               field="name"

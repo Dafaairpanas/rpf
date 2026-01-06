@@ -50,6 +50,8 @@ const AdminLoadingFallback = () => (
   </div>
 );
 
+import { Toaster } from "sonner";
+
 function App() {
   const location = useLocation();
   const isAdminPage =
@@ -57,6 +59,7 @@ function App() {
 
   return (
     <>
+      <Toaster position="top-center" richColors />
       <div className="min-h-screen flex flex-col">
         {!isAdminPage && <Navbar />}
 

@@ -226,7 +226,7 @@ export default function Collections() {
         <div className="relative z-10 text-center px-6 w-std mx-auto flex flex-col items-center justify-center h-full smooth-responsive">
           <motion.h1
             {...heroVariants.title}
-            className="font-montserrat text-white font-extrabold text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md smooth-responsive"
+            className="font-montserrat text-white font-extrabold text-3xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight drop-shadow-md smooth-responsive"
           >
             {t("collections.hero.title")}{" "}
             <span className="text-[#EEE4C8]">
@@ -235,7 +235,7 @@ export default function Collections() {
           </motion.h1>
           <motion.p
             {...heroVariants.subtitle}
-            className="text-gray-200 text-sm sm:text-lg md:text-xl mt-4 sm:mt-6 drop-shadow font-poppins"
+            className="text-gray-200 text-sm sm:text-lg md:text-xl mt-4 sm:mt-6 drop-shadow font-poppins max-w-2xl mx-auto"
           >
             {t("collections.hero.subtitle")}
           </motion.p>
@@ -243,7 +243,7 @@ export default function Collections() {
       </motion.section>
 
       {/* BANNER CAROUSEL */}
-      <div className="w-full bg-[#F4F2EE] pt-0 sm:pt-10 px-0 sm:px-6 md:px-16">
+      <div className="w-full bg-[#F4F2EE] pt-0 sm:pt-10 px-0 sm:px-6 md:px-16 pb-0 mb-0">
         <motion.div {...fadeInTop} className="max-w-7xl mx-auto relative">
           <BannerCarousel
             banners={banners}
@@ -257,10 +257,10 @@ export default function Collections() {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="w-full bg-[#F4F2EE] px-4 sm:px-6 md:px-16 sm:py-10">
+      <div className="w-full bg-[#F4F2EE] px-4 sm:px-6 md:px-16 sm:py-10 py-0 min-h-[60vh]">
         <motion.h2
           {...fadeInTop}
-          className="mb-5 sm:mb-10 text-center text-2xl sm:text-3xl md:text-5xl font-bold text-[#28221F]"
+          className="mb-5 sm:mb-10 text-center text-2xl sm:text-3xl md:text-4xl font-bold text-[#28221F]"
         >
           {t("collections.main.title")}{" "}
           <span className="text-[#C58E47]">
@@ -278,10 +278,11 @@ export default function Collections() {
             <motion.button
               whileHover={{ scale: 1.08 }}
               onClick={() => handleFilterChange("all")}
-              className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl font-semibold shadow-md transition-all text-xs sm:text-sm cursor-pointer ${activeFilter === "all"
-                ? "bg-[#3C2F26] text-white"
-                : "bg-white border border-[#A6A099] text-[#28221F]"
-                }`}
+              className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl font-semibold shadow-md transition-all text-xs sm:text-sm cursor-pointer ${
+                activeFilter === "all"
+                  ? "bg-[#3C2F26] text-white"
+                  : "bg-white border border-[#A6A099] text-[#28221F]"
+              }`}
             >
               {t("collections.filters.all")}
             </motion.button>
@@ -290,10 +291,11 @@ export default function Collections() {
                 key={cat.id}
                 whileHover={{ scale: 1.08 }}
                 onClick={() => handleFilterChange(cat.id)}
-                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl font-semibold shadow-sm transition-all text-xs sm:text-sm cursor-pointer ${activeFilter === cat.id
-                  ? "bg-[#3C2F26] text-white"
-                  : "bg-white border border-[#A6A099] text-[#28221F]"
-                  }`}
+                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl font-semibold shadow-sm transition-all text-xs sm:text-sm cursor-pointer ${
+                  activeFilter === cat.id
+                    ? "bg-[#3C2F26] text-white"
+                    : "bg-white border border-[#A6A099] text-[#28221F]"
+                }`}
               >
                 {t(cat.labelKey)}
               </motion.button>
@@ -317,7 +319,7 @@ export default function Collections() {
           <>
             <div
               id="products-grid"
-              className="w-full max-w-[70rem] mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-5 md:gap-7 mt-6 sm:mt-10 px-2 sm:px-0"
+              className="w-full max-w-[70rem] mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-5 md:gap-7 mt-6 sm:mt-10 px-2 sm:px-0 sm:pb-5 pb-10"
             >
               {products.length > 0 ? (
                 products.map((product) => (
@@ -388,10 +390,11 @@ export default function Collections() {
                         key={num}
                         whileHover={{ scale: 1.12 }}
                         onClick={() => handlePageChange(num)}
-                        className={`w-8 h-8 rounded-sm flex items-center justify-center border text-sm font-bold transition-all ${num === currentPage
-                          ? "bg-[#C58E47] text-white border-[#C58E47]"
-                          : "border-gray-400 text-gray-500 hover:bg-[#C58E47] hover:text-white"
-                          }`}
+                        className={`w-8 h-8 rounded-sm flex items-center justify-center border text-sm font-bold transition-all ${
+                          num === currentPage
+                            ? "bg-[#C58E47] text-white border-[#C58E47]"
+                            : "border-gray-400 text-gray-500 hover:bg-[#C58E47] hover:text-white"
+                        }`}
                       >
                         {num}
                       </motion.button>

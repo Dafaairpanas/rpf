@@ -35,6 +35,18 @@ export const getImageUrl = (path) => {
   // Ensure path is a string
   if (typeof path !== "string") return "/placeholder.png";
 
+  // AGGRESSIVE FIX: identifying the storage path segment
+  // This handles http://localhost/storage (no port), relative /storage, etc.
+  if (path.includes("/storage/") || path.includes("storage/")) {
+    // Split by storage/ and take the last part
+    const parts = path.split("storage/");
+    const relativePart = parts[parts.length - 1];
+    
+    // Avoid double slash if relativePart starts with /
+    const cleanerRelative = relativePart.replace(/^\/+/, "");
+    return `${STORAGE_URL}/${cleanerRelative}`;
+  }
+
   if (path.startsWith("http")) return path;
 
   // Remove leading slashes and 'storage/' prefix if present

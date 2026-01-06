@@ -66,7 +66,15 @@ export default function useAdminCRUD(endpoint, options = {}) {
 
       const res = await api.get(currentEndpoint, config);
 
-      if (res.data.success) {
+      if (Array.isArray(res.data)) {
+        // Handle case where backend returns raw array instead of { success: true } envelope
+        setItems(transformRef.current(res.data));
+        setPagination({
+          current_page: 1,
+          last_page: 1,
+          total: res.data.length,
+        });
+      } else if (res.data.success) {
         const rawData = res.data.data;
         const currentTransformer = transformRef.current;
 

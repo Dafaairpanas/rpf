@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import { getNewsById } from "@/api/news.api";
+import SEO from "@/components/SEO";
+import { toast } from "sonner";
+import DOMPurify from "dompurify";
 
 export default function DetailNews() {
   const { t } = useTranslation("news");
@@ -85,9 +88,10 @@ export default function DetailNews() {
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      alert(t("share.alert_copied"));
+      toast.success(t("share.alert_copied"));
     } catch (e) {
       console.error("copy failed", e);
+      toast.error("Failed to copy link");
     }
   };
 
@@ -208,7 +212,12 @@ export default function DetailNews() {
       {news && !loading && (
         <>
           {/* Header */}
-          <header className="max-w-7xl mx-auto py-12 px-6 pt-32">
+          <SEO
+            title={news.title}
+            description={news.content?.intro || news.title}
+            image={news.image}
+          />
+          <header className="max-w-std mx-auto py-12 px-6 md:px-10 pt-32">
             <motion.div
               className="bg-[#f3f4f6]"
               initial={{ opacity: 0, y: -20 }}
@@ -246,12 +255,12 @@ export default function DetailNews() {
           </header>
 
           {/* Divider between header and content */}
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-std mx-auto px-6 md:px-10">
             <div className="border-b border-gray-200 my-6"></div>
           </div>
 
           {/* Main content container */}
-          <main className="max-w-7xl mx-auto px-6 py-6">
+          <main className="max-w-std mx-auto px-6 md:px-10 py-6">
             {/* News Content - Nested structure */}
             <motion.section
               initial={{ opacity: 0, y: 30 }}
@@ -260,12 +269,13 @@ export default function DetailNews() {
               transition={{ duration: 0.6 }}
               className="prose prose-lg max-w-none"
             >
-              {/* ✅ Extract nested content.content */}
+
               <div
                 className="ck-content"
                 dangerouslySetInnerHTML={{
-                  __html:
+                  __html: DOMPurify.sanitize(
                     news.content?.content || "<p>Tidak ada konten tersedia</p>",
+                  ),
                 }}
               />
             </motion.section>

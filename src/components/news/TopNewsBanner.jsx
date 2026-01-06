@@ -10,7 +10,7 @@ import { formatNewsDate } from "@/hooks/useNews";
  */
 const TopNewsBanner = memo(function TopNewsBanner({ topNews }) {
   const { t } = useTranslation("news");
-  
+
   if (!topNews) return null;
 
   return (

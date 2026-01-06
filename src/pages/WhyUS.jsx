@@ -74,11 +74,11 @@ const swiperStyles = `
   }
   .swiper-button-next, .swiper-button-prev {
     color: #cd803a !important;
-    background: rgba(255, 255, 255, 0.9);
+    background: transparent !important;
     width: 32px !important;
     height: 32px !important;
-    border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    /* border-radius: 50%; */
+    /* box-shadow: 0 2px 8px rgba(0,0,0,0.15); */
   }
   @media (min-width: 640px) {
     .swiper-button-next, .swiper-button-prev {
@@ -137,12 +137,17 @@ function WhyUS() {
     try {
       const response = await fetch(`${API_BASE}/brands`);
       const result = await response.json();
-      if (result.success) {
-        // Handle both simple array and paginated response
+      
+      // Handle raw array response (backend update)
+      if (Array.isArray(result)) {
+        setBrands(result);
+      } 
+      // Handle enveloped response { success: true, data: [...] }
+      else if (result.success || Array.isArray(result.data)) {
         const brandsData = Array.isArray(result.data)
           ? result.data
-          : result.data.data;
-        setBrands(brandsData || []);
+          : result.data?.data || [];
+        setBrands(brandsData);
       }
     } catch (err) {
       console.error("Error fetching brands:", err);
@@ -155,12 +160,17 @@ function WhyUS() {
     try {
       const response = await fetch(`${API_BASE}/certifications`);
       const result = await response.json();
-      if (result.success) {
-        // Handle both simple array and paginated response
+      
+      // Handle raw array response (backend update)
+      if (Array.isArray(result)) {
+        setCertifications(result);
+      }
+      // Handle enveloped response { success: true, data: [...] }
+      else if (result.success || Array.isArray(result.data)) {
         const certsData = Array.isArray(result.data)
           ? result.data
-          : result.data.data;
-        setCertifications(certsData || []);
+          : result.data?.data || [];
+        setCertifications(certsData);
       }
     } catch (err) {
       console.error("Error fetching certifications:", err);
@@ -189,9 +199,9 @@ function WhyUS() {
         <div className="relative z-10 text-center px-4 sm:px-6 w-full max-w-4xl mx-auto flex flex-col items-center justify-center mt-16 sm:mt-0 smooth-responsive">
           <motion.h1
             {...heroVariants.title}
-            className="text-white font-montserrat font-extrabold text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md smooth-responsive"
+            className="text-white font-montserrat font-extrabold text-3xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight drop-shadow-md smooth-responsive"
           >
-            {t("whyus.hero.line1")} {t("whyus.hero.line2")}{" "}
+            {t("whyus.hero.line1")} {t("whyus.hero.line2")} <br className="hidden sm:block" />
             <span className="text-[#e8ddc7]">
               {t("whyus.hero.line3")} {t("whyus.hero.line4")}
             </span>
@@ -199,7 +209,7 @@ function WhyUS() {
 
           <motion.p
             {...heroVariants.subtitle}
-            className="text-gray-200 text-sm sm:text-lg md:text-xl mt-4 sm:mt-6 font-poppins drop-shadow max-w-xl mx-auto"
+            className="text-gray-200 text-sm sm:text-lg md:text-xl mt-4 sm:mt-6 font-poppins drop-shadow max-w-2xl mx-auto"
           >
             {t("whyus.hero.subtitle")}
           </motion.p>

@@ -80,12 +80,6 @@ const Roles = () => {
         </span>
       ),
     },
-    {
-      key: "created_at",
-      label: "Created At",
-      render: (item) =>
-        item.created_at ? new Date(item.created_at).toLocaleDateString() : "-",
-    },
   ];
 
   return (
@@ -108,7 +102,7 @@ const Roles = () => {
       )}
 
       <AdminTable
-        title="Roles"
+        title="User Roles"
         data={filteredRoles}
         columns={columns}
         loading={loading && roles.length === 0}

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import NavLinks from "./NavLinks";
-import LanguageDropdown from "./LanguageDropdown";
+
 import { NAV_LINKS, ARTICLE_LINKS } from "./config";
 import { useTranslation } from "react-i18next";
-import { IMAGES, FLAGS } from "@/assets/assets";
+import { IMAGES } from "@/assets/assets";
 
-export default function DesktopNav({ activePath, changeLang, i18n }) {
+export default function DesktopNav({ activePath }) {
   const { t } = useTranslation("navbar");
 
   // State untuk mengontrol visibilitas dropdown Articles
@@ -37,7 +37,7 @@ export default function DesktopNav({ activePath, changeLang, i18n }) {
 
   return (
     <div className="hidden lg:flex items-center gap-4">
-      <ul className="flex items-center gap-10 text-gray-800 font-medium text-[14px] font-poppins">
+      <ul className="flex items-center gap-6 text-gray-800 font-medium text-[14px] font-poppins">
         {/* NAV_LINKS */}
         <NavLinks activePath={activePath} links={NAV_LINKS} />
 
@@ -98,11 +98,6 @@ export default function DesktopNav({ activePath, changeLang, i18n }) {
           <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#6B3F21] rounded-full transition-all duration-300 group-hover:w-full" />
         </a>
       </ul>
-
-      {/* Language Dropdown */}
-      <div className="ml-[5rem]">
-        <LanguageDropdown FLAGS={FLAGS} i18n={i18n} changeLang={changeLang} />
-      </div>
     </div>
   );
 }

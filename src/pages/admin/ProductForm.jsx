@@ -92,9 +92,26 @@ export default function ProductForm() {
     }
   }, [id, isEditing]);
 
-  // Handle image upload
+  // Handle image upload with size validation
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
+
   const handleImageChange = (e, type) => {
     const files = Array.from(e.target.files);
+
+    // Validate file sizes
+    const oversizedFiles = files.filter((file) => file.size > MAX_FILE_SIZE);
+
+    if (oversizedFiles.length > 0) {
+      const fileNames = oversizedFiles
+        .map((f) => `"${f.name}" (${(f.size / 1024 / 1024).toFixed(2)} MB)`)
+        .join(", ");
+      setError(`Gambar terlalu besar (maks 5MB): ${fileNames}`);
+      return;
+    }
+
+    // Clear error if valid
+    setError("");
+
     setSelectedImages((prev) => ({
       ...prev,
       [type]: [...prev[type], ...files],

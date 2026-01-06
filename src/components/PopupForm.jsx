@@ -53,8 +53,9 @@ const InputField = ({
   error,
   required = true,
 }) => {
-  const inputClasses = `w-full p-5 sm:p-4 rounded-md bg-gray-100 text-gray-800 text-sm focus:ring-2 focus:ring-[#C6934B] focus:bg-white outline-none transition-all placeholder:text-gray-400 ${error ? "ring-2 ring-red-400 bg-red-50" : ""
-    }`;
+  const inputClasses = `w-full p-5 sm:p-4 rounded-md bg-gray-100 text-gray-800 text-sm focus:ring-2 focus:ring-[#C6934B] focus:bg-white outline-none transition-all placeholder:text-gray-400 ${
+    error ? "ring-2 ring-red-400 bg-red-50" : ""
+  }`;
 
   return (
     <div className="mb-2.5">
@@ -99,6 +100,8 @@ const PopupForm = () => {
     email: "",
     phone: "",
     message: "",
+    website: "", // Honeypot
+    fax: "", // Honeypot
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -142,6 +145,12 @@ const PopupForm = () => {
     e.preventDefault();
     if (!validate()) return;
 
+    // Check Honeypot
+    if (formData.website || formData.fax) {
+      console.warn("Bot detected.");
+      return;
+    }
+
     setLoading(true);
     setApiError("");
 
@@ -149,13 +158,25 @@ const PopupForm = () => {
       const res = await submitContactForm(formData);
       if (res.data.success) {
         setSuccess(true);
-        setFormData({ name: "", email: "", phone: "", message: "" });
+        setSuccess(true);
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+          website: "",
+          fax: "",
+        });
       } else {
         setApiError(res.data.message || "Gagal mengirim pesan.");
       }
     } catch (err) {
       console.error("PopupForm submission error:", err);
-      setApiError(err.response?.data?.message || "Terjadi kesalahan sistem.");
+      if (err.response?.status === 429) {
+        setApiError("Mohon tunggu sebentar sebelum mengirim pesan lagi.");
+      } else {
+        setApiError(err.response?.data?.message || "Terjadi kesalahan sistem.");
+      }
     } finally {
       setLoading(false);
     }
@@ -202,6 +223,26 @@ const PopupForm = () => {
       {apiError && <ErrorAlert message={apiError} />}
 
       <form onSubmit={handleSubmit}>
+        {/* Honeypot Fields - Hidden */}
+        <div className="absolute opacity-0 -z-10 h-0 w-0 overflow-hidden">
+          <input
+            type="text"
+            name="website"
+            value={formData.website}
+            onChange={(e) => handleChange("website", e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+          />
+          <input
+            type="text"
+            name="fax"
+            value={formData.fax}
+            onChange={(e) => handleChange("fax", e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
+
         {FIELDS.map((cfg) => (
           <InputField
             key={cfg.field}

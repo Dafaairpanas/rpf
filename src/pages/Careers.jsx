@@ -124,7 +124,7 @@ function Careers() {
         <div className="relative z-10 text-center px-6 max-w-4xl mt-16 sm:mt-0 smooth-responsive">
           <motion.h1
             {...heroVariants.title}
-            className="text-white font-montserrat font-extrabold text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md smooth-responsive"
+            className="text-white font-montserrat font-extrabold text-3xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight drop-shadow-md smooth-responsive"
           >
             {t("hero.title")}{" "}
             <span className="text-[#EEE4C8]">{t("hero.title_highlight")}</span>
@@ -132,7 +132,7 @@ function Careers() {
 
           <motion.p
             {...heroVariants.subtitle}
-            className="text-gray-200 text-sm sm:text-lg md:text-xl mt-4 sm:mt-6 drop-shadow font-poppins"
+            className="text-gray-200 text-sm sm:text-lg md:text-xl mt-4 sm:mt-6 drop-shadow font-poppins max-w-2xl mx-auto"
           >
             {t("hero.subtitle")}
           </motion.p>

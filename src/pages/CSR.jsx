@@ -163,7 +163,7 @@ function CSR() {
         <div className="relative z-10 text-center px-6 max-w-4xl mt-16 sm:mt-0 smooth-responsive">
           <motion.h1
             {...heroVariants.title}
-            className="text-white font-montserrat font-extrabold text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md smooth-responsive"
+            className="text-white font-montserrat font-extrabold text-3xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight drop-shadow-md smooth-responsive"
           >
             {t("hero.title1")}{" "}
             <span className="text-[#DFD7BF]">{t("hero.highlight")}</span>{" "}
@@ -172,7 +172,7 @@ function CSR() {
 
           <motion.p
             {...heroVariants.subtitle}
-            className="text-gray-200 text-sm sm:text-lg md:text-xl mt-4 sm:mt-6 drop-shadow font-poppins"
+            className="text-gray-200 text-sm sm:text-lg md:text-xl mt-4 sm:mt-6 drop-shadow font-poppins max-w-2xl mx-auto"
           >
             {t("hero.subtitle")}
           </motion.p>
@@ -206,13 +206,13 @@ function CSR() {
 
         {/* CARDS - FLEX LAYOUT */}
         {!loading && (
-          <div className="flex flex-wrap justify-center gap-6 md:gap-10">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 justify-center">
             {csrs.length > 0 ? (
               csrs.map((csr, index) => (
                 <Link
                   to={`/csr/${csr.id}`}
                   key={csr.id}
-                  className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-27px)] max-w-[400px]"
+                  className="w-full max-w-[400px] mx-auto"
                 >
                   <motion.div
                     variants={cardItemVariant}
@@ -226,15 +226,15 @@ function CSR() {
                       transition-all duration-500 ease-out cursor-pointer 
                       hover:shadow-xl 
                       relative 
-                      h-[350px]
+                      h-[260px] sm:h-[350px]
                       w-full
-                      group-hover:h-[480px]
+                      group-hover:h-[360px] sm:group-hover:h-[480px]
                       group-hover:bg-white
                       transform scale-100
                       group-hover:scale-[1.05]
                     "
                   >
-                    <div className="w-full h-[350px] group-hover:h-[230px] transition-all duration-500 ease-out bg-gray-200 flex items-center justify-center">
+                    <div className="w-full h-[260px] sm:h-[350px] group-hover:h-[160px] sm:group-hover:h-[230px] transition-all duration-500 ease-out bg-gray-200 flex items-center justify-center">
                       {csr.thumbnail_url ? (
                         <motion.img
                           whileHover={{ scale: 1.05 }}
@@ -269,7 +269,7 @@ function CSR() {
 
                     <div
                       className="
-                        absolute bottom-0 inset-x-0 p-5
+                        absolute bottom-0 inset-x-0 p-3 sm:p-5
                         transition-all duration-500 ease-out 
                         bg-black/20 backdrop-blur-sm 
                         text-white 
@@ -279,11 +279,11 @@ function CSR() {
                         group-hover:backdrop-blur-none
                       "
                     >
-                      <p className="font-semibold leading-snug line-clamp-2">
+                      <p className="font-semibold text-xs sm:text-base leading-snug line-clamp-2">
                         {csr.title}
                       </p>
 
-                      <div className="flex items-center justify-between mt-4 text-sm text-gray-200 group-hover:text-black">
+                      <div className="flex items-center justify-between mt-2 sm:mt-4 text-[10px] sm:text-sm text-gray-200 group-hover:text-black">
                         <span>{formatDate(csr.created_at)}</span>
 
                         <motion.span
@@ -300,7 +300,7 @@ function CSR() {
                 </Link>
               ))
             ) : (
-              <div className="w-full flex justify-center">
+              <div className="col-span-full w-full flex justify-center">
                 <div className="flex flex-col items-center justify-center py-16 sm:py-20 px-6">
                   <div className="relative mb-6">
                     <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#F4F2EE] to-[#E8E4DC] flex items-center justify-center shadow-inner">

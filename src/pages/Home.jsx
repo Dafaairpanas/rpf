@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import api from "@/api/axios";
 import { getProductDisplayImage } from "@/utils/imageHelpers";
+import SEO from "@/components/SEO";
 
 // ============ ANIMATION VARIANTS (Module Level - Never Recreated) ============
 const mainVariant = {
@@ -91,23 +92,23 @@ function Home() {
 
   // Background slideshow effect
   const heroImages = HERO_BACKGROUNDS.home;
-  
+
   // Preload all hero images for smoother transitions
   useEffect(() => {
     if (!Array.isArray(heroImages)) return;
-    
+
     const preloadImages = heroImages.map((src) => {
       const img = new Image();
       img.src = src;
       return img;
     });
-    
+
     // Mark as preloaded when first image loads (for faster initial display)
     if (preloadImages[0]) {
       preloadImages[0].onload = () => setImagesPreloaded(true);
     }
   }, [heroImages]);
-  
+
   useEffect(() => {
     if (!Array.isArray(heroImages) || heroImages.length <= 1) return;
 
@@ -181,6 +182,13 @@ function Home() {
 
   return (
     <div className="w-full overflow-x-hidden ">
+      <SEO
+        // title removed to use default site title "Rajawali Perkasa Furniture"
+        description={t(
+          "seo.description",
+          "Welcome to Rajawali Perkasa Furniture - High Quality Teak Wood Furniture",
+        )}
+      />
       <motion.section
         {...heroVariants.section}
         className="relative w-full hero-full flex items-center overflow-hidden"
@@ -188,9 +196,11 @@ function Home() {
         {/* Static first background (always visible for instant load) */}
         <div
           className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImages?.[0] || currentBgImage})` }}
+          style={{
+            backgroundImage: `url(${heroImages?.[0] || currentBgImage})`,
+          }}
         />
-        
+
         {/* Slideshow Background (fades on top) */}
         <AnimatePresence mode="sync">
           <motion.div
@@ -209,23 +219,24 @@ function Home() {
           className="absolute inset-0 bg-black/40 z-[1]"
         />
 
-        <div className="relative z-10 w-std mx-auto px-6 h-full flex items-center mt-16 sm:mt-0 smooth-responsive">
+        <div className="relative z-10 w-std mx-auto px-6 sm:px-10 h-full flex items-center mt-16 sm:mt-0 smooth-responsive">
           <div className="max-w-6xl text-left">
             <motion.h1
               {...heroVariants.title}
-              className="font-montserrat font-extrabold text-white text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md smooth-responsive"
+              className="font-montserrat font-extrabold text-white text-3xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight drop-shadow-md smooth-responsive"
             >
               {t("section1.line1")} {t("section1.line2")}{" "}
               <span className="text-[#EEE4C8]">
                 {t("section1.highlight")}&nbsp;
               </span>
-              {t("section1.line3")} {t("section1.line4")} {t("section1.line5")}
+              {t("section1.line3")} {t("section1.line4")} <br className="hidden sm:block" />
+              {t("section1.line5")}
             </motion.h1>
 
             <motion.div {...heroVariants.subtitle}>
               <a
                 href="/about"
-                className="inline-block w-fit px-8 sm:px-16 py-2 sm:py-3 mt-6 sm:mt-10 text-[#28221F] text-base sm:text-2xl font-inter font-semibold rounded-xl shadow-lg text-center bg-[#CB9147] transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105 cursor-pointer"
+                className="inline-block w-fit px-8 sm:px-16 py-2 sm:py-3 mt-6 sm:mt-10 text-[#28221F] text-base sm:text-xl font-inter font-semibold rounded-xl shadow-lg text-center bg-[#CB9147] transition-all duration-500 ease-out hover:bg-[#28221F] hover:text-white hover:translate-y-[-2px] hover:scale-105 cursor-pointer"
               >
                 {t("section1.button")}
               </a>
@@ -319,7 +330,7 @@ function Home() {
                 animation-play-state: paused;
               }
             `}
-          </style>  
+          </style>
 
           {/* Centered wrapper */}
           <div className="flex justify-center w-full">
@@ -336,7 +347,7 @@ function Home() {
                   }}
                   whileHover={{ scale: 1.02 }}
                   className="group bg-white rounded-xl flex flex-col justify-center py-6 h-fit flex-shrink-0 w-[160px] sm:w-[220px] md:w-[260px] cursor-pointer"
-                  style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
+                  style={{ border: "none", outline: "none", boxShadow: "none" }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <div className="flex items-center justify-center h-32 sm:h-48 md:h-56 px-2">

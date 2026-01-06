@@ -131,7 +131,7 @@ const BannerCarousel = memo(function BannerCarousel({
                 index === activeIndex ? (isMobile ? 16 : 24) : isMobile ? 5 : 8,
               backgroundColor: index === activeIndex ? "#CB9147" : "#FFFFFF",
             }}
-            className="h-1.5 sm:h-2 rounded-full transition-all cursor-pointer"
+            className="h-1.5 mb-2 sm:mb-0 sm:h-2 rounded-full transition-all cursor-pointer"
             aria-label={`Go to banner ${index + 1}`}
           />
         ))}

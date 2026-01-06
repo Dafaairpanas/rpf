@@ -78,14 +78,14 @@ const ProductModal = memo(function ProductModal({ product, loading, onClose }) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={handleBackdropClick}
-        className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-2 sm:p-4 cursor-pointer"
+        className="fixed inset-0 bg-black/70 z-[10000] flex items-center justify-center p-2 sm:p-4 cursor-pointer"
       >
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
           onClick={(e) => e.stopPropagation()}
-          className="bg-[#F4F2EE] rounded-2xl sm:rounded-3xl w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden relative border border-[#E5DCC7] mt-2 sm:mt-[8dvh]"
+          className="bg-[#F4F2EE] rounded-2xl sm:rounded-3xl w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden relative border border-[#E5DCC7] mt-2 sm:mb-[5dvh]"
         >
           {/* Close Button */}
           <motion.button
@@ -104,9 +104,9 @@ const ProductModal = memo(function ProductModal({ product, loading, onClose }) {
               />
             </div>
           ) : (
-            <div className="flex flex-col md:flex-row h-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto md:overflow-hidden">
+            <div className="flex flex-col lg:flex-row h-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden">
               {/* LEFT COLUMN - Main Image + Thumbnails */}
-              <div className="w-full md:w-1/2 flex flex-col p-4 sm:p-6 md:p-8 bg-white md:border-r border-[#E5DCC7]">
+              <div className="w-full lg:w-1/2 flex flex-col p-4 sm:p-6 md:p-8 bg-white lg:border-r border-[#E5DCC7] overflow-y-auto lg:overflow-visible">
                 {/* Main Image */}
                 <div
                   id="modal-main-image"
@@ -209,8 +209,9 @@ const ProductModal = memo(function ProductModal({ product, loading, onClose }) {
               </div>
 
               {/* RIGHT COLUMN - Product Details */}
-              <div className="w-full md:w-1/2 flex flex-col bg-[#F4F2EE] md:h-full md:max-h-[90vh]">
-                <div className="flex-grow overflow-y-auto p-4 sm:p-6 md:p-8 custom-scrollbar">
+              <div className="w-full lg:w-1/2 flex flex-col bg-[#F4F2EE] relative overflow-hidden">
+                {/* Scrollable Content - dengan padding bottom untuk mobile agar tidak tertutup button */}
+                <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 pb-24 lg:pb-20 custom-scrollbar">
                   {/* Product Info */}
                   <div className="mb-4 sm:mb-6">
                     <span className="inline-block px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#C58E47]/10 text-[#C58E47] text-[9px] sm:text-[10px] font-bold uppercase tracking-wider mb-2 sm:mb-3">
@@ -292,8 +293,8 @@ const ProductModal = memo(function ProductModal({ product, loading, onClose }) {
                   </div> */}
                 </div>
 
-                {/* Order Button */}
-                <div className="p-3 sm:p-5 md:p-6 bg-white/40 border-t border-[#E5DCC7] mt-auto">
+                {/* Order Button - Absolute untuk mobile (fixed di dalam card), relative untuk desktop */}
+                <div className="absolute lg:relative bottom-0 left-0 right-0 lg:bottom-auto lg:left-auto lg:right-auto p-3 sm:p-5 md:p-6 bg-white/90 lg:bg-white/40 backdrop-blur-md lg:backdrop-blur-none border-t border-[#E5DCC7] lg:mt-auto z-20">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}

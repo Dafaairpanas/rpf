@@ -17,15 +17,13 @@ export default function HeroSection({ t }) {
         className="absolute inset-0 bg-black/40"
       />
 
-      <div className="relative z-10 text-center px-4 sm:px-6 w-full max-w-4xl mx-auto mt-16 sm:mt-0 smooth-responsive">
+      <div className="relative z-10 text-center px-4 sm:px-6 w-full max-w-6xl mx-auto smooth-responsive">
         <M.h1
           {...heroVariants.title}
-          className="text-white font-montserrat font-extrabold text-3xl sm:text-5xl md:text-6xl leading-tight drop-shadow-md smooth-responsive"
+          className="text-white font-montserrat font-extrabold text-3xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight drop-shadow-md smooth-responsive"
         >
           {t("hero.line1")} <br className="hidden sm:block" />
-          {t("hero.line2")}{" "}
-          <span className="text-[#EEE4C8]">{t("hero.highlight")}</span>{" "}
-          <br className="hidden sm:block" />
+          {t("hero.line2")} <span className="text-[#EEE4C8]">{t("hero.highlight")}</span> <br className="hidden sm:block" />
           {t("hero.line3")}
         </M.h1>
 

@@ -27,9 +27,9 @@ const ProductCard = memo(function ProductCard({ product, onClick }) {
       viewport={{ once: true }}
       whileHover={{ y: -6 }}
       onClick={() => onClick(product)}
-      className="group border border-[#E5DCC7] rounded-2xl p-3 shadow-sm flex flex-col items-center transition-all duration-300 hover:bg-[#E5DCC7]/70 cursor-pointer"
+      className="group border border-[#E5DCC7] rounded-2xl p-3 shadow-sm flex flex-col items-center transition-all duration-300 hover:bg-[#E5DCC7]/70 cursor-pointer overflow-hidden"
     >
-      <div className="relative w-full h-40 sm:h-72 rounded-xl bg-white overflow-hidden flex items-center justify-center">
+      <div className="relative w-full h-32 sm:h-48 rounded-xl bg-white overflow-hidden flex items-center justify-center">
         <img
           src={displayImages[0]}
           alt={product.name}
@@ -45,7 +45,7 @@ const ProductCard = memo(function ProductCard({ product, onClick }) {
           onError={(e) => (e.target.src = "/placeholder.png")}
         />
       </div>
-      <p className="mt-3 text-[16px] sm:text-[20px] font-semibold text-[#1A1A1A] group-hover:text-[#6b4b3a] text-center line-clamp-2">
+      <p className="mt-3 text-[16px] sm:text-[20px] font-semibold text-[#1A1A1A] group-hover:text-[#6b4b3a] text-center line-clamp-2 break-words overflow-wrap-anywhere w-full px-1">
         {product.name}
       </p>
     </motion.div>

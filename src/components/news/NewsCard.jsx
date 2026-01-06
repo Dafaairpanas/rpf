@@ -28,10 +28,10 @@ const NewsCard = memo(function NewsCard({ item, index, t }) {
         whileInView="whileInView"
         initial="initial"
         custom={index}
-        className="group bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 ease-out cursor-pointer hover:shadow-xl hover:scale-[1.05] relative h-[350px] w-full"
+        className="group bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 ease-out cursor-pointer hover:shadow-xl hover:scale-[1.05] relative h-[260px] sm:h-[350px] w-full"
       >
         {/* Image */}
-        <div className="w-full h-[350px] group-hover:h-[230px] transition-all duration-500 ease-out bg-gray-200 flex items-center justify-center">
+        <div className="w-full h-[260px] sm:h-[350px] group-hover:h-[160px] sm:group-hover:h-[230px] transition-all duration-500 ease-out bg-gray-200 flex items-center justify-center">
           {item.thumbnail_url ? (
             <motion.img
               whileHover={{ scale: 1.05 }}
@@ -65,12 +65,12 @@ const NewsCard = memo(function NewsCard({ item, index, t }) {
         </div>
 
         {/* Content */}
-        <div className="absolute bottom-0 inset-x-0 p-4 sm:p-5 transition-all duration-500 ease-out bg-black/20 backdrop-blur-sm text-white group-hover:static group-hover:bg-white group-hover:text-black group-hover:backdrop-blur-none">
-          <p className="font-semibold text-sm leading-snug line-clamp-3">
+        <div className="absolute bottom-0 inset-x-0 p-3 sm:p-5 transition-all duration-500 ease-out bg-black/20 backdrop-blur-sm text-white group-hover:static group-hover:bg-white group-hover:text-black group-hover:backdrop-blur-none">
+          <p className="font-semibold text-xs sm:text-sm leading-snug line-clamp-3">
             {item.title}
           </p>
 
-          <div className="flex items-center justify-between mt-3 sm:mt-4 text-xs text-gray-200 group-hover:text-gray-600">
+          <div className="flex items-center justify-between mt-2 sm:mt-4 text-[10px] sm:text-xs text-gray-200 group-hover:text-gray-600">
             <span>{formatNewsDate(item.created_at)}</span>
 
             <motion.span
@@ -79,7 +79,7 @@ const NewsCard = memo(function NewsCard({ item, index, t }) {
               className="font-medium flex items-center gap-1 text-[#CB9147] hover:text-[#8B5B24] transition flex-shrink-0"
             >
               {t("card.readMore")}
-              <ChevronRight size={16} />
+              <ChevronRight size={14} className="sm:w-4 sm:h-4" />
             </motion.span>
           </div>
         </div>
