@@ -18,10 +18,10 @@ export default function LanguageDropdown({ FLAGS, i18n, changeLang }) {
     function onEsc(e) {
       if (e.key === "Escape") setOpen(false);
     }
-    document.addEventListener("click", onDocClick);
+    document.addEventListener("mousedown", onDocClick);
     document.addEventListener("keydown", onEsc);
     return () => {
-      document.removeEventListener("click", onDocClick);
+      document.removeEventListener("mousedown", onDocClick);
       document.removeEventListener("keydown", onEsc);
     };
   }, []);
@@ -40,7 +40,10 @@ export default function LanguageDropdown({ FLAGS, i18n, changeLang }) {
         type="button"
         aria-haspopup="menu"
         aria-expanded={open}
-        onClick={() => setOpen((s) => !s)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen((s) => !s);
+        }}
         className="flex items-center gap-2 px-2 py-1 rounded-full hover:shadow-sm transition ring-offset-2 cursor-pointer"
       >
         <div

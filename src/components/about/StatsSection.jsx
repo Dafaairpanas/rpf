@@ -9,7 +9,7 @@ export default function StatsSection({ t }) {
   return (
     <section className="h-fit text-white py-8 sm:py-10 relative bg-gradient-to-b from-[#8A5C1D] via-[#2A221D] to-[#1A1613]">
       <div className="absolute inset-0 bg-black/20" />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
+      <div className="relative max-w-[80rem] mx-auto px-6 md:px-10 z-10">
         {/* STATS */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-12 text-center mb-12 sm:mb-[7rem] font-poppins">
           {[

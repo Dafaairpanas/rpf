@@ -5,8 +5,9 @@ import { generatePagination } from "@/utils/pagination";
 /**
  * useNews - Custom hook for news data fetching
  * Handles pagination, top news, and loading states
+ * Uses consistent perPage=6 for all pages
  */
-export function useNews(perPage = 6) {
+export function useNews() {
   const [news, setNews] = useState([]);
   const [topNews, setTopNews] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,7 +16,7 @@ export function useNews(perPage = 6) {
   const [pagination, setPagination] = useState({
     current_page: 1,
     last_page: 1,
-    per_page: perPage,
+    per_page: 6,
     total: 0,
   });
 
@@ -35,11 +36,16 @@ export function useNews(perPage = 6) {
   }, []);
 
   // Fetch news list
+  // Page 1 displays 7 cards, Page 2+ displays 6 cards
+  // But pagination is calculated with consistent per_page=6
   const fetchNews = useCallback(
     async (page) => {
       setLoading(true);
+      const displayPerPage = page === 1 ? 7 : 6; // Items to display
+      const paginationPerPage = 6; // For consistent last_page calculation
+      
       try {
-        const response = await getNews({ page, per_page: perPage });
+        const response = await getNews({ page, per_page: displayPerPage });
         if (response.data.success) {
           const result = response.data.data;
           // Backend now returns array directly, not paginated
@@ -53,12 +59,13 @@ export function useNews(perPage = 6) {
               total: result.length,
             });
           } else {
-            // Fallback for old paginated response
+            // Paginated response - calculate last_page consistently
+            const calculatedLastPage = Math.ceil(result.total / paginationPerPage);
             setNews(result.data || []);
             setPagination({
               current_page: result.current_page,
-              last_page: result.last_page,
-              per_page: result.per_page,
+              last_page: calculatedLastPage, // Use consistent calculation
+              per_page: paginationPerPage,
               total: result.total,
             });
           }
@@ -69,7 +76,7 @@ export function useNews(perPage = 6) {
         setLoading(false);
       }
     },
-    [perPage],
+    [],
   );
 
   // Initial fetch

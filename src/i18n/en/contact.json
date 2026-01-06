@@ -16,7 +16,12 @@
       "phone": "Input your phone number...",
       "message": "Input your message..."
     },
-    "button": "Send Message"
+    "button": "Send Message",
+    "success": {
+      "title": "Message Sent!",
+      "message": "Thank you for contacting us. Our team will respond shortly.",
+      "button": "Close"
+    }
   },
   "contactInfo": {
     "title": "Contact Information",

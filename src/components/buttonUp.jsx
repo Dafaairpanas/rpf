@@ -75,7 +75,7 @@ function ButtonUp() {
               >
                 ×
               </button>
-              <PopupForm />
+              <PopupForm onClose={() => setOpenForm(false)} />
             </div>
           </div>
         </>

@@ -240,7 +240,7 @@ const Contacts = () => {
                   {selectedContact.name}
                 </h3>
                 <div className="flex items-center gap-3 flex-wrap">
-                  <span className="text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-lg uppercase tracking-wider">
+                  <span className="text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-lg tracking-wider">
                     {selectedContact.email}
                   </span>
                   {selectedContact.phone && (

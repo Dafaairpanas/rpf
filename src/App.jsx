@@ -1,10 +1,16 @@
-import React, { Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/layouts/Navbar/Navbar.jsx";
 import Footer from "./components/layouts/Footer.jsx";
 import ButtonUp from "./components/buttonUp.jsx";
-import Home from "./pages/Home.jsx";
+import LoadingScreen from "./components/common/LoadingScreen.jsx";
 
+import { Route, Routes, useLocation } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import { Toaster } from "sonner";
+
+// Public pages - Normal import (loaded once, no lazy loading)
+import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import WhyUS from "./pages/WhyUS.jsx";
 import Collections from "./pages/Collections.jsx";
@@ -12,12 +18,11 @@ import CSR from "./pages/CSR.jsx";
 import News from "./pages/News.jsx";
 import Careers from "./pages/Careers.jsx";
 import Contact from "./pages/Contact.jsx";
-import PopupForm from "./components/PopupForm.jsx";
-import { Route, Routes, useLocation } from "react-router-dom";
 import DetailCSR from "./pages/DetailCSR.jsx";
 import DetailNews from "./pages/DetailNews.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
-// Admin views - Lazy loaded for code splitting
+// Admin views - Still lazy loaded (only loaded when needed)
 const AdminDashboard = React.lazy(() => import("./pages/admin/AdminHome.jsx"));
 const ProductForm = React.lazy(() => import("./pages/admin/ProductForm.jsx"));
 const Dashboard = React.lazy(() => import("./pages/admin/views/Dashboard"));
@@ -36,9 +41,7 @@ const NewsAdmin = React.lazy(() => import("./pages/admin/views/News"));
 const NewsForm = React.lazy(() => import("./pages/admin/NewsForm.jsx"));
 const Login = React.lazy(() => import("./pages/admin/Login.jsx"));
 
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
-
-// Admin loading fallback - minimal and fast
+// Admin loading fallback
 const AdminLoadingFallback = () => (
   <div className="min-h-screen bg-[#F4F2EE] flex items-center justify-center">
     <div className="text-center space-y-3">
@@ -50,12 +53,32 @@ const AdminLoadingFallback = () => (
   </div>
 );
 
-import { Toaster } from "sonner";
-
 function App() {
   const location = useLocation();
   const isAdminPage =
     location.pathname.startsWith("/admin") || location.pathname === "/login";
+
+  // Show loading screen only once per session
+  const [isLoading, setIsLoading] = useState(() => {
+    return !sessionStorage.getItem("rpf_loaded");
+  });
+
+  useEffect(() => {
+    if (isLoading) {
+      // Show loading screen for minimum 1.5 seconds, then wait for page to be ready
+      const timer = setTimeout(() => {
+        sessionStorage.setItem("rpf_loaded", "true");
+        setIsLoading(false);
+      }, 1500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
+
+  // Show loading screen on first visit (public pages only)
+  if (isLoading && !isAdminPage) {
+    return <LoadingScreen />;
+  }
 
   return (
     <>
@@ -65,13 +88,13 @@ function App() {
 
         <div className="flex-grow">
           <Routes>
-            {/* Login Route - Lazy loaded with Suspense */}
+            {/* Login Route */}
             <Route
               path="/login"
               element={
-                <Suspense fallback={<AdminLoadingFallback />}>
+                <React.Suspense fallback={<AdminLoadingFallback />}>
                   <Login />
-                </Suspense>
+                </React.Suspense>
               }
             />
 
@@ -79,11 +102,11 @@ function App() {
             <Route
               path="/admin"
               element={
-                <Suspense fallback={<AdminLoadingFallback />}>
+                <React.Suspense fallback={<AdminLoadingFallback />}>
                   <ProtectedRoute>
                     <AdminDashboard />
                   </ProtectedRoute>
-                </Suspense>
+                </React.Suspense>
               }
             >
               <Route index element={<Dashboard />} />
@@ -113,7 +136,7 @@ function App() {
               <Route path="news/:id/edit" element={<NewsForm />} />
             </Route>
 
-            {/* Public Routes */}
+            {/* Public Routes - No lazy loading, instant navigation */}
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/whyus" element={<WhyUS />} />
@@ -124,6 +147,9 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/csr/:id" element={<DetailCSR />} />
             <Route path="/news/:id" element={<DetailNews />} />
+
+            {/* 404 Not Found */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
 

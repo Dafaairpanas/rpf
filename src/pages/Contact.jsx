@@ -10,6 +10,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { sendEmail } from "@/utils/emailjs";
 import { submitContactForm } from "@/api/contact.api";
 import api from "@/api/axios";
 import SEO from "@/components/SEO";
@@ -148,8 +149,13 @@ const ContactUs = () => {
 
     if (!formData.email.trim()) {
       newErrors.email = t("validation.emailRequired");
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = t("validation.emailInvalid");
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValid = emailRegex.test(formData.email.trim());
+      console.log("Email validation:", formData.email, "Valid:", isValid);
+      if (!isValid) {
+        newErrors.email = t("validation.emailInvalid");
+      }
     }
 
     if (!formData.message.trim()) {
@@ -163,7 +169,6 @@ const ContactUs = () => {
   // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setSubmitError('');
 
     if (!validateForm()) return;
 
@@ -174,14 +179,58 @@ const ContactUs = () => {
     }
 
     setLoading(true);
+    setSubmitError("");
+
     try {
-      // Include product_id if from "Order Now" flow
-      const submitData = {
-        ...formData,
-        ...(productId && { product_id: parseInt(productId) }),
+      // Build title for email
+      const emailTitle = productId && productInfo?.name
+        ? `Order: ${productInfo.name}`
+        : "Pesan dari Halaman Contact";
+
+      // Payload for EmailJS
+      const emailPayload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        title: emailTitle,
       };
-      const response = await submitContactForm(submitData);
-      if (response.data.success) {
+
+      // Payload for Backend
+      const backendPayload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+      };
+
+      // Add product_id if exists (as integer)
+      if (productId) {
+        backendPayload.product_id = parseInt(productId);
+      }
+
+      // Execute both services in parallel
+      const [emailResult, backendResult] = await Promise.allSettled([
+        sendEmail(emailPayload),
+        submitContactForm(backendPayload),
+      ]);
+
+      // Check results
+      const emailSuccess = emailResult.status === "fulfilled" && emailResult.value.success;
+      const backendSuccess = backendResult.status === "fulfilled";
+
+      if (!emailSuccess) {
+        console.error("EmailJS Failed:", emailResult);
+      }
+
+      if (backendSuccess) {
+        console.log("Backend Response:", backendResult.value);
+      } else {
+        console.error("Backend API Failed:", backendResult.reason?.response?.data || backendResult.reason);
+      }
+
+      // If at least one succeeded, show success
+      if (emailSuccess || backendSuccess) {
         setShowSuccess(true);
         setFormData({
           name: "",
@@ -191,18 +240,16 @@ const ContactUs = () => {
           website: "",
           fax: "",
         });
-        // Auto close success modal after 3 seconds
         setTimeout(() => setShowSuccess(false), 3000);
+
+        if (!emailSuccess) console.warn("Note: Email failed to send.");
+        if (!backendSuccess) console.warn("Note: Data failed to save to database.");
       } else {
-        setSubmitError(response.data.message || t("messages.sendFailed"));
+        setSubmitError("Gagal mengirim pesan. Silakan coba lagi.");
       }
     } catch (err) {
       console.error("Contact form error:", err);
-      if (err.response?.status === 429) {
-        setSubmitError("Mohon tunggu sebentar sebelum mengirim pesan lagi.");
-      } else {
-        setSubmitError(err.response?.data?.message || t("messages.error"));
-      }
+      setSubmitError("Terjadi kesalahan sistem. Silakan coba lagi nanti.");
     } finally {
       setLoading(false);
     }
@@ -240,21 +287,21 @@ const ContactUs = () => {
             >
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-gray-800 mb-2">
-                Pesan Terkirim!
+                {t("form.success.title")}
               </h3>
               <p className="text-gray-600 mb-6">
-                Terima kasih telah menghubungi kami. Tim kami akan segera
-                merespons.
+                {t("form.success.message")}
               </p>
               <button
                 onClick={() => setShowSuccess(false)}
                 className="px-6 py-2 bg-[#3C2F26] text-white rounded-lg hover:bg-[#52453B] transition"
               >
-                Tutup
+                {t("form.success.button")}
               </button>
             </motion.div>
           </motion.div>
         )}
+        
       </AnimatePresence>
 
       {/* Header dengan Animasi */}

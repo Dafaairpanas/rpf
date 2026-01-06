@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
-import { ChevronRight, ChevronLeft, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { IMAGES, HERO_BACKGROUNDS } from "@/assets/assets";
@@ -12,7 +12,7 @@ import {
   ProductCard,
   BannerCarousel,
 } from "@/components/collections";
-import { generatePagination } from "@/utils/pagination";
+import Pagination from "@/components/common/Pagination";
 
 // ============ CONSTANTS (Module Level - Never Recreated) ============
 const ITEMS_PER_PAGE = 8;
@@ -360,59 +360,12 @@ export default function Collections() {
             </div>
 
             {/* PAGINATION */}
-            {pagination.lastPage > 1 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.6 }}
-                className="flex items-center justify-center gap-3 mt-12 mb-5"
-              >
-                <motion.button
-                  whileHover={{ scale: currentPage > 1 ? 1.1 : 1 }}
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="w-8 h-8 flex items-center justify-center rounded-sm border border-gray-400 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-                >
-                  <ChevronLeft size={16} />
-                </motion.button>
-
-                {generatePagination(currentPage, pagination.lastPage).map(
-                  (num, idx) =>
-                    num === "..." ? (
-                      <span
-                        key={`dots-${idx}`}
-                        className="w-8 h-8 flex items-center justify-center text-gray-500"
-                      >
-                        ...
-                      </span>
-                    ) : (
-                      <motion.button
-                        key={num}
-                        whileHover={{ scale: 1.12 }}
-                        onClick={() => handlePageChange(num)}
-                        className={`w-8 h-8 rounded-sm flex items-center justify-center border text-sm font-bold transition-all ${
-                          num === currentPage
-                            ? "bg-[#C58E47] text-white border-[#C58E47]"
-                            : "border-gray-400 text-gray-500 hover:bg-[#C58E47] hover:text-white"
-                        }`}
-                      >
-                        {num}
-                      </motion.button>
-                    ),
-                )}
-
-                <motion.button
-                  whileHover={{
-                    scale: currentPage < pagination.lastPage ? 1.1 : 1,
-                  }}
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === pagination.lastPage}
-                  className="w-8 h-8 flex items-center justify-center rounded-sm border border-gray-400 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-                >
-                  <ChevronRight size={16} />
-                </motion.button>
-              </motion.div>
-            )}
+            <Pagination
+              currentPage={currentPage}
+              lastPage={pagination.lastPage}
+              onPageChange={handlePageChange}
+              className="mb-5"
+            />
           </>
         )}
       </div>

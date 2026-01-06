@@ -345,8 +345,8 @@ function Home() {
                       navigate(`/collections?product_id=${item.id}`);
                     }
                   }}
-                  whileHover={{ scale: 1.02 }}
-                  className="group bg-white rounded-xl flex flex-col justify-center py-6 h-fit flex-shrink-0 w-[160px] sm:w-[220px] md:w-[260px] cursor-pointer"
+                  
+                  className="group bg-white rounded-xl flex flex-col justify-center py-6 h-fit flex-shrink-0 w-[160px] sm:w-[220px] md:w-[260px] cursor-pointe hover:bg-gray-200"
                   style={{ border: "none", outline: "none", boxShadow: "none" }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
@@ -359,21 +359,21 @@ function Home() {
                       }
                       alt={item.name || `Product ${item.id}`}
                       loading="lazy"
-                      className="object-contain h-full w-full group-hover:scale-105 transition-transform duration-300"
+                      className="object-contain h-full w-full group-hover:scale-101 transition-transform duration-300"
                       onError={(e) => {
                         e.target.src = IMAGES.chairSvg;
                       }}
                     />
                   </div>
 
-                  <p className="text-xs sm:text-sm md:text-base text-black group-hover:text-[#CB9147] transition-colors duration-300 text-center mt-4 font-poppins font-medium px-2 truncate">
+                  <p className="text-xs sm:text-sm md:text-base text-black transition-colors duration-300 text-center mt-4 font-poppins font-medium px-2 truncate">
                     {item.name}
                   </p>
                 </motion.div>
               ))}
             </div>
           </div>
-
+              
           <div className="absolute left-0 top-0  sm:w-32 h-full bg-gradient-to-r from-[#1c1511] to-transparent pointer-events-none z-10"></div>
           <div className="absolute right-0 top-0 sm:w-32 h-full bg-gradient-to-l from-[#1c1511] to-transparent pointer-events-none z-10"></div>
         </div>

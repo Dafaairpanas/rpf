@@ -30,7 +30,7 @@ function News() {
     handlePreviousPage,
     handleNextPage,
     handlePageClick,
-  } = useNews(7);
+  } = useNews(); // perPage will be dynamic based on currentPage in hook
 
   return (
     <div className="w-full overflow-x-hidden">
@@ -53,8 +53,8 @@ function News() {
           </p>
         </motion.div>
 
-        {/* TOP NEWS BANNER */}
-        {!loadingTopNews && <TopNewsBanner topNews={topNews} />}
+        {/* TOP NEWS BANNER - Only show on page 1 */}
+        {currentPage === 1 && !loadingTopNews && <TopNewsBanner topNews={topNews} />}
 
         {/* LOADING STATE */}
         {loading && (
@@ -106,10 +106,7 @@ function News() {
           <NewsPagination
             currentPage={currentPage}
             lastPage={pagination.last_page}
-            paginationItems={paginationItems}
-            onPrevious={handlePreviousPage}
-            onNext={handleNextPage}
-            onPageClick={handlePageClick}
+            onPageChange={handlePageClick}
           />
         )}
       </div>

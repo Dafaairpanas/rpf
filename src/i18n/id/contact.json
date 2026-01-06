@@ -16,7 +16,12 @@
       "phone": "Masukkan nomor telepon Anda...",
       "message": "Masukkan pesan Anda..."
     },
-    "button": "Kirim Pesan"
+    "button": "Kirim Pesan",
+    "success": {
+      "title": "Pesan Terkirim!",
+      "message": "Terima kasih telah menghubungi kami. Tim kami akan segera merespons.",
+      "button": "Tutup"
+    }
   },
   "contactInfo": {
     "title": "Informasi Kontak",

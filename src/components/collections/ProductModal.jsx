@@ -106,11 +106,11 @@ const ProductModal = memo(function ProductModal({ product, loading, onClose }) {
           ) : (
             <div className="flex flex-col lg:flex-row h-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden">
               {/* LEFT COLUMN - Main Image + Thumbnails */}
-              <div className="w-full lg:w-1/2 flex flex-col p-4 sm:p-6 md:p-8 bg-white lg:border-r border-[#E5DCC7] overflow-y-auto lg:overflow-visible">
+              <div className="w-full lg:w-1/2 flex flex-col p-3 sm:p-4 md:p-6 lg:p-8 bg-white lg:border-r border-[#E5DCC7] overflow-y-auto lg:overflow-visible">
                 {/* Main Image */}
                 <div
                   id="modal-main-image"
-                  className="relative flex items-center justify-center bg-gray-50 rounded-xl sm:rounded-2xl mb-3 sm:mb-4 overflow-hidden h-[200px] sm:h-[250px] md:h-[300px]"
+                  className="relative flex items-center justify-center bg-gray-50 rounded-xl sm:rounded-2xl mb-3 sm:mb-4 overflow-hidden h-[180px] sm:h-[220px] md:h-[280px] lg:h-[300px]"
                 >
                   <motion.img
                     key={imageIndex}

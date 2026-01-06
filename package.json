@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^11.0.1",
+    "@emailjs/browser": "^4.4.1",
     "axios": "^1.13.2",
     "chart.js": "^4.5.1",
     "ckeditor5": "^47.3.0",

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
+import { ChevronRight, Loader2 } from "lucide-react";
 import { IMAGES, HERO_BACKGROUNDS } from "@/assets/assets";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getCsrs } from "@/api/csr.api";
-import { generatePagination } from "@/utils/pagination";
+import Pagination from "@/components/common/Pagination";
 
 // --- Varian Animasi ---
 
@@ -116,25 +116,8 @@ function CSR() {
   };
 
   // ========== HANDLER PAGINATION ==========
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < pagination.last_page) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
-  };
-
-  // Generate pagination items with ellipsis
-  const getPaginationItems = () => {
-    return generatePagination(currentPage, pagination.last_page);
   };
 
   // Format tanggal
@@ -182,31 +165,32 @@ function CSR() {
       {/* --- */}
 
       {/* SECTION: CONTENT (CSR LIST) */}
-      <div className="w-full bg-[#F1EEE7] py-10 px-6">
-        {/* HEADING */}
-        <motion.div {...sectionFadeInVariant} className="text-center mb-16">
-          <h1
-            className="text-2xl sm:text-4xl font-bold text-[#28221F]"
-            dangerouslySetInnerHTML={{
-              __html: t("content.title", {
-                interpolation: { escapeValue: false },
-              }),
-            }}
-          />
+      <div className="w-full bg-[#F1EEE7] py-10 px-6 md:px-10">
+        <div className="max-w-[80rem] mx-auto">
+          {/* HEADING */}
+          <motion.div {...sectionFadeInVariant} className="text-center mb-16">
+            <h1
+              className="text-2xl sm:text-4xl font-bold text-[#28221F]"
+              dangerouslySetInnerHTML={{
+                __html: t("content.title", {
+                  interpolation: { escapeValue: false },
+                }),
+              }}
+            />
 
-          <p className="text-gray-600 mt-3 text-lg">{t("content.subtitle")}</p>
-        </motion.div>
+            <p className="text-gray-600 mt-3 text-lg">{t("content.subtitle")}</p>
+          </motion.div>
 
-        {/* LOADING STATE */}
-        {loading && (
-          <div className="flex justify-center items-center py-20">
-            <Loader2 className="animate-spin text-[#3C2F26]" size={48} />
-          </div>
-        )}
+          {/* LOADING STATE */}
+          {loading && (
+            <div className="flex justify-center items-center py-20">
+              <Loader2 className="animate-spin text-[#3C2F26]" size={48} />
+            </div>
+          )}
 
-        {/* CARDS - FLEX LAYOUT */}
-        {!loading && (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 justify-center">
+          {/* CARDS - FLEX LAYOUT */}
+          {!loading && (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 justify-center">
             {csrs.length > 0 ? (
               csrs.map((csr, index) => (
                 <Link
@@ -333,58 +317,14 @@ function CSR() {
         )}
 
         {/* PAGINATION */}
-        {!loading && pagination.last_page > 1 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center justify-center gap-3 mt-12  "
-          >
-            <motion.button
-              whileHover={{ scale: currentPage > 1 ? 1.1 : 1 }}
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-              className="w-8 h-8 flex items-center justify-center rounded-sm border border-gray-400 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-            >
-              <ChevronLeft size={16} />
-            </motion.button>
-
-            {getPaginationItems().map((num, idx) =>
-              num === "..." ? (
-                <span
-                  key={`dots-${idx}`}
-                  className="w-8 h-8 flex items-center justify-center text-gray-500"
-                >
-                  ...
-                </span>
-              ) : (
-                <motion.button
-                  key={num}
-                  whileHover={{ scale: 1.12 }}
-                  onClick={() => handlePageClick(num)}
-                  className={`w-8 h-8 rounded-sm flex items-center justify-center border text-sm font-bold transition-all ${
-                    num === currentPage
-                      ? "bg-[#C58E47] text-white border-[#C58E47]"
-                      : "border-gray-400 text-gray-500 hover:bg-[#C58E47] hover:text-white"
-                  }`}
-                >
-                  {num}
-                </motion.button>
-              ),
-            )}
-
-            <motion.button
-              whileHover={{
-                scale: currentPage < pagination.last_page ? 1.1 : 1,
-              }}
-              onClick={handleNextPage}
-              disabled={currentPage === pagination.last_page}
-              className="w-8 h-8 flex items-center justify-center rounded-sm border border-gray-400 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-            >
-              <ChevronRight size={16} />
-            </motion.button>
-          </motion.div>
+        {!loading && (
+          <Pagination
+            currentPage={currentPage}
+            lastPage={pagination.last_page}
+            onPageChange={handlePageClick}
+          />
         )}
+        </div>
       </div>
     </div>
   );

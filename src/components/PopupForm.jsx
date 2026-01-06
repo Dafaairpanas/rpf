@@ -1,31 +1,38 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { sendEmail } from "@/utils/emailjs";
 import { submitContactForm } from "@/api/contact.api";
 import { Loader, CheckCircle, AlertCircle } from "lucide-react";
 
 // --- INTERNAL SUB-COMPONENTS ---
 
 /**
- * SuccessState - Tampilan saat form berhasil dikirim
+ * SuccessState - Tampilan saat form berhasil dikirim (Full Screen Modal)
  */
 const SuccessState = ({ onReset, t }) => (
-  <div className="flex flex-col items-center justify-center py-6 text-center animate-in fade-in zoom-in duration-300">
-    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-3 shadow-sm">
-      <CheckCircle className="text-green-600" size={24} />
+  <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+    <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full text-center animate-in zoom-in-95 duration-300">
+      {/* Large green checkmark icon */}
+      <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5">
+        <CheckCircle className="text-green-500" size={80} strokeWidth={1.5} />
+      </div>
+      
+      <h2 className="text-xl font-bold text-[#332C26] mb-2">
+        {t("form.success.title") || "Pesan Terkirim!"}
+      </h2>
+      
+      <p className="text-gray-600 mb-6 px-4 text-sm leading-relaxed">
+        {t("form.success.message") ||
+          "Terima kasih telah menghubungi kami. Tim kami akan segera merespons."}
+      </p>
+      
+      <button
+        onClick={onReset}
+        className="px-8 py-2.5 bg-[#332C26] text-white rounded-lg hover:bg-[#28221F] transition shadow-md active:scale-95 cursor-pointer font-semibold text-sm"
+      >
+        {t("form.success.button") || "Tutup"}
+      </button>
     </div>
-    <h2 className="text-lg font-bold text-[#332C26] mb-1">
-      {t("form.success.title") || "Terima Kasih!"}
-    </h2>
-    <p className="text-gray-600 mb-4 px-2 text-sm">
-      {t("form.success.message") ||
-        "Pesan Anda telah berhasil dikirim. Kami akan segera menghubungi Anda."}
-    </p>
-    <button
-      onClick={onReset}
-      className="px-5 py-2 bg-[#C6934B] text-white rounded-lg hover:bg-[#b88240] transition shadow-md active:scale-95 cursor-pointer font-bold text-sm"
-    >
-      {t("form.success.button") || "Kirim Pesan Lain"}
-    </button>
   </div>
 );
 
@@ -91,7 +98,7 @@ const InputField = ({
 
 // --- MAIN COMPONENT ---
 
-const PopupForm = () => {
+const PopupForm = ({ onClose }) => {
   const { t } = useTranslation("contact");
 
   // -- State --
@@ -155,9 +162,59 @@ const PopupForm = () => {
     setApiError("");
 
     try {
-      const res = await submitContactForm(formData);
-      if (res.data.success) {
-        setSuccess(true);
+      // Payload for EmailJS (needs title for template)
+      const emailPayload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        title: "Pesan dari Popup Form",
+      };
+
+      // Retrieve product_id from URL if available
+      const searchParams = new URLSearchParams(window.location.search);
+      const rawProductId = searchParams.get("product_id");
+      const productId = rawProductId ? parseInt(rawProductId) : null;
+
+      // Payload for Backend
+      const backendPayload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+      };
+
+      // Only add product_id if it exists (strictly integer)
+      if (productId) {
+        backendPayload.product_id = productId;
+      }
+
+      // Execute both services in parallel
+      const [emailResult, backendResult] = await Promise.allSettled([
+        sendEmail(emailPayload),
+        submitContactForm(backendPayload),
+      ]);
+
+      // Check EmailJS result
+      const emailSuccess =
+        emailResult.status === "fulfilled" && emailResult.value.success;
+      if (!emailSuccess) {
+        console.error("EmailJS Failed:", emailResult);
+      }
+
+      // Check Backend result
+      const backendSuccess = backendResult.status === "fulfilled";
+      
+      if (backendSuccess) {
+        console.log("Backend Response:", backendResult.value);
+      } else {
+        // Detailed error logging for debugging
+        console.error("Backend API Failed:", backendResult.reason?.response?.data || backendResult.reason);
+      }
+
+      // If at least one succeeded, we consider it a success for the user
+      // but we log errors for the developer.
+      if (emailSuccess || backendSuccess) {
         setSuccess(true);
         setFormData({
           name: "",
@@ -167,16 +224,15 @@ const PopupForm = () => {
           website: "",
           fax: "",
         });
+        
+        if (!emailSuccess) console.warn("Note: Email failed to send.");
+        if (!backendSuccess) console.warn("Note: Data failed to save to database.");
       } else {
-        setApiError(res.data.message || "Gagal mengirim pesan.");
+        setApiError("Gagal mengirim pesan. Silakan coba lagi.");
       }
     } catch (err) {
       console.error("PopupForm submission error:", err);
-      if (err.response?.status === 429) {
-        setApiError("Mohon tunggu sebentar sebelum mengirim pesan lagi.");
-      } else {
-        setApiError(err.response?.data?.message || "Terjadi kesalahan sistem.");
-      }
+      setApiError("Terjadi kesalahan sistem. Silakan coba lagi nanti.");
     } finally {
       setLoading(false);
     }
@@ -184,7 +240,15 @@ const PopupForm = () => {
 
   // -- Render Logic --
   if (success) {
-    return <SuccessState onReset={() => setSuccess(false)} t={t} />;
+    return (
+      <SuccessState
+        onReset={() => {
+          setSuccess(false);
+          onClose?.(); // Close the popup form as well
+        }}
+        t={t}
+      />
+    );
   }
 
   const FIELDS = [
