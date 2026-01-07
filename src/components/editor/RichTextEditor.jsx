@@ -53,8 +53,6 @@ import {
   X,
   ImageIcon,
   RefreshCw,
-  Maximize2,
-  Minimize2,
 } from "lucide-react";
 import "ckeditor5/ckeditor5.css";
 
@@ -218,7 +216,6 @@ const RichTextEditor = ({
   const [wordCount, setWordCount] = useState(0);
   const [charCount, setCharCount] = useState(0);
   const [ready, setReady] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const editorRef = useRef(null);
   const containerRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -231,22 +228,6 @@ const RichTextEditor = ({
     width: 100,
     align: "center",
   });
-
-  // Toggle fullscreen
-  const toggleFullscreen = useCallback(() => {
-    setIsFullscreen((prev) => !prev);
-  }, []);
-
-  // Handle ESC key to exit fullscreen
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape" && isFullscreen) {
-        setIsFullscreen(false);
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isFullscreen]);
 
   const config = {
     plugins: [
@@ -534,161 +515,86 @@ const RichTextEditor = ({
   }, [toolbar.visible]);
 
   return (
-    <>
-      {/* Fullscreen Overlay */}
-      {isFullscreen && (
-        <div className="fixed inset-0 z-[99999] bg-white flex flex-col">
-          {/* Fullscreen Header */}
-          <div className="flex items-center justify-between px-4 py-3 bg-[#3C2F26] text-white shrink-0">
-            <span className="text-sm font-medium">
-              📝 Mode Fullscreen - Editor
-            </span>
-            <button
-              type="button"
-              onClick={toggleFullscreen}
-              className="flex items-center gap-2 px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-medium transition"
-            >
-              <Minimize2 className="w-4 h-4" /> Keluar (ESC)
-            </button>
-          </div>
+    <div
+      ref={containerRef}
+      className="rich-text-editor border border-gray-200 rounded-xl overflow-hidden shadow-sm bg-white relative"
+    >
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        className="hidden"
+      />
 
-          {/* Fullscreen Editor */}
-          <div className="flex-1 overflow-hidden flex flex-col">
-            <CKEditor
-              editor={ClassicEditor}
-              config={config}
-              data={value || ""}
-              onReady={(editor) => {
-                editorRef.current = editor;
-                setReady(true);
-                editor.editing.view.change((w) =>
-                  w.setStyle(
-                    "min-height",
-                    "100%",
-                    editor.editing.view.document.getRoot(),
-                  ),
-                );
-                editor.ui.view.editable.element?.addEventListener(
-                  "click",
-                  handleClick,
-                );
-              }}
-              onChange={(_, editor) => {
-                const data = editor.getData();
-                contentRef.current = data;
-                onChange?.(data);
-              }}
-            />
-          </div>
+      <CKEditor
+        editor={ClassicEditor}
+        config={config}
+        data={value || ""}
+        onReady={(editor) => {
+          editorRef.current = editor;
+          setReady(true);
+          editor.editing.view.change((w) =>
+            w.setStyle(
+              "min-height",
+              `${height}px`,
+              editor.editing.view.document.getRoot(),
+            ),
+          );
+          editor.ui.view.editable.element?.addEventListener(
+            "click",
+            handleClick,
+          );
+        }}
+        onChange={(_, editor) => {
+          const data = editor.getData();
+          contentRef.current = data;
+          onChange?.(data);
+        }}
+      />
 
-          {/* Fullscreen Footer */}
-          <div className="flex justify-between px-4 py-2 bg-gray-50 border-t text-xs text-gray-500 shrink-0">
-            <span>
-              {wordCount} kata · {charCount} karakter
-            </span>
-            <span>{ready ? "✓ Siap" : "Loading..."}</span>
-          </div>
-
-          <style>{`
-            .ck.ck-editor { display: flex !important; flex-direction: column !important; height: 100% !important; }
-            .ck.ck-editor__main { flex: 1 !important; overflow: auto !important; }
-            .ck.ck-editor__main > .ck-editor__editable { min-height: 100% !important; border: none !important; }
-            .ck.ck-toolbar { border: none !important; border-bottom: 1px solid #e5e7eb !important; background: #f9fafb !important; }
-          `}</style>
-        </div>
-      )}
-
-      {/* Normal Editor */}
-      <div
-        ref={containerRef}
-        className={`rich-text-editor border border-gray-200 rounded-xl overflow-hidden shadow-sm bg-white relative ${isFullscreen ? "invisible h-0" : ""}`}
-      >
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          className="hidden"
+      <div className="image-toolbar-popup">
+        <ImageToolbarPopup
+          visible={toolbar.visible}
+          position={toolbar.position}
+          width={toolbar.width}
+          align={toolbar.align}
+          onWidthChange={(w) => setToolbar((t) => ({ ...t, width: w }))}
+          onAlignChange={(a) => setToolbar((t) => ({ ...t, align: a }))}
+          onDelete={deleteImage}
+          onApply={applyChanges}
+          onClose={() => setToolbar((t) => ({ ...t, visible: false }))}
+          onChangeImage={changeImage}
         />
+      </div>
 
-        <CKEditor
-          editor={ClassicEditor}
-          config={config}
-          data={value || ""}
-          onReady={(editor) => {
-            editorRef.current = editor;
-            setReady(true);
-            editor.editing.view.change((w) =>
-              w.setStyle(
-                "min-height",
-                `${isFullscreen ? "calc(100vh - 150px)" : height + "px"}`,
-                editor.editing.view.document.getRoot(),
-              ),
-            );
-            editor.ui.view.editable.element?.addEventListener(
-              "click",
-              handleClick,
-            );
-          }}
-          onChange={(_, editor) => {
-            const data = editor.getData();
-            contentRef.current = data;
-            onChange?.(data);
-          }}
-        />
+      <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-amber-50 to-orange-50 border-t border-amber-100 text-xs text-amber-700">
+        <span>
+          💡 <span className="font-medium">Tip:</span> Klik gambar untuk
+          resize, posisi, atau ubah gambar
+        </span>
+      </div>
 
-        <div className="image-toolbar-popup">
-          <ImageToolbarPopup
-            visible={toolbar.visible}
-            position={toolbar.position}
-            width={toolbar.width}
-            align={toolbar.align}
-            onWidthChange={(w) => setToolbar((t) => ({ ...t, width: w }))}
-            onAlignChange={(a) => setToolbar((t) => ({ ...t, align: a }))}
-            onDelete={deleteImage}
-            onApply={applyChanges}
-            onClose={() => setToolbar((t) => ({ ...t, visible: false }))}
-            onChangeImage={changeImage}
-          />
-        </div>
+      <div className="flex justify-between px-4 py-2 bg-gray-50 border-t text-xs text-gray-500">
+        <span>
+          {wordCount} kata · {charCount} karakter
+        </span>
+        <span>{ready ? "✓ Siap" : "Loading..."}</span>
+      </div>
 
-        <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-amber-50 to-orange-50 border-t border-amber-100 text-xs text-amber-700">
-          <span>
-            💡 <span className="font-medium">Tip:</span> Klik gambar untuk
-            resize, posisi, atau ubah gambar
-          </span>
-          {!isFullscreen && (
-            <button
-              type="button"
-              onClick={toggleFullscreen}
-              className="flex items-center gap-1 px-2 py-1 bg-[#3C2F26] text-white rounded hover:bg-[#52453B] transition"
-            >
-              <Maximize2 className="w-3 h-3" /> Fullscreen
-            </button>
-          )}
-        </div>
-
-        <div className="flex justify-between px-4 py-2 bg-gray-50 border-t text-xs text-gray-500">
-          <span>
-            {wordCount} kata · {charCount} karakter
-          </span>
-          <span>{ready ? "✓ Siap" : "Loading..."}</span>
-        </div>
-
-        <style>{`
-        .rich-text-editor .ck.ck-editor__editable { min-height: ${isFullscreen ? "calc(100vh - 150px)" : height + "px"}; font-size: 16px; line-height: 1.7; }
+      <style>{`
+        .rich-text-editor .ck.ck-editor__editable { min-height: ${height}px; font-size: 16px; line-height: 1.7; }
         .rich-text-editor .ck.ck-editor__editable:focus { border-color: #3C2F26 !important; box-shadow: 0 0 0 2px rgba(60,47,38,0.1) !important; }
         .rich-text-editor .ck.ck-toolbar { border: none !important; border-bottom: 1px solid #e5e7eb !important; background: #f9fafb !important; }
         .rich-text-editor .ck.ck-editor__main > .ck-editor__editable { border: none !important; }
-        .rich-text-editor .ck.ck-content img { max-width: 100%; border-radius: 8px; cursor: pointer; transition: box-shadow .2s; }
+        .rich-text-editor .ck.ck-content img { max-width: 100%; cursor: pointer; transition: box-shadow .2s; }
         .rich-text-editor .ck.ck-content img:hover { box-shadow: 0 0 0 3px rgba(60,47,38,0.3); }
         .rich-text-editor .ck.ck-content figure.image { margin: 1em 0; }
         .rich-text-editor .ck.ck-content blockquote { border-left: 4px solid #3C2F26; padding-left: 16px; color: #6b7280; font-style: italic; }
         .rich-text-editor .ck.ck-content pre { background: #1e1e1e; color: #d4d4d4; border-radius: 8px; padding: 16px; }
         .rich-text-editor .ck.ck-button.ck-on { background: #3C2F26 !important; color: white !important; }
       `}</style>
-      </div>
-    </>
+    </div>
   );
 };
 

@@ -257,7 +257,7 @@ export default function Collections() {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="w-full bg-[#F4F2EE] px-4 sm:px-6 md:px-16 sm:py-10 py-0 min-h-[60vh]">
+      <div className="w-full bg-[#F4F2EE] px-4 sm:px-6 md:px-16 sm:py-10 py-0 ">
         <motion.h2
           {...fadeInTop}
           className="mb-5 sm:mb-10 text-center text-2xl sm:text-3xl md:text-4xl font-bold text-[#28221F]"

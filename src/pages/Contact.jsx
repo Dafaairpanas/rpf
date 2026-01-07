@@ -265,7 +265,7 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] py-6 sm:py-8 px-3 sm:px-4 md:px-6 lg:px-8 font-poppins mt-16 sm:mt-20 md:mt-24">
+    <div className="bg-[#F8F8F8] py-6 sm:py-8 px-3 sm:px-4 md:px-6 lg:px-8 font-poppins mt-16 sm:mt-20 md:mt-24">
       <SEO
         title="Contact Us"
         description="Get in touch with Rajawali Perkasa Furniture for inquiries about our teak wood furniture collections."
