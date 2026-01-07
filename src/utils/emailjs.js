@@ -13,26 +13,19 @@ const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 /**
  * Send email using EmailJS
- * @param {Object} formData - Form data with name, email, phone, message, title
+ * @param {Object} formData - Form data with name, email, phone, message, product_id
  * @returns {Promise} - EmailJS response
  */
 export const sendEmail = async (formData) => {
-  const { name, email, phone, message, title = "Pesan dari Website" } = formData;
+  const { name, email, phone, message, product_id = null } = formData;
 
-  // Template parameters matching your EmailJS template
+  // Template parameters matching the EmailJS template
   const templateParams = {
-    name: name,       // {{name}} in template
-    from_name: name,  // {{from_name}} in template
-    from_email: email,// {{from_email}} in template
-    phone: phone || "-", // {{phone}} in template
-    message: message, // {{message}} in template
-    // Extra params that might be useful
-    title: title,
-    email: email,     // often used for Reply-To
-    time: new Date().toLocaleString("id-ID", {
-      dateStyle: "full",
-      timeStyle: "short",
-    }),
+    name: name,
+    email: email,
+    phone: phone || "-",
+    message: message,
+    product_id: product_id,
   };
 
   try {

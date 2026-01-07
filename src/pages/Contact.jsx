@@ -182,18 +182,13 @@ const ContactUs = () => {
     setSubmitError("");
 
     try {
-      // Build title for email
-      const emailTitle = productId && productInfo?.name
-        ? `Order: ${productInfo.name}`
-        : "Pesan dari Halaman Contact";
-
       // Payload for EmailJS
       const emailPayload = {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
         message: formData.message,
-        title: emailTitle,
+        product_id: productId ? parseInt(productId) : null,
       };
 
       // Payload for Backend
